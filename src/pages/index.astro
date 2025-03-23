@@ -1,16 +1,137 @@
 ---
+import DefaultLayout from "../layouts/Default.astro";
+import { getCollection } from 'astro:content';
+import { marked } from 'marked';
 
+const posts = await getCollection('blog');
+
+// Sort posts by date (newest first) 
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = new Date(a.data.date);
+  const dateB = new Date(b.data.date);
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Function to create excerpt from content (similar to Jekyll)
+function createExcerpt(content: string): string {
+  const lines = content.split('\n');
+  let excerptLines: string[] = [];
+  let foundContent = false;
+  let paragraphCount = 0;
+  
+  for (const line of lines) {
+    // Skip frontmatter and empty lines at the start
+    if (line.trim() === '' && !foundContent) {
+      continue;
+    }
+    
+    // Include hero image if it's the first content
+    if (line.startsWith('![') && !foundContent) {
+      excerptLines.push(line);
+      excerptLines.push(''); // Add spacing after image
+      foundContent = true;
+      continue;
+    }
+    
+    // Include headings
+    if (line.startsWith('#')) {
+      excerptLines.push(line);
+      foundContent = true;
+      continue;
+    }
+    
+    // Include paragraphs (non-empty, non-header lines)
+    if (line.trim() !== '' && !line.startsWith('---') && foundContent) {
+      excerptLines.push(line);
+      if (line.trim().length > 20) { // Only count substantial lines as paragraphs
+        paragraphCount++;
+      }
+    }
+    
+    // Include empty lines for formatting
+    if (line.trim() === '' && foundContent) {
+      excerptLines.push(line);
+    }
+    
+    // Stop after we have 2-3 substantial paragraphs
+    if (paragraphCount >= 2) {
+      break;
+    }
+  }
+  
+  return excerptLines.join('\n');
+}
+
+const latestPost = sortedPosts[0];
+const excerpt = latestPost ? createExcerpt(latestPost.body) : null;
+const excerptHtml = excerpt ? marked(excerpt) : null;
 ---
+<DefaultLayout>
+  <div class="container max-width home page">
+    <section>
+      <div class="section-separator">
+        <h2 class="section-title">Latest post</h2>
+        <hr class="section-title-bar" />
+      </div>
+      {latestPost && (
+        <article class="latest-blog-post">
+          <h2 class="latest-blog-post-title">
+            <a href={`/blog/${latestPost.id}`}>{latestPost.data.title}</a>
+          </h2>
+          <div class="post-meta">
+            <time class="post-timestamp" itemprop="datePublished">
+              {new Date(latestPost.data.date).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </time>
+            {latestPost.data.last_modified_at && (
+              <>
+                <span class="post-meta-separator">&bull;</span>
+                <div class="post-lastupdated">
+                  Updated on{' '}
+                  <time itemprop="dateModified">
+                    {new Date(latestPost.data.last_modified_at).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                  </time>
+                </div>
+              </>
+            )}
+          </div>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Coming soon</h1>
-	</body>
-</html>
+          <div class="latest-blog-post-content">
+            {excerptHtml && (
+              <div set:html={excerptHtml} />
+            )}
+          </div>
+
+        </article>
+      )}
+    </section>
+
+    <section>
+      <div class="section-separator">
+        <h2 class="section-title">Previous posts</h2>
+        <hr class="section-title-bar" />
+      </div>
+      <ul class="list-naked list-latest-posts">
+        {sortedPosts.slice(1).map((post) => (
+          <li class="blog-roll-title">
+          <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            <time class="blog-roll-post-timestamp">
+              {new Date(post.data.date).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </time>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</DefaultLayout>

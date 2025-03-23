@@ -1,0 +1,46 @@
+---
+import DefaultLayout from './Default.astro';
+
+const { frontmatter } = Astro.props;
+---
+
+<DefaultLayout frontmatter={frontmatter}>
+  <div class="max-width container post" itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="post-title" itemprop="headline">{frontmatter.title}</h1>
+    <div class="post-meta">
+      <span class="hidden" itemprop="author">by Anthony Gonzales</span>
+      <time class="post-timestamp" itemprop="datePublished">
+        {new Date(frontmatter.date).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        })}
+      </time>
+
+      {frontmatter.last_modified_at && (
+        <>
+          <span class="post-meta-separator">&bull;</span>
+          <div class="post-lastupdated">
+            Updated on{' '}
+            <time itemprop="dateModified">
+              {new Date(frontmatter.last_modified_at).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </time>
+          </div>
+        </>
+      )}
+    </div>
+
+    <div class="post-content" itemprop="articleBody">
+      <slot />
+    </div>
+    <div class="post-additional">
+      <a href={`https://github.com/antgonzales/anthonygonzale.es/edit/main/src/pages/blog/${Astro.url.pathname.split('/').pop()}.md`} target="_blank">
+        Suggest a correction
+      </a>
+    </div>
+  </div>
+</DefaultLayout>

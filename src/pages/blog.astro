@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+
+import DefaultLayout from '../layouts/Default.astro';
+
+// Get all blog entries
+const allBlogPosts = await getCollection('blog');
+
+// Sort by date in descending order (newest first)
+const sortedPosts = allBlogPosts.sort((a, b) => {
+  // Ensure we're comparing Date objects
+  const dateA = new Date(a.data.date);
+  const dateB = new Date(b.data.date);
+  
+  // Sort newest first (descending order)
+  return dateB.getTime() - dateA.getTime();
+});
+
+const pageTitle = "Blog";
+---
+<DefaultLayout pageTitle={pageTitle}>
+  <div class="container max-width page">
+    <h1>Blog</h1>
+    
+    <ul
+      class="list-naked list-latest-posts"
+      itemscope
+      itemtype="http://schema.org/Blog"
+    >
+      {sortedPosts.map((post) => (
+        <li
+          class="blog-roll-title"
+          itemprop="blogPost"
+          itemscope
+          itemtype="http://schema.org/BlogPosting"
+        >
+          <a href={`/blog/${post.id}`} itemprop="url">
+            <span itemprop="headline">{post.data.title}</span>
+          </a>
+          <time
+            class="blog-roll-post-timestamp"
+            itemprop="datePublished"
+            datetime={new Date(post.data.date).toISOString().split('T')[0]}
+          >
+            {new Date(post.data.date).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+          </time>
+        </li>
+      ))}
+    </ul>
+  </div>
+</DefaultLayout>

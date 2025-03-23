@@ -1,0 +1,18 @@
+---
+import DefaultLayout from './Default.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+const { frontmatter, headings } = Astro.props;
+---
+<DefaultLayout>
+  <article>
+    <h1>{frontmatter.title}</h1>
+    <time>{new Date(frontmatter.date).toLocaleDateString()}</time>
+
+    <TableOfContents headings={headings} />
+
+    <div class="content">
+      <slot />
+    </div>
+  </article>
+</DefaultLayout>
