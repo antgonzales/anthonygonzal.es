@@ -27,6 +27,34 @@ Your content goes here!
 - The image path should point to a file in `public/assets/img/`.
 - The homepage always uses the first image in the latest post as its hero image.
 
+## 🎨 Using SASS for Styling
+
+- This project uses SASS/SCSS for styling. All main styles are located in `src/styles/`.
+- The entry point is `src/styles/index.scss`, which forwards all partials (e.g., `_variables.scss`, `_base.scss`, etc.).
+- To add or update styles, edit or add partials in `src/styles/` and import them in `index.scss`.
+- SASS is compiled automatically as part of the Astro build process—no manual compilation needed.
+
+**Example structure:**
+```
+src/styles/
+  ├── _variables.scss
+  ├── _base.scss
+  ├── _utilities.scss
+  ├── _typography.scss
+  ├── _style.scss
+  ├── _header.scss
+  ├── _footer.scss
+  ├── _home.scss
+  ├── _blog.scss
+  ├── _post.scss
+  ├── _page.scss
+  ├── _resume.scss
+  ├── _about.scss
+  └── index.scss
+```
+
+- You can use all SASS features (variables, nesting, mixins, etc.) in your partials.
+
 ## 🛠️ Project Structure
 
 ```
@@ -35,10 +63,8 @@ Your content goes here!
 ├── src/
 │   ├── components/   # Reusable UI components
 │   ├── layouts/      # Page layouts
-│   └── pages/
-│       ├── index.astro      # Home page
-│       ├── blog/            # Blog posts
-│       └── about.astro      # About page
+│   ├── pages/        # Pages and blog posts
+│   └── styles/       # SASS/SCSS styles
 ├── package.json
 └── astro.config.mjs
 ```
