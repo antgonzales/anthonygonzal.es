@@ -1,47 +1,67 @@
-# Astro Starter Kit: Minimal
+# Anthony Gonzales — Blog & Portfolio
+
+This site is built with [Astro](https://astro.build), a modern static site generator. It powers my personal blog and portfolio at [anthonygonzale.es](https://anthonygonzale.es).
+
+## ✍️ Writing & Publishing Blog Posts
+
+- Blog posts are written in Markdown (`.md`) and live in `src/pages/blog/`.
+- To create a new post, add a file like `my-new-post.md` to that folder.
+- Use [frontmatter](https://docs.astro.build/en/guides/markdown-content/#frontmatter) for metadata (title, date, description, etc.).
+- **Hero image:** To display a hero image on the homepage, place a Markdown image as the very first line after the frontmatter in your latest post. The homepage will automatically show this image above the excerpt.
+
+**Example post:**
+
+```markdown
+---
+layout: ../../layouts/BlogPost.astro
+title: "My New Post"
+description: "A quick guide to writing posts in Astro."
+date: 2025-07-05
+---
+
+![A beautiful sunrise over the mountains](/assets/img/hero-sunrise.jpg)
+
+Your content goes here!
+```
+
+- The image path should point to a file in `public/assets/img/`.
+- The homepage always uses the first image in the latest post as its hero image.
+
+## 🛠️ Project Structure
+
+```
+/
+├── public/           # Static assets (images, favicon, etc.)
+├── src/
+│   ├── components/   # Reusable UI components
+│   ├── layouts/      # Page layouts
+│   └── pages/
+│       ├── index.astro      # Home page
+│       ├── blog/            # Blog posts
+│       └── about.astro      # About page
+├── package.json
+└── astro.config.mjs
+```
+
+- Pages in `src/pages/` become routes (e.g., `about.astro` → `/about`).
+- Components and layouts help you build custom UIs.
+
+## 🚀 Local Development
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
+Visit [localhost:4321](http://localhost:4321) to preview your site.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## 🏗️ Building & Deploying
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run build
 ```
+The static site is output to `dist/`. Deploy this folder to your preferred host.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 📚 More Resources
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [Astro Documentation](https://docs.astro.build)
+- [Astro Discord](https://astro.build/chat)
