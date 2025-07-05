@@ -70,7 +70,8 @@ code, kbd, pre, samp { font-size: 16px; }
   margin: 0;
   font-size: 85%;
   white-space: break-spaces;
-  background-color: #f6f8fa;
+  background-color: var(--inline-code-bg, #f6f8fa);
+  color: var(--inline-code-color, inherit);
   border-radius: .6rem;
 }
 

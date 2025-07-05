@@ -40,5 +40,23 @@
   --h5-font-size: var(--base-font-size);
   --h6-font-size: calc(0.875 * var(--base-font-size));
   --headings-line-height: 1.2;
-  --headings-font-weight: 400;}
+  --headings-font-weight: 400;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #181a1b;
+    --primary-text-color: #f3f3f3;
+    --link-color: #8ab4f8;
+    --gray-light: #444;
+    --gray: #aaa;
+    --ink: #e0e0e0;
+    --graphite: #bbb;
+    --btn-color: #3A5CC5;
+    --primary-btn-color: #3A5CC5;
+    --secondary-btn-color: #ED1941;
+    --inline-code-bg: #23272e;
+    --inline-code-color: #f3f3f3;
+  }
+}
 
