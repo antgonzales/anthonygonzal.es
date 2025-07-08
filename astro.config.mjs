@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://anthonygonzal.es",
   redirects: {
     "/blog/create-a-responsive-form-for-static-websites": "/",
     "/blog/how-to-create-a-loading-screen-animation-with-spinkit": "/",
