@@ -20,8 +20,7 @@ that make API calls.
 I often see examples advising that you mock an entire library. The examples
 mock axios, request, or fetch to test that a specific function is called.
 Here's an example provided by [Testing
-Library](https://web.archive.org/web/20200512192923/https://testing-library.com/docs/react-testing-library/example-intro/){:
-rel="nofollow noopener" target="_blank"} using React:
+Library](https://web.archive.org/web/20200512192923/https://testing-library.com/docs/react-testing-library/example-intro/) using React:
 
 ```jsx
 // fetch/fetch.test.js
@@ -79,7 +78,7 @@ There are several libraries available to stub server responses:
 * cypress
 * nock
 
-I recommend [msw](https://mswjs.io/){: rel="nofollow noopener" target="_blank"} for
+I recommend [msw](https://mswjs.io/) for
 several compelling reasons:
 
 * Seamless integration with both browser and Node.js environments
@@ -148,16 +147,14 @@ UK](/assets/img/post-boxes-on-brick-compressed.jpg)
 
 {:.post-img-credit}
 Photo by [Kristina
-Tripkovic](https://unsplash.com/@tinamosquito?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText){:
-rel="nofollow noopener" target="_blank"} on [Unsplash](https://unsplash.com){: rel="nofollow
-noopener" target="_blank"}
+Tripkovic](https://unsplash.com/@tinamosquito?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com)
 
 With the rise of GraphQL, Apollo has made significant strides in writing server
 and client-side libraries to make managing data easier. The trouble comes with
 their recommended approach to testing UI components that rely on Apollo.
 
 Apollo has created a `MockedProvider` [test
-component](https://www.apollographql.com/docs/react/development-testing/testing/){: rel="nofollow noopener" target="_blank"}
+component](https://www.apollographql.com/docs/react/development-testing/testing/)
 which allows you to test your UI components. They assert that using the live
 Provider would be unpredictable as it runs against an actual backend. That may
 be true, but nothing stops us from hijacking the means of communicating with the
@@ -179,7 +176,7 @@ I now know about a few details in setting up a proper test:
 3. We're going to respond to a post request with the stub data
 
 For this example, I will use the free [Pokemon
-list](https://graphql-pokemon.now.sh){: rel="nofollow noopener" target="_blank"} server, grab some fake data, and query
+list](https://graphql-pokemon.now.sh) server, grab some fake data, and query
 against it.
 
 ```jsx
@@ -248,7 +245,7 @@ some safety.
 
 Here's what it looks like if we no longer want to use Apollo Client and opt for
 a more close to the metal solution using
-[isomorphic-unfetch](https://github.com/developit/unfetch#readme){: rel="nofollow noopener" target="_blank"}:
+[isomorphic-unfetch](https://github.com/developit/unfetch#readme):
 
 ```jsx
 import { useQuery } from "@apollo/react-hooks";
@@ -403,8 +400,7 @@ describe("App", () => {
 
 I've now added a data constraint to the msw graphql handler. If I don't pass
 data that matches the constraint, I will not receive the `200` reply and data.
-The [GraphQL spec](https://graphql.org/learn/serving-over-http/#post-request){:
-rel="nofollow noopener" target="_blank"} advises that you pass an object with
+The [GraphQL spec](https://graphql.org/learn/serving-over-http/#post-request) advises that you pass an object with
 two specific parameters; `query` and `variables`. In this particular case,
 we're sending just the query. With our request constraint added, we're now free
 to add additional responses.
