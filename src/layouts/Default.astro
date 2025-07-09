@@ -31,7 +31,7 @@ const title = pageTitle || frontmatter?.title;
 
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#fafafa">
-    <link rel="alternate" type="application/rss+xml" title="Blog – Anthony Gonzales" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Blog | Anthony Gonzales" href={new URL("feed.xml", Astro.site)} />
   </head>
 
   <body itemscope itemtype="http://schema.org/WebPage" class="grid">
