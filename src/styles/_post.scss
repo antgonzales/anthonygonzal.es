@@ -99,20 +99,6 @@
   font-family: var(--sans-serif-font-family);
 }
 
-#markdown-toc::before {
-  content: "Contents";
-  font-weight: bold;
-}
-
-#markdown-toc {
-  width: 100%;
-  padding: 2rem 5rem;
-  list-style: decimal;
-  display: inline-block;
-  line-height: 2;
-  border-radius: 4px;
-  background-color: #f6f8fa;
-}
 
 .headline {
   margin-bottom: 8px

@@ -42,8 +42,10 @@ const tocTree = buildTocTree(tocHeadings);
 ---
 
 {tocHeadings.length > 0 && (
-  <ol id="markdown-toc">
-    {tocTree.map((item) => (
+  <nav aria-labelledby="toc-heading">
+    <h2 id="toc-heading">Contents</h2>
+    <ol id="markdown-toc">
+      {tocTree.map((item) => (
       <li>
         <a href={`#${item.slug}`}>{item.text}</a>
         {item.children.length > 0 && (
@@ -65,24 +67,31 @@ const tocTree = buildTocTree(tocHeadings);
           </ol>
         )}
       </li>
-    ))}
-  </ol>
+      ))}
+    </ol>
+  </nav>
 )}
 
 <style>
-  #markdown-toc::before {
-    content: "Contents";
+  nav {
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 4px;
+    background-color: #f6f8fa;
+  }
+  
+  #toc-heading {
+    margin: 0 0 1rem 0;
+    padding-left: 0;
     font-weight: bold;
+    font-size: 1.1em;
   }
   
   #markdown-toc {
-    width: 100%;
-    padding: 2rem 5rem;
+    margin-left: 1rem;
+    padding-left: 1rem;
     list-style: decimal;
-    display: inline-block;
     line-height: 2;
-    border-radius: 4px;
-    background-color: #f6f8fa;
   }
   
   /* Second level - letters (a, b, c...) */
