@@ -1,6 +1,10 @@
 /* Shiki syntax highlighting themes */
 /* Rose Pine Dawn (light) and Rose Pine Moon (dark) */
 
+.astro-code {
+  padding: 1.5rem;
+}
+
 @media (prefers-color-scheme: light) {
   .astro-code,
   .astro-code span {
@@ -22,4 +26,3 @@
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 }
-
