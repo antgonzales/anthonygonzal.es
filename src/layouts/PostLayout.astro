@@ -1,0 +1,56 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import ArchiveNotice from '../components/ArchiveNotice.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  headings: any[];
+}
+
+const { post, headings } = Astro.props;
+const { data, slug } = post;
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+const editUrl = `https://github.com/antgonzales/antgonzales.github.io/edit/master/_posts/${slug}.md`;
+---
+
+<BaseLayout 
+  title={data.title} 
+  description={data.description}
+  pageClass="post"
+>
+  <main class="max-width container post" itemscope itemtype="http://schema.org/BlogPosting">
+    <h1 class="post-title" itemprop="headline">{data.title}</h1>
+    <div class="post-meta">
+      <span class="hidden" itemprop="author">by Anthony Gonzales</span>
+      <time class="post-timestamp" itemprop="datePublished">{formatDate(data.date)}</time>
+
+      {data.last_modified_at && (
+        <>
+          <span class="post-meta-separator">&bull;</span>
+          <div class="post-lastupdated">
+            Updated on <time itemprop="dateModified">{formatDate(data.last_modified_at)}</time>
+          </div>
+        </>
+      )}
+    </div>
+
+    <div class="post-content" itemprop="articleBody">
+      {data.archived && <ArchiveNotice date={data.date} />}
+      <TableOfContents headings={headings} />
+      <slot />
+    </div>
+    <div class="post-additional">
+      <a href={editUrl} target="_blank">Suggest a correction</a>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,106 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+// Filter headings to maxDepth of 3 (matching Jekyll behavior)
+const tocHeadings = headings.filter(heading => heading.depth <= 3);
+
+// Build nested TOC structure like Jekyll does
+function buildTocTree(headings: MarkdownHeading[]) {
+  const tree: any[] = [];
+  const stack: any[] = [];
+
+  for (const heading of headings) {
+    const item = {
+      ...heading,
+      children: []
+    };
+
+    // Find the correct parent level
+    while (stack.length > 0 && stack[stack.length - 1].depth >= heading.depth) {
+      stack.pop();
+    }
+
+    if (stack.length === 0) {
+      tree.push(item);
+    } else {
+      stack[stack.length - 1].children.push(item);
+    }
+
+    stack.push(item);
+  }
+
+  return tree;
+}
+
+const tocTree = buildTocTree(tocHeadings);
+---
+
+{tocHeadings.length > 0 && (
+  <ol id="markdown-toc">
+    {tocTree.map((item) => (
+      <li>
+        <a href={`#${item.slug}`}>{item.text}</a>
+        {item.children.length > 0 && (
+          <ol>
+            {item.children.map((child) => (
+              <li>
+                <a href={`#${child.slug}`}>{child.text}</a>
+                {child.children.length > 0 && (
+                  <ol>
+                    {child.children.map((grandchild) => (
+                      <li>
+                        <a href={`#${grandchild.slug}`}>{grandchild.text}</a>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </li>
+            ))}
+          </ol>
+        )}
+      </li>
+    ))}
+  </ol>
+)}
+
+<style>
+  #markdown-toc::before {
+    content: "Contents";
+    font-weight: bold;
+  }
+  
+  #markdown-toc {
+    width: 100%;
+    padding: 2rem 5rem;
+    list-style: decimal;
+    display: inline-block;
+    line-height: 2;
+    border-radius: 4px;
+    background-color: #f6f8fa;
+  }
+  
+  /* Second level - letters (a, b, c...) */
+  #markdown-toc ol {
+    list-style: lower-alpha !important;
+  }
+  
+  /* Third level - roman numerals (i, ii, iii...) */
+  #markdown-toc ol ol {
+    list-style: lower-roman !important;
+  }
+  
+  #markdown-toc a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  #markdown-toc a:hover {
+    text-decoration: underline;
+  }
+</style>

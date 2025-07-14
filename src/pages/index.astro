@@ -1,16 +1,89 @@
 ---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostExcerpt from '../components/PostExcerpt.astro';
 
+const posts = await getCollection('blog');
+
+// Sort posts by date, newest first, and filter out drafts
+const sortedPosts = posts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+
+const latestPost = sortedPosts[0];
+const previousPosts = sortedPosts.slice(1, 6); // Next 5 posts
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function formatDateShort(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Coming soon</h1>
-	</body>
-</html>
+<BaseLayout 
+  title="Anthony Gonzales"
+  description="The personal site, blog, and portfolio of Anthony Gonzales, a developer who cares about the code."
+  pageClass="home page"
+>
+  <main class="container max-width home page">
+    <section>
+      <div class="section-separator">
+        <h2 class="section-title">Latest post</h2>
+        <hr class="section-title-bar" />
+      </div>
+      {latestPost && (
+        <article class="latest-blog-post">
+          <h2 class="latest-blog-post-title">
+            <a href={`/blog/${latestPost.slug}/`}>{latestPost.data.title}</a>
+          </h2>
+          <div class="post-meta">
+            <time class="post-timestamp" itemprop="datePublished">
+              {formatDate(latestPost.data.date)}
+            </time>
+            {latestPost.data.last_modified_at && (
+              <>
+                <span class="post-meta-separator">&bull;</span>
+                <div class="post-lastupdated">
+                  Updated on <time itemprop="dateModified">
+                    {formatDate(latestPost.data.last_modified_at)}
+                  </time>
+                </div>
+              </>
+            )}
+          </div>
+
+          <div class="latest-blog-post-content">
+            <PostExcerpt post={latestPost} />
+          </div>
+        </article>
+      )}
+    </section>
+
+    <section>
+      <div class="section-separator">
+        <h2 class="section-title">Previous posts</h2>
+        <hr class="section-title-bar" />
+      </div>
+      <ul class="list-naked list-latest-posts">
+        {previousPosts.map((post) => (
+          <li class="blog-roll-title">
+            <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+            <time class="blog-roll-post-timestamp">
+              {formatDateShort(post.data.date)}
+            </time>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

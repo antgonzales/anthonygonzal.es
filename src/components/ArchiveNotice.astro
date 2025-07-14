@@ -1,0 +1,49 @@
+---
+interface Props {
+  date: Date;
+}
+
+const { date } = Astro.props;
+const postYear = date.getFullYear();
+const currentYear = new Date().getFullYear();
+const yearsOld = currentYear - postYear;
+---
+
+<div class="archive-notice">
+  <div class="archive-notice-content">
+    <strong>📚 Archived Post</strong>
+    <p>
+      This post is over {yearsOld} years old and may contain outdated information, broken links, 
+      or deprecated techniques. It's preserved for historical reference but may not reflect 
+      current best practices.
+    </p>
+  </div>
+</div>
+
+<style>
+  .archive-notice {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-left: 4px solid #f39c12;
+    border-radius: 4px;
+  }
+  
+  .archive-notice-content {
+    margin: 0;
+  }
+  
+  .archive-notice strong {
+    color: #b7950b;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .archive-notice p {
+    margin: 0;
+    color: #6c5700;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+</style>

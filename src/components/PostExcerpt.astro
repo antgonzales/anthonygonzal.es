@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getExcerpt } from '../utils/excerpt';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const excerptContent = await getExcerpt(post);
+
+// Parse markdown to HTML (simple approach)
+import { marked } from 'marked';
+const excerptHTML = marked(excerptContent);
+---
+
+<div class="post-excerpt" set:html={excerptHTML} />
+
+<style>
+  .post-excerpt {
+    margin: 1rem 0;
+  }
+  
+  .post-excerpt img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+  }
+  
+  .post-excerpt p {
+    margin-bottom: 1rem;
+  }
+</style>

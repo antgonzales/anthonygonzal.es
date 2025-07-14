@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog');
+
+// Sort posts by date, newest first, and filter out drafts
+const sortedPosts = posts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+}
+
+function formatDatetime(date: Date): string {
+  return date.toISOString().split('T')[0];
+}
+---
+
+<BaseLayout 
+  title="Blog"
+  description="Blog posts about development, testing, and software engineering"
+  pageClass="blog"
+>
+  <main class="container max-width">
+    <h1>Blog</h1>
+    
+    <ul
+      class="list-naked list-latest-posts"
+      itemscope
+      itemtype="http://schema.org/Blog"
+    >
+      {sortedPosts.map((post) => (
+        <li
+          class="blog-roll-title"
+          itemprop="blogPost"
+          itemscope
+          itemtype="http://schema.org/BlogPosting"
+        >
+          <a href={`/blog/${post.slug}/`} itemprop="url">
+            <span itemprop="headline">{post.data.title}</span>
+          </a>
+          <time
+            class="blog-roll-post-timestamp"
+            itemprop="datePublished"
+            datetime={formatDatetime(post.data.date)}
+          >
+            {formatDate(post.data.date)}
+          </time>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>
