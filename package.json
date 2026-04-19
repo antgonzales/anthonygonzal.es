@@ -14,7 +14,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck": "astro check"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,6 @@
   },
   "homepage": "https://github.com/antgonzales/anthonygonzal.es#readme",
   "dependencies": {
-    "@astrojs/cloudflare": "^13.1.10",
     "@astrojs/mdx": "^5.0.3",
     "@astrojs/react": "^5.0.3",
     "@astrojs/rss": "^4.0.18",
