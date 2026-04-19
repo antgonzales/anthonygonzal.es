@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    setDark(document.documentElement.classList.contains('dark'));
-  }, []);
+  const [dark, setDark] = useState(
+    () => document.documentElement.classList.contains('dark')
+  );
 
   function toggle() {
     const isDark = document.documentElement.classList.toggle('dark');
@@ -19,7 +17,7 @@ export default function ThemeToggle() {
       aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
       className="bg-transparent border-0 cursor-pointer text-[var(--color-meta)] hover:text-[var(--color-text)] p-1 leading-none"
     >
-      {dark ? '☀︎' : '☽'}
+      <span aria-hidden="true">{dark ? '☀️' : '🌙'}</span>
     </button>
   );
 }
