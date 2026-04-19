@@ -10,6 +10,8 @@ Across all of my professional software projects, I insist on Test-Driven Develop
 
 ## Safe danger
 
+<p class="post-img-credit">Photo by James Vaughan (CC BY-NC-SA 2.0)</p>
+
 Last fall, my wife took me to visit Philip Johnson's Glass House in New Caanan, CT. Beautiful and simple, the Glass House is an icon of modern architecture. It rests on a property filled with Johnson's experimental creations. One of Mr. Johnson's guiding principles in architecture is the concept of "safe danger" — the idea that we are most engaged when we can take risks in a safe environment.
 
 Testing provides an environment for developers to take risks safely to produce their best work. Each commit comes with a set of assertions that proves that the newly added code has been thoughtfully examined. It gives team members the ability to completely gut the contents of the production code and not lose any sleep over it. Anybody can rearrange files, rename functions and variables, and break large pieces down into new abstractions.

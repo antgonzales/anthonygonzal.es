@@ -60,27 +60,13 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
     <!-- Nav -->
     <header class="mt-10 mb-10">
       <div class="max-w-3xl mx-auto px-6 flex justify-between items-center w-full">
-        <!-- Spaced-letter logo -->
-        <div class="w-[7.1875rem]">
-          <a
-            href="/"
-            aria-label="Anthony Gonzales home"
-            class="text-[var(--color-nav)] font-semibold uppercase leading-tight no-underline hover:no-underline"
-          >
-            <span class="flex flex-col">
-              <span class="flex justify-between">
-                {'Anthony'.split('').map((char, i) => (
-                  <span key={i}>{char}</span>
-                ))}
-              </span>
-              <span class="flex justify-between">
-                {'Gonzales'.split('').map((char, i) => (
-                  <span key={i}>{char}</span>
-                ))}
-              </span>
-            </span>
-          </a>
-        </div>
+        <a
+          href="/"
+          aria-label="Anthony Gonzales home"
+          class="text-[var(--color-nav)] leading-tight no-underline hover:no-underline"
+        >
+          <span>Anthony Gonzales</span>
+        </a>
 
         <!-- Nav links -->
         <nav class="flex items-center gap-4 p-0 m-0">

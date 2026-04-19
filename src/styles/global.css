@@ -38,6 +38,7 @@
   }
 
   body {
+    font-size: 1.125rem; /* 18px */
     background-color: var(--color-bg);
     color: var(--color-text);
     display: grid;

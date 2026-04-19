@@ -10,7 +10,9 @@ tags: []
 
 ## Quickstart
 
-> **Warning:** Upgrade Git to 2.42.0+ and perform the steps in this tutorial on your main branch. `index.skipHash` causes errors on older Git versions.
+<div class="callout warning-callout">
+  <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in this tutorial on your main branch. <code>index.skipHash</code> causes errors on older Git versions.
+</div>
 
 ### Create a custom Git config file at `~/.gitconfig.monorepo`
 
@@ -65,7 +67,7 @@ $ git fsmonitor--daemon start
 
 ## Results
 
-Using the custom Git configuration and updated index format, my command execution time for `git status` was reduced from approximately 0.316 seconds to 0.118 seconds, and CPU utilization dropped from 425% to 89%.
+Using the custom Git configuration and updated index format, my command execution time for `git status` was reduced from approximately 0.316 seconds to 0.118 seconds, and CPU utilization dropped from 425% to 89%. Additionally, I no longer encounter `fatal: Unable to create 'project_path/.git/index.lock': File exists.` errors while performing basic Git commands (MacOS Intel Core i9).
 
 **Before**
 
@@ -99,7 +101,7 @@ Optimizes repositories with large numbers of files and commit histories. Enablin
 * `index.version=4`
 * `core.untrackedCache=true`
 
-Upgrading from version 2 to version 4 reduces index size by 30% to 50% by compressing pathnames, resulting in faster load times.
+Git writes an entirely new index in `index.lock` and then replaces `.git/index` when you use basic commands. In a monorepo with many files, this index can be large and take several seconds to write every time you perform a command. Upgrading from version 2 to version 4 reduces index size by 30% to 50% by compressing pathnames, resulting in faster load times. Caching untracked files adds more memory load but again reduces the load time.
 
 **`core.commitgraph`**
 
@@ -120,3 +122,5 @@ Improves performance of commands like `git push -f` and `git log --graph` by wri
 
 * [How to Improve Performance in Git: The Complete Guide](https://www.git-tower.com/blog/git-performance/)
 * [Improve Git monorepo performance with a file system monitor](https://github.blog/2022-06-29-improve-git-monorepo-performance-with-a-file-system-monitor/)
+* [git error `invalid data in index` with index.skipHash config](https://github.com/rust-lang/cargo/issues/11857)
+* [git 2.40.0 index.skipHash incompatible with libgit2](https://github.com/libgit2/libgit2/issues/6531)
