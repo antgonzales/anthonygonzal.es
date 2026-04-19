@@ -58,7 +58,7 @@ const recentPosts = rest.slice(0, 5);
           <h2 class="mt-0 mb-2">
             <a
               href={`/blog/${latest.id}/`}
-              class="no-underline hover:text-[var(--color-link)]"
+              class="no-underline"
               itemprop="url headline"
             >
               {latest.data.title}
@@ -87,10 +87,7 @@ const recentPosts = rest.slice(0, 5);
         <ul class="list-none p-0 m-0">
           {recentPosts.map((post) => (
             <li class="flex justify-between items-baseline gap-6 py-2">
-              <a
-                href={`/blog/${post.id}/`}
-                class="no-underline hover:text-[var(--color-link)]"
-              >
+              <a href={`/blog/${post.id}/`} class="no-underline">
                 {post.data.title}
               </a>
               <time

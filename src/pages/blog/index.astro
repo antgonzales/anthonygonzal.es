@@ -23,11 +23,7 @@ const posts = (await getCollection("posts")).sort(
           itemscope
           itemtype="https://schema.org/BlogPosting"
         >
-          <a
-            href={`/blog/${post.id}/`}
-            class="text-[var(--color-text)] no-underline hover:text-[var(--color-link)]"
-            itemprop="url"
-          >
+          <a href={`/blog/${post.id}/`} class="no-underline" itemprop="url">
             <span itemprop="headline">{post.data.title}</span>
           </a>
           <time
