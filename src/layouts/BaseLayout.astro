@@ -56,34 +56,72 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
       })();
     </script>
   </head>
-  <body class="min-h-screen grid grid-rows-[auto_1fr_auto] bg-[var(--color-bg)] text-[var(--color-text)] font-sans">
-    <header class="border-b border-[var(--color-border)]">
-      <nav class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a
-          href="/"
-          aria-label="Anthony Gonzales home"
-          class="font-semibold text-lg uppercase tracking-widest text-[var(--color-nav)] no-underline hover:no-underline"
-        >
-          Anthony Gonzales
-        </a>
-        <div class="flex items-center gap-6 font-mono text-sm">
-          <a href="/about/" class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">About</a>
-          <a href="/blog/" class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">Blog</a>
-          <ThemeToggle client:only="react" />
+  <body>
+    <!-- Nav -->
+    <header class="mt-10 mb-10">
+      <div class="max-w-3xl mx-auto px-6 flex justify-between items-center w-full">
+        <!-- Spaced-letter logo -->
+        <div class="w-[7.1875rem]">
+          <a
+            href="/"
+            aria-label="Anthony Gonzales home"
+            class="text-[var(--color-nav)] font-semibold uppercase leading-tight no-underline hover:no-underline"
+          >
+            <span class="flex flex-col">
+              <span class="flex justify-between">
+                {'Anthony'.split('').map((char, i) => (
+                  <span key={i}>{char}</span>
+                ))}
+              </span>
+              <span class="flex justify-between">
+                {'Gonzales'.split('').map((char, i) => (
+                  <span key={i}>{char}</span>
+                ))}
+              </span>
+            </span>
+          </a>
         </div>
-      </nav>
+
+        <!-- Nav links -->
+        <nav class="flex items-center gap-4 p-0 m-0">
+          <a href="/about/" class="text-[var(--color-text)] no-underline hover:text-[var(--color-link)]">About</a>
+          <a href="/blog/" class="text-[var(--color-text)] no-underline hover:text-[var(--color-link)]">Blog</a>
+          <ThemeToggle client:only="react" />
+        </nav>
+      </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-6 py-12 w-full">
+    <!-- Main content -->
+    <main class="prose prose-neutral dark:prose-invert max-w-3xl mx-auto px-6 pb-24 w-full">
       <slot />
     </main>
 
-    <footer class="border-t border-[var(--color-border)] py-6 text-center font-mono text-sm text-[var(--color-meta)]">
-      <p>
-        &copy; {new Date().getFullYear()} Anthony Gonzales
-        &ensp;&middot;&ensp;
-        <a href="/rss.xml" class="text-[var(--color-meta)] hover:text-[var(--color-link)]">RSS</a>
-      </p>
+    <!-- Footer -->
+    <footer class="py-6 text-[var(--color-meta)]">
+      <div class="max-w-3xl mx-auto px-6 flex justify-between items-center">
+        <div>&copy; {new Date().getFullYear()} Anthony Gonzales</div>
+        <nav class="flex gap-3 items-center">
+          <a
+            href="mailto:hello@anthonygonzales.dev"
+            aria-label="Email"
+            class="text-[var(--color-meta)] no-underline flex items-center hover:text-[var(--color-link)]"
+          >
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2zm-2 9.8V4.698l5.803 3.546zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.5 4.5 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586zM16 9.671V4.697l-5.803 3.546.338.208A4.5 4.5 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671"/>
+              <path d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791"/>
+            </svg>
+          </a>
+          <a
+            href="/rss.xml"
+            aria-label="RSS feed"
+            class="text-[var(--color-meta)] no-underline flex items-center hover:text-[var(--color-link)]"
+          >
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm1.5 2.5c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1 0-2m0 4a6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1 0-2m.5 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+            </svg>
+          </a>
+        </nav>
+      </div>
     </footer>
   </body>
 </html>

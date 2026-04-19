@@ -1,27 +1,39 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate } from '../../lib/formatDate';
 
 const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
 ---
 
 <BaseLayout title="Blog" description="All posts by Anthony Gonzales.">
-  <h1 class="text-4xl font-normal mb-10">Blog</h1>
-  <ul class="divide-y divide-[var(--color-border)]" itemscope itemtype="https://schema.org/Blog">
+  <h1>Blog</h1>
+  <ul
+    class="divide-y divide-[var(--color-border)] list-none p-0 m-0"
+    itemscope
+    itemtype="https://schema.org/Blog"
+  >
     {posts.map((post) => (
-      <li class="flex justify-between items-baseline gap-6 py-4" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-        <a href={`/blog/${post.id}/`} class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline" itemprop="url">
+      <li
+        class="flex justify-between items-baseline gap-6 py-4"
+        itemprop="blogPost"
+        itemscope
+        itemtype="https://schema.org/BlogPosting"
+      >
+        <a
+          href={`/blog/${post.id}/`}
+          class="text-[var(--color-text)] no-underline hover:text-[var(--color-link)]"
+          itemprop="url"
+        >
           <span itemprop="headline">{post.data.title}</span>
         </a>
-        <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-[var(--color-meta)] shrink-0" itemprop="datePublished">
-          {dateFormatter.format(post.data.pubDate)}
+        <time
+          datetime={post.data.pubDate.toISOString()}
+          class="text-[var(--color-meta)] shrink-0"
+          itemprop="datePublished"
+        >
+          {formatDate(post.data.pubDate)}
         </time>
       </li>
     ))}

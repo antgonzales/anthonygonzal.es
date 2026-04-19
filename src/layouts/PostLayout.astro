@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
+import { formatDate } from '../lib/formatDate';
 
 interface Props {
   title: string;
@@ -13,11 +14,7 @@ interface Props {
 
 const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
 
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const slug = Astro.url.pathname.replace(/^\/blog\//, '').replace(/\/$/, '');
 ---
 
 <BaseLayout
@@ -27,18 +24,21 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   updatedDate={updatedDate}
   ogImage={heroImage?.src}
 >
-  <article itemscope itemtype="https://schema.org/BlogPosting">
-    <header class="mb-10">
-      <h1 class="text-4xl font-normal leading-tight mb-2" itemprop="headline">{title}</h1>
-      <div class="font-mono text-sm text-[var(--color-meta)]">
+  <article itemscope itemtype="https://schema.org/BlogPosting" class="pt-7">
+    <!-- Post header -->
+    <header class="mb-6">
+      <h1 itemprop="headline">
+        {title}
+      </h1>
+      <div class="text-[var(--color-meta)]">
         <time itemprop="datePublished" datetime={pubDate.toISOString()}>
-          {dateFormatter.format(pubDate)}
+          {formatDate(pubDate)}
         </time>
         {updatedDate && (
-          <span>
+          <span class="italic">
             &ensp;&middot;&ensp; Updated{' '}
             <time itemprop="dateModified" datetime={updatedDate.toISOString()}>
-              {dateFormatter.format(updatedDate)}
+              {formatDate(updatedDate)}
             </time>
           </span>
         )}
@@ -46,7 +46,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
       {tags && tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-3">
           {tags.map((tag) => (
-            <span class="font-mono text-xs text-[var(--color-meta)] border border-[var(--color-border)] px-2 py-0.5 rounded">
+            <span class="text-[var(--color-meta)] border border-[var(--color-border)] px-2 py-0.5 rounded">
               {tag}
             </span>
           ))}
@@ -54,26 +54,29 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
       )}
     </header>
 
+    <!-- Hero image -->
     {heroImage && (
       <Image
         src={heroImage}
         alt={title}
-        class="w-full h-auto rounded mb-10"
+        class="w-full h-auto rounded mb-8"
         widths={[400, 800, 1200]}
         sizes="(max-width: 768px) 100vw, 768px"
       />
     )}
 
-    <div class="prose prose-neutral dark:prose-invert max-w-none" itemprop="articleBody">
+    <!-- Post body -->
+    <div itemprop="articleBody" class="mb-16">
       <slot />
     </div>
 
-    <footer class="mt-12 pt-6 border-t border-[var(--color-border)] font-mono text-sm">
+    <!-- Post footer -->
+    <footer class="mt-12 pt-6 border-t border-[var(--color-border)]">
       <a
-        href={`https://github.com/antgonzales/anthonygonzal.es/blob/main/src/content/posts/${Astro.params.slug}.md`}
+        href={`https://github.com/antgonzales/anthonygonzal.es/blob/main/src/content/posts/${slug}.md`}
         target="_blank"
         rel="noopener noreferrer"
-        class="text-[var(--color-meta)] hover:text-[var(--color-link)]"
+        class="text-[var(--color-meta)] underline hover:text-[var(--color-link)]"
       >
         Suggest a correction
       </a>
