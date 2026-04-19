@@ -2,6 +2,7 @@
 title: "Building a transaction dashboard on Compass"
 description: "Case study: Leading engineering teams to build Compass One, a real estate transaction dashboard that boosted client engagement by 43% with 4.5/5 satisfaction."
 pubDate: 2025-03-25
+heroImage: ../../assets/img/compass-one.webp
 tags: []
 ---
 
@@ -78,3 +79,23 @@ In just the first week, agents sent 14,950 client invitations, driving a 43% inc
 - The Real Deal — [Compass has the listings, now it has the platform](https://therealdeal.com/national/2025/02/06/how-compass-new-consumer-platform-adds-to-inventory-push/)
 - Housing Wire — [Compass launches client-facing portal with listings, docs and more](https://www.housingwire.com/articles/compass-one-portal-clients-listings/)
 - Real Estate News — [Compass to launch client portal amid private listings push](https://www.realestatenews.com/2025/02/01/compass-launches-client-portal-amid-private-listings-push)
+
+## Screenshots
+
+### Debugger
+
+<a href="/assets/img/compass-one/compass-one-debugger.webp" target="_blank">
+  <img src="/assets/img/compass-one/compass-one-debugger.webp" alt="Interactive Error Boundary visual debugger showing component isolation and error state visualization in Compass One" />
+</a>
+
+### Buyer's Dashboard
+
+<a href="/assets/img/compass-one/compass-one-buyer-dashboard.webp" target="_blank">
+  <img src="/assets/img/compass-one/compass-one-buyer-dashboard.webp" alt="Compass One Buyer's Dashboard showing property listings, transaction timeline, and client communication features" />
+</a>
+
+### Seller's Dashboard
+
+<a href="/assets/img/compass-one/compass-one-seller-dashboard.webp" target="_blank">
+  <img src="/assets/img/compass-one/compass-one-seller-dashboard.webp" alt="Compass One Seller's Dashboard displaying property marketing status, offer tracking, and transaction progress" />
+</a>
