@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@theme {
+@variant dark (&:where(.dark, .dark *));
+
+:root {
   --color-bg: #fff;
   --color-text: #222;
   --color-link: #76a7d8;
@@ -15,7 +17,6 @@
     Consolas, "DejaVu Sans Mono", monospace;
 }
 
-/* Dark mode token overrides */
 .dark {
   --color-bg: #111;
   --color-text: #e8e8e8;
@@ -27,6 +28,12 @@
 }
 
 html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+body {
   background-color: var(--color-bg);
   color: var(--color-text);
 }

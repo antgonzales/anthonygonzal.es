@@ -3,6 +3,7 @@ title: "Testing components that make API calls"
 description: "Learn how to test API calls in components with examples in React and Jest. Write tests flexible enough for change"
 pubDate: 2020-05-25
 updatedDate: 2024-03-03
+heroImage: ../../assets/img/post-boxes-on-brick-compressed.jpg
 tags: []
 ---
 

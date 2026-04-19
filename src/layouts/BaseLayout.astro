@@ -69,7 +69,7 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
         <div class="flex items-center gap-6 font-mono text-sm">
           <a href="/about/" class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">About</a>
           <a href="/blog/" class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">Blog</a>
-          <ThemeToggle client:load />
+          <ThemeToggle client:only="react" />
         </div>
       </nav>
     </header>

@@ -2,6 +2,7 @@
 title: "Why learn Test-Driven Development?"
 description: "Create a safe environment to take risks, build confidence, and write legible code. Learn how to start with Javascript, React"
 pubDate: 2020-04-21
+heroImage: ../../assets/img/glass-house-at-night-compressed.jpg
 tags: []
 ---
 
