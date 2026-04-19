@@ -2,8 +2,11 @@
 
 ## Status
 
-In progress. Live production site remains at `antgonzales-github-io` (Jekyll)
-until final cutover. Staging: https://anthonygonzal-es.pages.dev
+**Build complete. Deployed to staging.**
+
+- Staging: https://anthonygonzal-es.pages.dev
+- Production (Jekyll, still live): https://anthonygonzal.es
+- Cutover is the only remaining step (manual, executed by you)
 
 ---
 
@@ -18,16 +21,26 @@ until final cutover. Staging: https://anthonygonzal-es.pages.dev
 | ADR-5 | Draft support | Not in initial schema | Port only 12 published posts; add later if needed |
 | ADR-6 | `heroImage` type | Astro `image()` helper | Build-time optimization; images in `src/assets/` |
 | ADR-7 | Pilot post | `how-to-test-react-router-components` | Most complete front matter; has `last_modified_at` |
+| ADR-8 | Cloudflare adapter | Removed | Adapter generates `wrangler.json` that breaks static Pages deploys |
+| ADR-9 | Image service | `passthroughImageService` | Sharp blocked by pnpm `approve-builds`; no image transforms needed |
+| ADR-10 | ThemeToggle | Plain Astro component (`is:inline`) | React island caused hydration flicker; `is:inline` runs synchronously |
+| ADR-11 | prose scope | `prose` on `<main>` | Consistent typography site-wide; use `not-prose` to opt out |
+| ADR-12 | Footer | Removed | Email on homepage; RSS autodiscovery in `<head>` |
+| ADR-13 | About page | Removed | Content merged into homepage; `/about/` → `/` redirect in `_redirects` |
+| ADR-14 | Nav label for /blog/ | "Archive" | Chronological post list is an archive, not a blog index |
 
 ---
 
-## Target Stack
+## Stack (actual)
 
-- Astro 5, `output: 'static'`, `@astrojs/cloudflare` adapter
+- Astro 6, `output: 'static'`, no adapter
 - `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/rss`
 - Tailwind CSS v4 + `@tailwindcss/typography`
-- TypeScript strict (extends `astro/tsconfigs/strict`)
-- Dark mode: `.dark` class on `<html>`, CSS custom properties, no-flash inline script, `<ThemeToggle client:load />`
+- TypeScript strict (`astro/tsconfigs/strict`)
+- Dark mode: `.dark` class on `<html>`, CSS custom properties, no-flash inline `<script>` in `<head>`, `ThemeToggle.astro` with `is:inline`
+- `passthroughImageService` (no Sharp)
+- pnpm 10.18.3, Node 22 (`.node-version`)
+- Vitest + jsdom, 20 tests
 
 ---
 
@@ -71,34 +84,27 @@ export const collections = { posts };
 
 ---
 
-## Visual Identity (ported from Jekyll)
+## Visual Identity
 
-### Colors (CSS custom properties)
+### Color tokens (CSS custom properties)
 
 | Token | Light | Dark | Role |
 |---|---|---|---|
 | `--color-bg` | `#fff` | `#111` | Page background |
-| `--color-text` | `#222` | `#e8e8e8` | Body text (`--ink`) |
-| `--color-link` | `#76a7d8` | `#76a7d8` | Links (`--sky-blue`) |
-| `--color-nav` | `#A52A2A` | `#c44` | Nav logo (`--ox-blood`) |
-| `--color-meta` | `#777` | `#888` | Post meta, section labels (`--gray`) |
-| `--color-border` | `#DDD` | `#333` | Borders, HR (`--gray-light`) |
+| `--color-text` | `#222` | `#e8e8e8` | Body text |
+| `--color-link` | `#76a7d8` | `#76a7d8` | Links |
+| `--color-nav` | `#A52A2A` | `#c44` | Nav logo (ox-blood) |
+| `--color-meta` | `#777` | `#888` | Post meta, section labels |
+| `--color-border` | `#DDD` | `#333` | Borders, HR |
 | `--color-code-bg` | `#f6f8fa` | `#1e1e1e` | Code block background |
 
 ### Typography
 
-- Body: `system-ui, sans-serif`
-- Code/meta: `ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace`
-- Base font size: `62.5%` on `html` (so `1rem = 10px`), body at `2rem` (~20px)
-- Line height: `1.6`
-- Heading weight: `400` (not bold)
-- Max content width: `76.8rem`
-
-### Layout
-
-- CSS Grid: `grid-template-rows: auto 1fr auto` (`nav / main / footer`)
-- Nav logo: letter-by-letter flex layout, `justify-content: space-between`
-- `min-height: 100vh`
+- Body: `system-ui, sans-serif`, `1.125rem` (18px), line-height `1.6`
+- Code/mono: `ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace`
+- Heading weight: `400`
+- Max content width: `max-w-3xl` (Tailwind)
+- Tailwind dark variant: `@variant dark (&:where(.dark, .dark *))`
 
 ---
 
@@ -106,34 +112,43 @@ export const collections = { posts };
 
 ```
 src/
-├── assets/
-│   └── img/                  # Hero images (Astro-processed at build time)
+├── assets/img/                   # Hero images (Astro-processed at build)
+│   ├── compass-one.webp
+│   ├── glass-house-at-night-compressed.jpg
+│   └── post-boxes-on-brick-compressed.jpg
 ├── components/
-│   └── ThemeToggle.tsx        # React island
+│   └── ThemeToggle.astro         # is:inline script, no flicker
 ├── content/
-│   └── posts/                 # .md and .mdx post files
+│   └── posts/                    # 12 .md posts (fully audited)
 ├── content.config.ts
 ├── layouts/
-│   ├── BaseLayout.astro       # HTML shell, theme script, nav, footer
-│   └── PostLayout.astro       # Post header (title, dates), prose wrapper
-└── pages/
-    ├── index.astro            # Homepage: latest post excerpt + 5 recent
-    ├── about.astro
-    ├── rss.xml.ts
-    └── blog/
-        ├── index.astro        # Full post listing (title + date)
-        └── [...slug].astro    # Post detail page
+│   ├── BaseLayout.astro          # HTML shell, no footer, Archive nav link
+│   └── PostLayout.astro          # Post header + prose wrapper
+├── lib/
+│   ├── formatDate.ts             # UTC-safe date formatter
+│   ├── getExcerpt.ts             # First paragraph extractor
+│   ├── getExcerpt.test.ts        # 10 tests
+│   ├── themeToggle.ts            # Toggle logic (testable)
+│   └── themeToggle.test.ts       # 10 tests
+├── pages/
+│   ├── index.astro               # Bio + Latest post + Previous posts
+│   ├── rss.xml.ts
+│   └── blog/
+│       ├── index.astro           # Archive: full post list (title + date)
+│       └── [...slug].astro       # Post detail
+└── styles/
+    └── global.css                # @theme tokens, @layer base, prose on <main>
 public/
-└── _redirects                 # 301s from all old Jekyll .html URLs
+├── _redirects                    # 14 redirects (.html → clean URL, /about/ → /)
+├── favicon.svg
+└── assets/img/
+    ├── compass-one/              # 6 body images
+    └── compass-one-launch/       # 8 body images
 ```
 
 ---
 
-## Permalink Strategy
-
-New URLs use clean trailing-slash format: `/blog/slug/`
-
-`public/_redirects` provides 301 redirects for all 12 old Jekyll URLs:
+## Redirect Map (`public/_redirects`)
 
 ```
 /blog/hello-world.html                                    /blog/hello-world/                             301
@@ -148,21 +163,9 @@ New URLs use clean trailing-slash format: `/blog/slug/`
 /blog/building-a-transaction-dashboard-on-compass.html    /blog/building-a-transaction-dashboard-on-compass/ 301
 /blog/compass-one-inman-awards.html                       /blog/compass-one-inman-awards/                301
 /blog/promoted-to-staff-engineer.html                     /blog/promoted-to-staff-engineer/              301
+/blog/dont-mock-in-jest.html                              /blog/how-to-test-react-router-components/     301
+/about/                                                   /                                              301
 ```
-
----
-
-## Dark Mode Implementation
-
-1. **No-flash script** — inline `<script>` in `<head>` before first paint:
-   - Reads `localStorage.theme`
-   - Falls back to `prefers-color-scheme: dark`
-   - Sets `.dark` class on `<html>` synchronously
-2. **CSS tokens** — all color values as CSS custom properties on `:root` (light) and `.dark` (dark)
-3. **ThemeToggle.tsx** — React island (`client:load`):
-   - Reads current theme from `document.documentElement.classList`
-   - Toggles `.dark` class and writes to `localStorage`
-   - Renders a sun/moon icon button
 
 ---
 
@@ -171,20 +174,20 @@ New URLs use clean trailing-slash format: `/blog/slug/`
 | Phase | Action | Status |
 |---|---|---|
 | 1 | Write `PLAN.md` | Done |
-| 2 | Repo reset (single wipe commit on `main`) | Pending confirmation |
-| 3 | Install integrations + configure `astro.config.mjs` | Pending |
-| 4 | Scaffold file structure | Pending |
-| 5 | BaseLayout + dark mode + ThemeToggle | Pending |
-| 6 | Content config + all pages + RSS | Pending |
-| 7 | Pilot post: `how-to-test-react-router-components` | Pending |
-| 8 | Bulk port remaining 11 posts | Pending |
+| 2 | Repo reset | Done |
+| 3 | Install integrations + configure `astro.config.mjs` | Done |
+| 4 | Scaffold file structure | Done |
+| 5 | BaseLayout + dark mode + ThemeToggle | Done |
+| 6 | Content config + all pages + RSS | Done |
+| 7 | Pilot post: `how-to-test-react-router-components` | Done |
+| 8 | Bulk port remaining 11 posts (all audited + content restored) | Done |
 | 9 | Cutover (manual — you execute) | Pending |
 
 ---
 
-## Cutover Checklist (execute when new site is ready)
+## Cutover Checklist (execute when ready)
 
-1. Verify `https://anthonygonzal-es.pages.dev` looks correct end-to-end
+1. Verify https://anthonygonzal-es.pages.dev looks correct end-to-end
 2. Spot-check a few `.html` redirects (e.g. `/blog/hello-world.html` → `/blog/hello-world/`)
 3. Cloudflare Pages → `antgonzales-github-io` project → Custom domains → remove `anthonygonzal.es`
 4. Cloudflare Pages → `anthonygonzal-es` project → Custom domains → add `anthonygonzal.es`

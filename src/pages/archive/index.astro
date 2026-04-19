@@ -7,8 +7,8 @@ const posts = (await getCollection('posts'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Blog" description="All posts by Anthony Gonzales.">
-  <h1>Blog</h1>
+<BaseLayout title="Archive" description="All posts by Anthony Gonzales.">
+  <h1>Archive</h1>
   <ul
     class="divide-y divide-[var(--color-border)] list-none p-0 m-0"
     itemscope
