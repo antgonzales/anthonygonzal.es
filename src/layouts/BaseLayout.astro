@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+}
+
+const { title, description, ogImage, pubDate, updatedDate } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteName = 'Anthony Gonzales';
+const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={pubDate ? 'article' : 'website'} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={siteName} />
+    {description && <meta property="og:description" content={description} />}
+    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
+    {pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+    {updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+    {ogImage && <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />}
+
+    <!-- No-flash dark mode init — must run before first paint -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen grid grid-rows-[auto_1fr_auto] bg-[var(--color-bg)] text-[var(--color-text)] font-sans">
+    <header class="border-b border-[var(--color-border)]">
+      <nav class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a
+          href="/"
+          aria-label="Anthony Gonzales home"
+          class="font-semibold text-lg uppercase tracking-widest text-[var(--color-nav)] no-underline hover:no-underline"
+        >
+          Anthony Gonzales
+        </a>
+        <div class="flex items-center gap-6 font-mono text-sm">
+          <a href="/about/" class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">About</a>
+          <a href="/blog/" class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">Blog</a>
+          <ThemeToggle client:load />
+        </div>
+      </nav>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 py-12 w-full">
+      <slot />
+    </main>
+
+    <footer class="border-t border-[var(--color-border)] py-6 text-center font-mono text-sm text-[var(--color-meta)]">
+      <p>
+        &copy; {new Date().getFullYear()} Anthony Gonzales
+        &ensp;&middot;&ensp;
+        <a href="/rss.xml" class="text-[var(--color-meta)] hover:text-[var(--color-link)]">RSS</a>
+      </p>
+    </footer>
+  </body>
+</html>

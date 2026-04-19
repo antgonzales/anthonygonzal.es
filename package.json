@@ -1,0 +1,41 @@
+{
+  "name": "anthonygonzal.es",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antgonzales/anthonygonzal.es.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antgonzales/anthonygonzal.es/issues"
+  },
+  "homepage": "https://github.com/antgonzales/anthonygonzal.es#readme",
+  "dependencies": {
+    "@astrojs/cloudflare": "^13.1.10",
+    "@astrojs/mdx": "^5.0.3",
+    "@astrojs/react": "^5.0.3",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.1.8",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3"
+  }
+}

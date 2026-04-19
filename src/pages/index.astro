@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allPosts = (await getCollection('posts'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const [latest, ...rest] = allPosts;
+const recentPosts = rest.slice(0, 5);
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title="Anthony Gonzales" description="Frontend engineer writing about JavaScript, React, and the web.">
+  <section itemscope itemtype="https://schema.org/Blog">
+    {latest && (
+      <article class="mb-12 pb-12 border-b border-[var(--color-border)]" itemscope itemtype="https://schema.org/BlogPosting">
+        <h2 class="text-3xl font-normal mb-2">
+          <a href={`/blog/${latest.id}/`} class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline" itemprop="url headline">
+            {latest.data.title}
+          </a>
+        </h2>
+        <time datetime={latest.data.pubDate.toISOString()} class="font-mono text-sm text-[var(--color-meta)]" itemprop="datePublished">
+          {dateFormatter.format(latest.data.pubDate)}
+        </time>
+        {latest.data.description && (
+          <p class="mt-4 text-[var(--color-text)]" itemprop="description">{latest.data.description}</p>
+        )}
+        <a href={`/blog/${latest.id}/`} class="inline-block mt-4 font-mono text-sm text-[var(--color-link)]">
+          Read more &rarr;
+        </a>
+      </article>
+    )}
+
+    {recentPosts.length > 0 && (
+      <section>
+        <h3 class="font-mono text-xs uppercase tracking-widest text-[var(--color-meta)] mb-4">Recent posts</h3>
+        <ul class="divide-y divide-[var(--color-border)]">
+          {recentPosts.map((post) => (
+            <li class="flex justify-between items-baseline gap-6 py-3">
+              <a href={`/blog/${post.id}/`} class="text-[var(--color-text)] hover:text-[var(--color-link)] no-underline">
+                {post.data.title}
+              </a>
+              <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-[var(--color-meta)] shrink-0">
+                {dateFormatter.format(post.data.pubDate)}
+              </time>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </section>
+</BaseLayout>
