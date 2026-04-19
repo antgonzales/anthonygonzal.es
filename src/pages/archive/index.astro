@@ -1,10 +1,11 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { formatDate } from '../../lib/formatDate';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate } from "../../lib/formatDate";
 
-const posts = (await getCollection('posts'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <BaseLayout title="Archive" description="All posts by Anthony Gonzales.">
@@ -14,28 +15,30 @@ const posts = (await getCollection('posts'))
     itemscope
     itemtype="https://schema.org/Blog"
   >
-    {posts.map((post) => (
-      <li
-        class="flex justify-between items-baseline gap-6 py-4"
-        itemprop="blogPost"
-        itemscope
-        itemtype="https://schema.org/BlogPosting"
-      >
-        <a
-          href={`/blog/${post.id}/`}
-          class="text-[var(--color-text)] no-underline hover:text-[var(--color-link)]"
-          itemprop="url"
+    {
+      posts.map((post) => (
+        <li
+          class="flex justify-between items-baseline gap-6 py-4"
+          itemprop="blogPost"
+          itemscope
+          itemtype="https://schema.org/BlogPosting"
         >
-          <span itemprop="headline">{post.data.title}</span>
-        </a>
-        <time
-          datetime={post.data.pubDate.toISOString()}
-          class="text-[var(--color-meta)] shrink-0"
-          itemprop="datePublished"
-        >
-          {formatDate(post.data.pubDate)}
-        </time>
-      </li>
-    ))}
+          <a
+            href={`/blog/${post.id}/`}
+            class="text-[var(--color-text)] no-underline hover:text-[var(--color-link)]"
+            itemprop="url"
+          >
+            <span itemprop="headline">{post.data.title}</span>
+          </a>
+          <time
+            datetime={post.data.pubDate.toISOString()}
+            class="text-[var(--color-meta)] shrink-0"
+            itemprop="datePublished"
+          >
+            {formatDate(post.data.pubDate)}
+          </time>
+        </li>
+      ))
+    }
   </ul>
 </BaseLayout>

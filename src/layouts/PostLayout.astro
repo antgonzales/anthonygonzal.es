@@ -1,7 +1,7 @@
 ---
-import { Image } from 'astro:assets';
-import BaseLayout from './BaseLayout.astro';
-import { formatDate } from '../lib/formatDate';
+import { Image, type ImageMetadata } from "astro:assets";
+import BaseLayout from "./BaseLayout.astro";
+import { formatDate } from "../lib/formatDate";
 
 interface Props {
   title: string;
@@ -12,9 +12,10 @@ interface Props {
   tags?: string[];
 }
 
-const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags } =
+  Astro.props;
 
-const slug = Astro.url.pathname.replace(/^\/blog\//, '').replace(/\/$/, '');
+const slug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
 ---
 
 <BaseLayout
@@ -34,36 +35,45 @@ const slug = Astro.url.pathname.replace(/^\/blog\//, '').replace(/\/$/, '');
         <time itemprop="datePublished" datetime={pubDate.toISOString()}>
           {formatDate(pubDate)}
         </time>
-        {updatedDate && (
-          <span class="italic">
-            &ensp;&middot;&ensp; Updated{' '}
-            <time itemprop="dateModified" datetime={updatedDate.toISOString()}>
-              {formatDate(updatedDate)}
-            </time>
-          </span>
-        )}
-      </div>
-      {tags && tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-3">
-          {tags.map((tag) => (
-            <span class="text-[var(--color-meta)] border border-[var(--color-border)] px-2 py-0.5 rounded">
-              {tag}
+        {
+          updatedDate && (
+            <span class="italic">
+              &ensp;&middot;&ensp; Updated{" "}
+              <time
+                itemprop="dateModified"
+                datetime={updatedDate.toISOString()}
+              >
+                {formatDate(updatedDate)}
+              </time>
             </span>
-          ))}
-        </div>
-      )}
+          )
+        }
+      </div>
+      {
+        tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-3">
+            {tags.map((tag) => (
+              <span class="text-[var(--color-meta)] border border-[var(--color-border)] px-2 py-0.5 rounded">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
     </header>
 
     <!-- Hero image -->
-    {heroImage && (
-      <Image
-        src={heroImage}
-        alt={title}
-        class="w-full h-auto rounded mb-8"
-        widths={[400, 800, 1200]}
-        sizes="(max-width: 768px) 100vw, 768px"
-      />
-    )}
+    {
+      heroImage && (
+        <Image
+          src={heroImage}
+          alt={title}
+          class="w-full h-auto rounded mb-8"
+          widths={[400, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 768px"
+        />
+      )
+    }
 
     <!-- Post body -->
     <div itemprop="articleBody" class="mb-16">

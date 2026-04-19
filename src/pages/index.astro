@@ -1,62 +1,80 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { formatDate } from '../lib/formatDate';
-import { getExcerpt } from '../lib/getExcerpt';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatDate } from "../lib/formatDate";
+import { getExcerpt } from "../lib/getExcerpt";
 
-const allPosts = (await getCollection('posts'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allPosts = (await getCollection("posts")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
 const [latest, ...rest] = allPosts;
 const recentPosts = rest.slice(0, 5);
 ---
 
-<BaseLayout title="Anthony Gonzales" description="The personal site, blog, and portfolio of Anthony Gonzales, a developer who cares about the code.">
-
+<BaseLayout
+  title="Anthony Gonzales"
+  description="The personal site, blog, and portfolio of Anthony Gonzales, a developer who cares about the code."
+>
   <!-- Bio -->
   <section class="mb-10" itemscope itemtype="https://schema.org/Person">
     <p>
-      I'm a <a href="https://leerob.com/n/product-engineers" target="_blank" rel="noopener noreferrer">Product Engineer</a> at <a href="https://compass.com" target="_blank" rel="nofollow noopener noreferrer">Compass</a>, based in New York, NY.
+      I'm a <a
+        href="https://leerob.com/n/product-engineers"
+        target="_blank"
+        rel="noopener noreferrer">Product Engineer</a
+      > at <a
+        href="https://compass.com"
+        target="_blank"
+        rel="nofollow noopener noreferrer">Compass</a
+      >, based in New York, NY.
     </p>
     <p>
-      I specialize in web technologies like Typescript, Node.js, React, and Postgres.
-      I'm also an expert in Test Driven Development methodologies.
+      I specialize in web technologies like Typescript, Node.js, React, and
+      Postgres. I'm also an expert in Test Driven Development methodologies.
     </p>
     <p>
-      You can email me at <a href="mailto:hello@anthonygonzal.es">hello[at]anthonygonzal.es</a>.
+      You can email me at <a href="mailto:hello@anthonygonzal.es"
+        >hello[at]anthonygonzal.es</a
+      >.
     </p>
   </section>
 
   <!-- Posts -->
   <section itemscope itemtype="https://schema.org/Blog">
-
     <!-- Latest post -->
     <div class="not-prose flex items-center gap-4 mb-6">
       <h2 class="m-0 text-base whitespace-nowrap">Latest post</h2>
       <hr class="flex-1 border-t border-[var(--color-border)] m-0" />
     </div>
 
-    {latest && (
-      <article itemscope itemtype="https://schema.org/BlogPosting" class="mb-12">
-        <h2 class="mt-0 mb-2">
-          <a
-            href={`/blog/${latest.id}/`}
-            class="no-underline hover:text-[var(--color-link)]"
-            itemprop="url headline"
-          >
-            {latest.data.title}
-          </a>
-        </h2>
-        <time
-          datetime={latest.data.pubDate.toISOString()}
-          class="text-[var(--color-meta)]"
-          itemprop="datePublished"
+    {
+      latest && (
+        <article
+          itemscope
+          itemtype="https://schema.org/BlogPosting"
+          class="mb-12"
         >
-          {formatDate(latest.data.pubDate)}
-        </time>
-        <p itemprop="description">{getExcerpt(latest.body)}</p>
-      </article>
-    )}
+          <h2 class="mt-0 mb-2">
+            <a
+              href={`/blog/${latest.id}/`}
+              class="no-underline hover:text-[var(--color-link)]"
+              itemprop="url headline"
+            >
+              {latest.data.title}
+            </a>
+          </h2>
+          <time
+            datetime={latest.data.pubDate.toISOString()}
+            class="text-[var(--color-meta)]"
+            itemprop="datePublished"
+          >
+            {formatDate(latest.data.pubDate)}
+          </time>
+          <p itemprop="description">{getExcerpt(latest.body)}</p>
+        </article>
+      )
+    }
 
     <!-- Previous posts -->
     <div class="not-prose flex items-center gap-4 mb-6">
@@ -64,26 +82,27 @@ const recentPosts = rest.slice(0, 5);
       <hr class="flex-1 border-t border-[var(--color-border)] m-0" />
     </div>
 
-    {recentPosts.length > 0 && (
-      <ul class="list-none p-0 m-0">
-        {recentPosts.map((post) => (
-          <li class="flex justify-between items-baseline gap-6 py-2">
-            <a
-              href={`/blog/${post.id}/`}
-              class="no-underline hover:text-[var(--color-link)]"
-            >
-              {post.data.title}
-            </a>
-            <time
-              datetime={post.data.pubDate.toISOString()}
-              class="text-[var(--color-meta)] shrink-0"
-            >
-              {formatDate(post.data.pubDate)}
-            </time>
-          </li>
-        ))}
-      </ul>
-    )}
-
+    {
+      recentPosts.length > 0 && (
+        <ul class="list-none p-0 m-0">
+          {recentPosts.map((post) => (
+            <li class="flex justify-between items-baseline gap-6 py-2">
+              <a
+                href={`/blog/${post.id}/`}
+                class="no-underline hover:text-[var(--color-link)]"
+              >
+                {post.data.title}
+              </a>
+              <time
+                datetime={post.data.pubDate.toISOString()}
+                class="text-[var(--color-meta)] shrink-0"
+              >
+                {formatDate(post.data.pubDate)}
+              </time>
+            </li>
+          ))}
+        </ul>
+      )
+    }
   </section>
 </BaseLayout>

@@ -12,22 +12,22 @@
 
 ## ADR Log
 
-| # | Decision | Choice | Rationale |
-|---|---|---|---|
-| ADR-1 | Astro output mode | `output: 'static'` | No SSR needed; CDN-served files, zero cold starts |
-| ADR-2 | Permalink format | Clean URLs `/blog/slug/` | Modern standard; better shareability |
-| ADR-3 | .html redirect handling | `_redirects` for all 12 old URLs | Preserves SEO, no broken inbound links |
-| ADR-4 | `redirect_from` legacy paths | Drop them | Low traffic risk; simplifies config |
-| ADR-5 | Draft support | Not in initial schema | Port only 12 published posts; add later if needed |
-| ADR-6 | `heroImage` type | Astro `image()` helper | Build-time optimization; images in `src/assets/` |
-| ADR-7 | Pilot post | `how-to-test-react-router-components` | Most complete front matter; has `last_modified_at` |
-| ADR-8 | Cloudflare adapter | Removed | Adapter generates `wrangler.json` that breaks static Pages deploys |
-| ADR-9 | Image service | `passthroughImageService` | Sharp blocked by pnpm `approve-builds`; no image transforms needed |
-| ADR-10 | ThemeToggle | Plain Astro component (`is:inline`) | React island caused hydration flicker; `is:inline` runs synchronously |
-| ADR-11 | prose scope | `prose` on `<main>` | Consistent typography site-wide; use `not-prose` to opt out |
-| ADR-12 | Footer | Removed | Email on homepage; RSS autodiscovery in `<head>` |
-| ADR-13 | About page | Removed | Content merged into homepage; `/about/` → `/` redirect in `_redirects` |
-| ADR-14 | Nav label for /blog/ | "Archive" | Chronological post list is an archive, not a blog index |
+| #      | Decision                     | Choice                                | Rationale                                                              |
+| ------ | ---------------------------- | ------------------------------------- | ---------------------------------------------------------------------- |
+| ADR-1  | Astro output mode            | `output: 'static'`                    | No SSR needed; CDN-served files, zero cold starts                      |
+| ADR-2  | Permalink format             | Clean URLs `/blog/slug/`              | Modern standard; better shareability                                   |
+| ADR-3  | .html redirect handling      | `_redirects` for all 12 old URLs      | Preserves SEO, no broken inbound links                                 |
+| ADR-4  | `redirect_from` legacy paths | Drop them                             | Low traffic risk; simplifies config                                    |
+| ADR-5  | Draft support                | Not in initial schema                 | Port only 12 published posts; add later if needed                      |
+| ADR-6  | `heroImage` type             | Astro `image()` helper                | Build-time optimization; images in `src/assets/`                       |
+| ADR-7  | Pilot post                   | `how-to-test-react-router-components` | Most complete front matter; has `last_modified_at`                     |
+| ADR-8  | Cloudflare adapter           | Removed                               | Adapter generates `wrangler.json` that breaks static Pages deploys     |
+| ADR-9  | Image service                | `passthroughImageService`             | Sharp blocked by pnpm `approve-builds`; no image transforms needed     |
+| ADR-10 | ThemeToggle                  | Plain Astro component (`is:inline`)   | React island caused hydration flicker; `is:inline` runs synchronously  |
+| ADR-11 | prose scope                  | `prose` on `<main>`                   | Consistent typography site-wide; use `not-prose` to opt out            |
+| ADR-12 | Footer                       | Removed                               | Email on homepage; RSS autodiscovery in `<head>`                       |
+| ADR-13 | About page                   | Removed                               | Content merged into homepage; `/about/` → `/` redirect in `_redirects` |
+| ADR-14 | Nav label for /blog/         | "Archive"                             | Chronological post list is an archive, not a blog index                |
 
 ---
 
@@ -48,11 +48,11 @@
 
 ```ts
 // src/content.config.ts
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 const posts = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -71,16 +71,16 @@ export const collections = { posts };
 
 ## Jekyll → Astro Field Mapping
 
-| Jekyll | Astro | Notes |
-|---|---|---|
-| `title` | `title` | Direct port |
-| `date` | `pubDate` | Renamed; `z.coerce.date()` for flexibility |
-| `description` | `description` | Optional (2 older posts lack it) |
-| `last_modified_at` | `updatedDate` | Renamed |
-| `image` | `heroImage` | Astro `image()` type; move files to `src/assets/img/` |
-| `categories` | `tags` | Generalized; default `[]` |
-| `layout` | — | Dropped (Astro file-based layouts) |
-| `redirect_from` | — | Dropped (handled by `_redirects`) |
+| Jekyll             | Astro         | Notes                                                 |
+| ------------------ | ------------- | ----------------------------------------------------- |
+| `title`            | `title`       | Direct port                                           |
+| `date`             | `pubDate`     | Renamed; `z.coerce.date()` for flexibility            |
+| `description`      | `description` | Optional (2 older posts lack it)                      |
+| `last_modified_at` | `updatedDate` | Renamed                                               |
+| `image`            | `heroImage`   | Astro `image()` type; move files to `src/assets/img/` |
+| `categories`       | `tags`        | Generalized; default `[]`                             |
+| `layout`           | —             | Dropped (Astro file-based layouts)                    |
+| `redirect_from`    | —             | Dropped (handled by `_redirects`)                     |
 
 ---
 
@@ -88,15 +88,15 @@ export const collections = { posts };
 
 ### Color tokens (CSS custom properties)
 
-| Token | Light | Dark | Role |
-|---|---|---|---|
-| `--color-bg` | `#fff` | `#111` | Page background |
-| `--color-text` | `#222` | `#e8e8e8` | Body text |
-| `--color-link` | `#76a7d8` | `#76a7d8` | Links |
-| `--color-nav` | `#A52A2A` | `#c44` | Nav logo (ox-blood) |
-| `--color-meta` | `#777` | `#888` | Post meta, section labels |
-| `--color-border` | `#DDD` | `#333` | Borders, HR |
-| `--color-code-bg` | `#f6f8fa` | `#1e1e1e` | Code block background |
+| Token             | Light     | Dark      | Role                      |
+| ----------------- | --------- | --------- | ------------------------- |
+| `--color-bg`      | `#fff`    | `#111`    | Page background           |
+| `--color-text`    | `#222`    | `#e8e8e8` | Body text                 |
+| `--color-link`    | `#76a7d8` | `#76a7d8` | Links                     |
+| `--color-nav`     | `#A52A2A` | `#c44`    | Nav logo (ox-blood)       |
+| `--color-meta`    | `#777`    | `#888`    | Post meta, section labels |
+| `--color-border`  | `#DDD`    | `#333`    | Borders, HR               |
+| `--color-code-bg` | `#f6f8fa` | `#1e1e1e` | Code block background     |
 
 ### Typography
 
@@ -171,17 +171,17 @@ public/
 
 ## Phase Plan
 
-| Phase | Action | Status |
-|---|---|---|
-| 1 | Write `PLAN.md` | Done |
-| 2 | Repo reset | Done |
-| 3 | Install integrations + configure `astro.config.mjs` | Done |
-| 4 | Scaffold file structure | Done |
-| 5 | BaseLayout + dark mode + ThemeToggle | Done |
-| 6 | Content config + all pages + RSS | Done |
-| 7 | Pilot post: `how-to-test-react-router-components` | Done |
-| 8 | Bulk port remaining 11 posts (all audited + content restored) | Done |
-| 9 | Cutover (manual — you execute) | Pending |
+| Phase | Action                                                        | Status  |
+| ----- | ------------------------------------------------------------- | ------- |
+| 1     | Write `PLAN.md`                                               | Done    |
+| 2     | Repo reset                                                    | Done    |
+| 3     | Install integrations + configure `astro.config.mjs`           | Done    |
+| 4     | Scaffold file structure                                       | Done    |
+| 5     | BaseLayout + dark mode + ThemeToggle                          | Done    |
+| 6     | Content config + all pages + RSS                              | Done    |
+| 7     | Pilot post: `how-to-test-react-router-components`             | Done    |
+| 8     | Bulk port remaining 11 posts (all audited + content restored) | Done    |
+| 9     | Cutover (manual — you execute)                                | Pending |
 
 ---
 
