@@ -71,7 +71,7 @@ const recentPosts = rest.slice(0, 5);
           >
             {formatDate(latest.data.pubDate)}
           </time>
-          <p itemprop="description">{getExcerpt(latest.body)}</p>
+          <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
         </article>
       )
     }

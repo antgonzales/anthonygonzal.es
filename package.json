@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
@@ -45,6 +45,7 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.8",
     "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
