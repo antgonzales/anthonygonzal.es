@@ -4,6 +4,11 @@
 /* Class-based dark mode — toggled by ThemeToggle */
 @variant dark (&:where(.dark, .dark *));
 
+/* Register Astro font CSS variable with Tailwind */
+@theme inline {
+  --font-sans: var(--font-lora), Georgia, serif;
+}
+
 /* Color tokens as Tailwind theme variables */
 @theme {
   --color-bg: #fff;
@@ -14,7 +19,6 @@
   --color-border: #ddd;
   --color-code-bg: #f6f8fa;
 
-  --font-sans: system-ui, sans-serif;
   --font-mono:
     ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
     "DejaVu Sans Mono", monospace;
@@ -55,12 +59,6 @@
     max-width: 100%;
     height: auto;
   }
-
-  hr {
-    border: 0;
-    border-top: 1px solid var(--color-border);
-    margin: 2rem 0;
-  }
 }
 
 /* Callout blocks — used inside MDX, can't use utility classes */
@@ -80,9 +78,14 @@
   border-color: #a08c30;
 }
 
-/* Post image credits — used inside MDX */
-.post-img-credit {
-  color: var(--color-meta);
-  margin-top: -1rem;
-  margin-bottom: 1.5rem;
+/* External link icon — appears after all target="_blank" links */
+a[target="_blank"]::after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+  display: inline-block;
+  margin-left: 0.25em;
+  vertical-align: middle;
+}
+
+.dark a[target="_blank"]::after {
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
 }

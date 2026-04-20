@@ -27,15 +27,19 @@ const recentPosts = rest.slice(0, 5);
         href="https://compass.com"
         target="_blank"
         rel="nofollow noopener noreferrer">Compass</a
-      >, based in New York, NY.
+      >, based in New York.
     </p>
     <p>
-      I specialize in web technologies like Typescript, Node.js, React, and
-      Postgres. I'm also an expert in Test Driven Development methodologies.
-    </p>
-    <p>
-      You can email me at <a href="mailto:hello@anthonygonzal.es"
-        >hello[at]anthonygonzal.es</a
+      I write about testing, TypeScript, and building for the web. Find me on <a
+        href="https://github.com/antgonzales"
+        target="_blank"
+        rel="noopener noreferrer">GitHub</a
+      > or <a
+        href="https://www.linkedin.com/in/anthony-gonzales-5a06b994"
+        target="_blank"
+        rel="noopener noreferrer">LinkedIn</a
+      >, or email <a href="mailto:hello@anthonygonzal.es"
+        >hello@anthonygonzal.es</a
       >.
     </p>
   </section>
@@ -72,6 +76,9 @@ const recentPosts = rest.slice(0, 5);
             {formatDate(latest.data.pubDate)}
           </time>
           <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
+          <a href={`/blog/${latest.id}/`} class="no-underline">
+            Read more &rarr;
+          </a>
         </article>
       )
     }

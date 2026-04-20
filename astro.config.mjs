@@ -1,5 +1,9 @@
 // @ts-check
-import { defineConfig, passthroughImageService } from "astro/config";
+import {
+  defineConfig,
+  passthroughImageService,
+  fontProviders,
+} from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -12,6 +16,16 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: "Lora",
+      cssVariable: "--font-lora",
+      weights: [400],
+      styles: ["normal", "italic"],
+      display: "optional",
+    },
+  ],
   integrations: [react(), mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

@@ -15,8 +15,6 @@ interface Props {
 
 const { title, description, pubDate, updatedDate, heroImage, tags } =
   Astro.props;
-
-const slug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
 ---
 
 <BaseLayout
@@ -80,17 +78,5 @@ const slug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
     <div itemprop="articleBody" class="mb-16">
       <slot />
     </div>
-
-    <!-- Post footer -->
-    <footer class="mt-12 pt-6 border-t border-[var(--color-border)]">
-      <a
-        href={`https://github.com/antgonzales/anthonygonzal.es/blob/main/src/content/posts/${slug}.md`}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-[var(--color-meta)] underline hover:text-[var(--color-link)]"
-      >
-        Suggest a correction
-      </a>
-    </footer>
   </article>
 </BaseLayout>
