@@ -55,6 +55,26 @@
     text-underline-offset: 0.3rem;
   }
 
+  code {
+    background-color: var(--color-code-bg);
+    border-radius: 0.25rem;
+    padding: 0.15em 0.35em;
+    font-size: 0.875em;
+    font-weight: 400;
+  }
+
+  code::before,
+  code::after {
+    content: none;
+  }
+
+  code {
+    background-color: var(--color-code-bg);
+    border-radius: 0.25rem;
+    padding: 0.15em 0.35em;
+    font-size: 0.875em;
+  }
+
   img {
     max-width: 100%;
     height: auto;
