@@ -4,9 +4,10 @@
 /* Class-based dark mode — toggled by ThemeToggle */
 @variant dark (&:where(.dark, .dark *));
 
-/* Register Astro font CSS variable with Tailwind */
+/* Register Astro font CSS variables with Tailwind */
 @theme inline {
-  --font-sans: var(--font-lora), Georgia, serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 /* Color tokens as Tailwind theme variables */
@@ -18,10 +19,6 @@
   --color-meta: #777;
   --color-border: #ddd;
   --color-code-bg: #f6f8fa;
-
-  --font-mono:
-    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-    "DejaVu Sans Mono", monospace;
 }
 
 /* Dark mode token overrides */
@@ -61,13 +58,6 @@
     padding: 0.15em 0.35em;
     font-size: 0.875em;
     font-weight: 400;
-  }
-
-  code {
-    background-color: var(--color-code-bg);
-    border-radius: 0.25rem;
-    padding: 0.15em 0.35em;
-    font-size: 0.875em;
   }
 
   img {

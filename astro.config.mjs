@@ -19,10 +19,18 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: "Lora",
-      cssVariable: "--font-lora",
+      name: "Geist",
+      cssVariable: "--font-geist",
+      weights: [400, 500],
+      styles: ["normal"],
+      display: "optional",
+    },
+    {
+      provider: fontProviders.fontsource(),
+      name: "Geist Mono",
+      cssVariable: "--font-geist-mono",
       weights: [400],
-      styles: ["normal", "italic"],
+      styles: ["normal"],
       display: "optional",
     },
   ],
