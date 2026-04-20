@@ -9,7 +9,7 @@ const allPosts = (await getCollection("posts")).sort(
 );
 
 const [latest, ...rest] = allPosts;
-const recentPosts = rest.slice(0, 5);
+const recentPosts = rest.slice(0, 3);
 ---
 
 <BaseLayout
@@ -108,5 +108,6 @@ const recentPosts = rest.slice(0, 5);
         </ul>
       )
     }
+    <a href="/blog/" class="no-underline">All posts &rarr;</a>
   </section>
 </BaseLayout>
