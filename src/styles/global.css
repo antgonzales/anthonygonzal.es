@@ -63,11 +63,6 @@
     font-weight: 400;
   }
 
-  code::before,
-  code::after {
-    content: none;
-  }
-
   code {
     background-color: var(--color-code-bg);
     border-radius: 0.25rem;
@@ -79,6 +74,12 @@
     max-width: 100%;
     height: auto;
   }
+}
+
+/* Suppress Tailwind Typography's backtick pseudo-elements on inline code */
+.prose code::before,
+.prose code::after {
+  content: none;
 }
 
 /* Callout blocks — used inside MDX, can't use utility classes */
