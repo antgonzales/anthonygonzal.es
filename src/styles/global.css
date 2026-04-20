@@ -26,7 +26,7 @@
 
 /* Dark mode token overrides */
 .dark {
-  --color-bg: #111;
+  --color-bg: #1e1e1e;
   --color-text: #e8e8e8;
   --color-link: #76a7d8;
   --color-nav: #cc4444;
