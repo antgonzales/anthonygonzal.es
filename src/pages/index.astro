@@ -35,7 +35,7 @@ const [latest, ...rest] = allPosts;
           </h2>
           <time
             datetime={latest.data.pubDate.toISOString()}
-            class="font-mono text-[var(--color-meta)]"
+            class="italic text-[var(--color-meta)]"
             itemprop="datePublished"
           >
             {formatDate(latest.data.pubDate)}
@@ -60,7 +60,7 @@ const [latest, ...rest] = allPosts;
               </a>
               <time
                 datetime={post.data.pubDate.toISOString()}
-                class="font-mono text-[var(--color-meta)] shrink-0"
+                class="italic text-[var(--color-meta)] shrink-0"
               >
                 {formatDate(post.data.pubDate)}
               </time>
