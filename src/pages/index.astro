@@ -9,49 +9,14 @@ const allPosts = (await getCollection("posts")).sort(
 );
 
 const [latest, ...rest] = allPosts;
-const recentPosts = rest.slice(0, 3);
 ---
 
 <BaseLayout
   title="Anthony Gonzales"
-  description="The personal site, blog, and portfolio of Anthony Gonzales, a developer who cares about the code."
+  description="The personal site and blog of Anthony Gonzales, a Product Engineer based in New York."
 >
-  <!-- Bio -->
-  <section class="mb-10" itemscope itemtype="https://schema.org/Person">
-    <p>
-      I'm a <a
-        href="https://leerob.com/n/product-engineers"
-        target="_blank"
-        rel="noopener noreferrer">Product Engineer</a
-      > at <a
-        href="https://compass.com"
-        target="_blank"
-        rel="nofollow noopener noreferrer">Compass</a
-      >, based in New York.
-    </p>
-    <p>
-      I write about testing, TypeScript, and building for the web. Find me on <a
-        href="https://github.com/antgonzales"
-        target="_blank"
-        rel="noopener noreferrer">GitHub</a
-      > or <a
-        href="https://www.linkedin.com/in/anthony-gonzales-5a06b994"
-        target="_blank"
-        rel="noopener noreferrer">LinkedIn</a
-      >, or email <a href="mailto:hello@anthonygonzal.es"
-        >hello@anthonygonzal.es</a
-      >.
-    </p>
-  </section>
-
   <!-- Posts -->
   <section itemscope itemtype="https://schema.org/Blog">
-    <!-- Latest post -->
-    <div class="not-prose flex items-center gap-4 mb-6">
-      <h2 class="m-0 text-base whitespace-nowrap">Latest post</h2>
-      <hr class="flex-1 border-t border-[var(--color-border)] m-0" />
-    </div>
-
     {
       latest && (
         <article
@@ -83,16 +48,10 @@ const recentPosts = rest.slice(0, 3);
       )
     }
 
-    <!-- Previous posts -->
-    <div class="not-prose flex items-center gap-4 mb-6">
-      <h2 class="m-0 text-base whitespace-nowrap">Previous posts</h2>
-      <hr class="flex-1 border-t border-[var(--color-border)] m-0" />
-    </div>
-
     {
-      recentPosts.length > 0 && (
-        <ul class="list-none p-0 m-0">
-          {recentPosts.map((post) => (
+      rest.length > 0 && (
+        <ul class="not-prose list-none p-0 m-0">
+          {rest.map((post) => (
             <li class="flex justify-between items-baseline gap-6 py-2">
               <a href={`/blog/${post.id}/`} class="no-underline">
                 {post.data.title}
@@ -108,6 +67,5 @@ const recentPosts = rest.slice(0, 3);
         </ul>
       )
     }
-    <a href="/blog/" class="no-underline">All posts &rarr;</a>
   </section>
 </BaseLayout>

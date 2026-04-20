@@ -1,7 +1,6 @@
 /feed.xml                                                 /rss.xml                                              301
-/about                                                    /                                                     301
-/about/                                                   /                                                     301
-/blog                                                     /blog/                                                301
+/blog                                                     /                                                     301
+/blog/                                                    /                                                     301
 /blog/hello-world                                         /blog/hello-world/                                    301
 /blog/setup-eslint-prettier-with-typescript               /blog/setup-eslint-prettier-with-typescript/          301
 /blog/joy-of-tidying-with-nps                             /blog/joy-of-tidying-with-nps/                        301
