@@ -40,7 +40,9 @@ const [latest, ...rest] = allPosts;
           >
             {formatDate(latest.data.pubDate)}
           </time>
-          <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
+          <p itemprop="description">
+            {latest.data.description ?? getExcerpt(latest.body ?? "")}
+          </p>
           <a href={`/blog/${latest.id}/`} class="no-underline">
             Read more &rarr;
           </a>

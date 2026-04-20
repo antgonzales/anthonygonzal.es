@@ -1,0 +1,114 @@
+---
+title: "Why getByRole() is slow (and what the W3C has to do with it)"
+description: "getByRole() is the right default query in Testing Library — but it's doing more work than most people realize."
+pubDate: 2026-04-20
+tags: []
+---
+
+import TableWalkerSimple from "../../components/TableWalkerSimple.tsx";
+import TableWalkerLarge from "../../components/TableWalkerLarge.tsx";
+
+I was profiling a test suite last year that felt slower than it should. The components weren't complicated. The mocks were all synchronous. But a handful of tests were consistently taking longer than the rest. After some digging, the culprit wasn't my app code — it was `getByRole()`.
+
+That sent me down a rabbit hole into the W3C spec. Here's what I found.
+
+## It's not reading an attribute
+
+When you call `getByRole('button', { name: 'Submit' })`, it's natural to assume Testing Library is doing something like: find every node with `role="button"`, then filter by text content. Fast, shallow, done.
+
+That's not what's happening.
+
+`@testing-library/dom` implements the [W3C Accessible Name and Description Computation](https://www.w3.org/TR/accname-1.1/) spec — AccName for short. AccName defines a recursive algorithm for computing the accessible name of a node. It considers `aria-labelledby`, `aria-label`, native labeling mechanisms, and the text content of child nodes — in a specific priority order, walking the subtree at each step.
+
+`getByRole()` runs that algorithm for every node in the DOM that could be a role match. Not just the ones that are. Every candidate.
+
+## Why the spec matters here
+
+`@testing-library/dom` is intentionally faithful to the accessibility spec. That's the right call — it means your tests reflect what a screen reader would actually compute, not a simplified approximation. Kent C. Dodds has been clear about this tradeoff from the beginning: correctness over convenience.
+
+But correctness has a runtime cost, and that cost scales with the complexity of your DOM.
+
+## What that looks like in practice
+
+### Tables
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th id="col-q">Quarter</th>
+      <th id="col-rev">Revenue</th>
+      <th id="col-exp">Expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="row-q1" scope="row">Q1</th>
+      <td aria-labelledby="row-q1 col-rev">$1.2M</td>
+      <td aria-labelledby="row-q1 col-exp">$900K</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+```js
+getByRole('cell', { name: 'Q1 Revenue' })
+```
+
+To compute the accessible name of a `<td>` with `aria-labelledby`, AccName walks each referenced element's subtree in order, collecting and concatenating text content. For `aria-labelledby="row-q1 col-rev"`, it visits `#row-q1`, accumulates "Q1", then visits `#col-rev` and accumulates "Revenue" — resolving to "Q1 Revenue". Each IDREF is a full subtree traversal.
+
+<TableWalkerSimple client:load />
+
+That's the mechanism for a single cell in a small table. Now imagine the same pattern across a realistic budget table with 24 line items.
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th id="col-budget">Budget</th>
+      <th id="col-actual">Actual</th>
+      <th id="col-variance">Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="row-salaries" scope="row">Salaries</th>
+      <td aria-labelledby="row-salaries col-budget">$2.4M</td>
+      <td aria-labelledby="row-salaries col-actual">$2.5M</td>
+      <td aria-labelledby="row-salaries col-variance">-$100K</td>
+    </tr>
+    <!-- 23 more rows -->
+  </tbody>
+</table>
+```
+
+```js
+getByRole('cell', { name: 'Contractors Actual' })
+```
+
+72 cells. Each carries two IDREFs. Before reaching the match, AccName has to evaluate every preceding cell and walk both of its referenced subtrees — row header and column header — for each one.
+
+<TableWalkerLarge client:load />
+
+## What to do about it
+
+This isn't an argument against `getByRole()`. It's the right default for tests that care about what a user — or a screen reader — would actually interact with. But "right default" doesn't mean "use it for everything."
+
+**Scope queries with `within()`** when you know where the element lives. Instead of searching the entire document, give Testing Library a smaller subtree to work with:
+
+```js
+const panel = getByRole('region', { name: 'Export options' })
+within(panel).getByRole('button', { name: 'Export' })
+```
+
+**Use a cheaper query when the accessible name isn't what you're testing.** If you're testing that a button triggers a side effect and you don't care about its accessible name, `getByTestId()` or `getByText()` won't run the AccName algorithm. Reach for the query that matches what your test is actually asserting.
+
+**Use `getByLabelText()` for form inputs.** It's built for the label association use case and is more direct than `getByRole('textbox', { name: '...' })` in most scenarios.
+
+**Be deliberate, not dogmatic.** The Testing Library docs list `getByRole()` first in the query priority guide — for good reason. But the guide also says to use the query that most closely matches how a user would find the element. Sometimes that's `getByRole()`. Sometimes it isn't.
+
+## The tradeoff is worth understanding
+
+The W3C spec is not a bug in `@testing-library/dom` — it's the point. Tests that use `getByRole()` correctly are testing the same thing a screen reader computes. That's valuable.
+
+But once you know what the algorithm is doing, you can make informed decisions about when to use it and when to reach for a lighter tool. The goal isn't to avoid `getByRole()` — it's to stop using it on autopilot.
