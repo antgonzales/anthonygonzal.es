@@ -2,8 +2,13 @@
 title: "The joy of tidying npm scripts with nps"
 description: "npm scripts can become unruly quickly, especially when working with an evolving code base. Learn the joy of tidying with nps ✨"
 pubDate: 2019-04-15
+updatedDate: 2026-04-19
 tags: []
 ---
+
+<div class="callout warning-callout">
+  <strong>Note:</strong> <code>nps</code> is unmaintained as of 2026. If you're in a monorepo, your workspace tooling likely handles this better. For single packages, <code>npm run</code> lists all scripts out of the box, which covers most of the discoverability problem. For documentation that doesn't fit in a script name, your README is the right place.
+</div>
 
 npm scripts have never sparked joy for me. The package.json file is meant to be a configuration file and manifest of everything necessary to run a node module or application. Lately, my package file was feeling a little bloated, unsightly, and unruly. I also work in a lot of packages at my current job which means quickly parsing the scripts from other people's work. When a project has a lot of dependencies, `cat`ing a file to read the scripts can feel frustrating and overwhelming. Luckily, we can leverage nps to put scripts in their place and make package scripting maintainable.
 
