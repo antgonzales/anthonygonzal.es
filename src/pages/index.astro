@@ -40,6 +40,13 @@ const [latest, ...rest] = allPosts;
           >
             {formatDate(latest.data.pubDate)}
           </time>
+          {latest.data.heroImage ? (
+            <img
+              src={latest.data.heroImage.src}
+              alt={latest.data.title}
+              class="w-full rounded-sm my-4"
+            />
+          ) : null}
           <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
           <a href={`/blog/${latest.id}/`} class="no-underline">
             Read more &rarr;

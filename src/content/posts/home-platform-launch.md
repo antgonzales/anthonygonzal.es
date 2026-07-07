@@ -2,10 +2,9 @@
 title: "Launching Home Platform"
 description: "I served as Frontend Engineering Lead at Compass on Home Platform, rolling out across Coldwell Banker Realty, Corcoran, Sotheby's International Realty, and @properties."
 pubDate: 2026-07-07
+heroImage: ../../assets/img/home-platform.webp
 tags: []
 ---
-
-Somewhere between the time zone math and the late-night deploys, it came together.
 
 I served as Frontend Engineering Lead on the team that brought [Home Platform](https://homeplatform.com) to
 life, Compass's technology platform for real estate professionals, now rolling
