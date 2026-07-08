@@ -11,24 +11,14 @@ life, Compass's technology platform for real estate professionals, now rolling
 out across @properties, Coldwell Banker Realty, Corcoran, and Sotheby's
 International Realty.
 
-There were nights I'd close my laptop at 1am after catching up with engineers
-in China, then open it again a few hours later to sync with a team in Vietnam
-before the US workday started. That was the rhythm for a lot of this. You find
-the overlap, you make it work, and you sleep knowing the test suite will catch
-anything that doesn't. Coordinating with engineering teams, product, and design
-while keeping everything moving toward a deadline that didn't move. The kind of
-work that doesn't make it into the press release.
-
 The platform brings together over a decade of Compass-built tools: comparative
 market analyses, shared buyer Collections, pre-listing Buyer Demand pricing
 intelligence, reverse prospecting, an agent-to-agent search network, a
 marketing center, a live listing-performance dashboard, and a unified client
 workspace. CEO Robert Reffkin called it the largest technology deployment in
-residential real estate history, and I believe it. This didn't happen by
-accident.
+residential real estate history.
 
-To every engineer, manager, director, and product manager who showed up: thank
-you. I couldn't have done this without you.
+I’m grateful to have been part of this, and to the team that built it with me.
 
 ## Links
 
