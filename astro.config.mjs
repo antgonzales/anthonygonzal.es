@@ -37,10 +37,7 @@ export default defineConfig({
   ],
   markdown: {
     rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        { rel: ["noopener"], target: "_blank" },
-      ],
+      [rehypeExternalLinks, { rel: ["noopener"], target: "_blank" }],
     ],
   },
   integrations: [react(), mdx(), sitemap()],
