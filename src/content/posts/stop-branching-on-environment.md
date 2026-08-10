@@ -29,8 +29,8 @@ runs:
 
 ```js
 // before
-const isProduction = /^(www\.)?myapp\.com$/.test(window.location.hostname);
-const apiKey = isProduction ? PRODUCTION_KEY : TEST_KEY;
+const isProd = /^(www\.)?myapp\.com$/.test(window.location.hostname);
+const apiKey = isProd ? PRODUCTION_KEY : TEST_KEY;
 
 // after
 const apiKey = process.env.PUBLISHABLE_API_KEY;
@@ -50,20 +50,20 @@ One note on scope: anything bundled into the frontend is client-visible by
 definition, so this is for publishable configuration. A value that must stay
 secret never belongs in the browser at all.
 
-This is also how many hosting platforms expect you to work. Cloudflare Pages
-supports separate variables for production and preview deployments. Netlify
-supports deploy-context-specific values. AWS Amplify can scope variables to
-branches. In each case, deployment configuration answers the environment
-question outside the application code.
+This is also how many hosting platforms expect you to work. [Cloudflare Pages](https://developers.cloudflare.com/pages/configuration/build-configuration/)
+supports separate variables for production and preview deployments. [Netlify](https://docs.netlify.com/build/environment-variables/overview/)
+supports deploy-context-specific values. [AWS Amplify](https://docs.aws.amazon.com/amplify/latest/userguide/setting-env-vars.html)
+can scope variables to branches. In each case, deployment configuration answers
+the environment question outside the application code.
 
 ## The cleaner branch is still a branch
 
 The tempting middle ground is to keep the branch but clean it up:
 
 ```js
-function getClientKey() {
-  return process.env.NODE_ENV === 'production' ? PRODUCTION_KEY : TEST_KEY;
-}
+const apiKey = process.env.NODE_ENV === 'production'
+  ? PRODUCTION_KEY
+  : TEST_KEY;
 ```
 
 This looks like an improvement. No regex, no `window.location`, the environment

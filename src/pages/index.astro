@@ -3,12 +3,14 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
 import { getExcerpt } from "../lib/getExcerpt";
+import { getFeaturedPost } from "../lib/getFeaturedPost";
 
 const allPosts = (await getCollection("posts")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-const [latest, ...rest] = allPosts;
+const latest = getFeaturedPost(allPosts) ?? allPosts[0];
+const rest = allPosts.filter((p) => p !== latest);
 ---
 
 <BaseLayout
@@ -18,12 +20,25 @@ const [latest, ...rest] = allPosts;
   <!-- Posts -->
   <section itemscope itemtype="https://schema.org/Blog">
     {
-      latest && (
+      latest ? (
         <article
           itemscope
           itemtype="https://schema.org/BlogPosting"
           class="mb-12"
         >
+          {latest.data.featured ? (
+            <p class="mt-0 mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-meta)]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="inline-block w-[1em] h-[1em] mr-1 align-middle"
+              >
+                <path d="M16 3a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-.187 1.633l-4.52 2.26V15a1 1 0 0 1-.293.707l-2 2A1 1 0 0 1 12 17v-4.586l-3.293 3.293a1 1 0 0 1-1.414-1.414L10.586 11H6a1 1 0 0 1-.707-1.707l2-2A1 1 0 0 1 8 7h3.814l2.26-4.52A1 1 0 0 1 15.707 3z" />
+              </svg>
+              Pinned
+            </p>
+          ) : null}
           <h2 class="mt-0 mb-2">
             <a
               href={`/blog/${latest.id}/`}
@@ -52,11 +67,11 @@ const [latest, ...rest] = allPosts;
             Read more &rarr;
           </a>
         </article>
-      )
+      ) : null
     }
 
     {
-      rest.length > 0 && (
+      rest.length > 0 ? (
         <ul class="not-prose list-none p-0 m-0">
           {rest.map((post) => (
             <li class="flex justify-between items-baseline gap-6 py-2">
@@ -72,7 +87,7 @@ const [latest, ...rest] = allPosts;
             </li>
           ))}
         </ul>
-      )
+      ) : null
     }
   </section>
 </BaseLayout>
