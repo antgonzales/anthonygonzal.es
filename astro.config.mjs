@@ -6,6 +6,7 @@ import {
 } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import rehypeExternalLinks from "rehype-external-links";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -34,6 +35,11 @@ export default defineConfig({
       display: "optional",
     },
   ],
+  markdown: {
+    rehypePlugins: [
+      [rehypeExternalLinks, { rel: ["noopener"], target: "_blank" }],
+    ],
+  },
   integrations: [react(), mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

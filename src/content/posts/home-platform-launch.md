@@ -4,6 +4,7 @@ description: "I served as Frontend Engineering Lead at Compass on Home Platform,
 pubDate: 2026-07-07
 heroImage: ../../assets/img/home-platform.webp
 tags: []
+featured: true
 ---
 
 I'm incredibly proud to share that [Home Platform](https://homeplatform.com),

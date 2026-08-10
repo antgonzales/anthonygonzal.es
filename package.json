@@ -10,16 +10,14 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run test && astro build",
+    "build": "pnpm run lint && pnpm run test && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "astro check",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "lint": "eslint . && prettier --check . && astro check",
+    "lint:fix": "eslint . --fix && prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -44,6 +42,7 @@
     "astro": "^6.1.8",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "rehype-external-links": "^3.0.0",
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
