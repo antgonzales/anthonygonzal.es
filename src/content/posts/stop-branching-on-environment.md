@@ -1,7 +1,7 @@
 ---
 title: "Stop checking NODE_ENV in your frontend"
 description: "Why checking process.env.NODE_ENV or hostname in your frontend is an antipattern, and how to let your build process resolve the right value instead."
-pubDate: 2026-08-08
+pubDate: 2026-08-10
 tags: []
 ---
 
