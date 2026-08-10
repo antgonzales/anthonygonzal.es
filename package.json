@@ -16,7 +16,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "astro check",
-    "lint": "eslint . && prettier --check . && atro check",
+    "lint": "eslint . && prettier --check . && astro check",
     "lint:fix": "eslint . --fix && prettier --write ."
   },
   "repository": {
