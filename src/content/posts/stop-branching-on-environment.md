@@ -50,9 +50,9 @@ One note on scope: anything bundled into the frontend is client-visible by
 definition, so this is for publishable configuration. A value that must stay
 secret never belongs in the browser at all.
 
-This is also how many hosting platforms expect you to work. [Cloudflare Pages](https://developers.cloudflare.com/pages/configuration/build-configuration/)
-supports separate variables for production and preview deployments. [Netlify](https://docs.netlify.com/build/environment-variables/overview/)
-supports deploy-context-specific values. [AWS Amplify](https://docs.aws.amazon.com/amplify/latest/userguide/setting-env-vars.html)
+This is also how many hosting platforms expect you to work. <a href="https://developers.cloudflare.com/pages/configuration/build-configuration/" target="_blank" rel="nofollow noopener">Cloudflare Pages</a>
+supports separate variables for production and preview deployments. <a href="https://docs.netlify.com/build/environment-variables/overview/" target="_blank" rel="nofollow noopener">Netlify</a>
+supports deploy-context-specific values. <a href="https://docs.aws.amazon.com/amplify/latest/userguide/setting-env-vars.html" target="_blank" rel="nofollow noopener">AWS Amplify</a>
 can scope variables to branches. In each case, deployment configuration answers
 the environment question outside the application code.
 
