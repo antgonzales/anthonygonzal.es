@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import BaseLayout from "./BaseLayout.astro";
+import BlogLayout from "./BlogLayout.astro";
 import { formatDate } from "../lib/formatDate";
 
 interface Props {
@@ -17,7 +17,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } =
   Astro.props;
 ---
 
-<BaseLayout
+<BlogLayout
   title={title}
   description={description}
   pubDate={pubDate}
@@ -79,4 +79,4 @@ const { title, description, pubDate, updatedDate, heroImage, tags } =
       <slot />
     </div>
   </article>
-</BaseLayout>
+</BlogLayout>

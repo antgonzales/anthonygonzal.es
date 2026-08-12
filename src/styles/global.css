@@ -1,38 +1,42 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Class-based dark mode — toggled by ThemeToggle */
-@variant dark (&:where(.dark, .dark *));
+/* Match homepage: dark mode via media query, not class toggle */
+@variant dark (@media (prefers-color-scheme: dark));
 
-/* Register Astro font CSS variables with Tailwind */
 @theme inline {
-  --font-sans: var(--font-geist), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    monospace;
+  /* Speech face — swap for Space Grotesk here when self-hosting */
+  --font-speech: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Color tokens as Tailwind theme variables */
+/* Light mode tokens — mirror homepage :root */
 @theme {
-  --color-bg: #fff;
-  --color-text: #222;
-  --color-link: #76a7d8;
-  --color-nav: #a52a2a;
-  --color-meta: #777;
-  --color-border: #ddd;
-  --color-code-bg: #f6f8fa;
+  --color-bg: #fbfaf7;
+  --color-text: #1c1c1c;
+  --color-link: #2436e0;
+  --color-nav: #1c1c1c;
+  --color-meta: #6e6e6e;
+  --color-border: #d9d6cf;
+  --color-code-bg: #edeae3;
 }
 
-/* Dark mode token overrides */
-.dark {
-  --color-bg: #1e1e1e;
-  --color-text: #e8e8e8;
-  --color-link: #76a7d8;
-  --color-nav: #cc4444;
-  --color-meta: #888;
-  --color-border: #333;
-  --color-code-bg: #1e1e1e;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #161513;
+    --color-text: #d6d4cd;
+    --color-link: #4353f0;
+    --color-nav: #d6d4cd;
+    --color-meta: #8a887f;
+    --color-border: #33312c;
+    --color-code-bg: #1e1d1a;
+  }
 }
 
-/* Base styles */
 @layer base {
   html {
     background-color: var(--color-bg);
@@ -40,7 +44,8 @@
   }
 
   body {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem;
+    font-family: var(--font-mono);
     background-color: var(--color-bg);
     color: var(--color-text);
     display: grid;
@@ -49,7 +54,20 @@
   }
 
   a {
+    color: var(--color-text);
     text-underline-offset: 0.3rem;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) {
+    a:hover {
+      background: var(--color-link);
+      color: var(--color-bg);
+    }
   }
 
   code {
@@ -66,13 +84,28 @@
   }
 }
 
+/* Prose: mono body, sans headings — matches the homepage two-voice system */
+.prose {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+}
+
+.prose :where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-sans);
+}
+
+/* Align prose link color with the rest of the site */
+.prose a {
+  color: var(--color-text);
+}
+
 /* Suppress Tailwind Typography's backtick pseudo-elements on inline code */
 .prose code::before,
 .prose code::after {
   content: none;
 }
 
-/* Callout blocks — used inside MDX, can't use utility classes */
+/* Callout blocks — used inside MDX */
 .callout {
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
@@ -84,19 +117,23 @@
   border: 1px solid #f0ce47;
 }
 
-.dark .warning-callout {
-  background-color: #2a2500;
-  border-color: #a08c30;
+@media (prefers-color-scheme: dark) {
+  .warning-callout {
+    background-color: #2a2500;
+    border-color: #a08c30;
+  }
 }
 
 /* External link icon — appears after all target="_blank" links */
 a[target="_blank"]::after {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%236e6e6e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
   display: inline-block;
   margin-left: 0.25em;
   vertical-align: middle;
 }
 
-.dark a[target="_blank"]::after {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+@media (prefers-color-scheme: dark) {
+  a[target="_blank"]::after {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%238a887f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+  }
 }

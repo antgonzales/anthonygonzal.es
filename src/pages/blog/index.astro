@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import { formatDate } from "../../lib/formatDate";
+
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BlogLayout
+  title="Writing"
+  description="All posts by Anthony Gonzales — testing, TypeScript, and building for the web."
+>
+  <h1>Writing</h1>
+  <ul class="not-prose list-none p-0 m-0">
+    {
+      posts.map((post) => (
+        <li class="flex justify-between items-baseline gap-6 py-2">
+          <a href={`/blog/${post.id}/`} class="no-underline">
+            {post.data.title}
+          </a>
+          <time
+            datetime={post.data.pubDate.toISOString()}
+            class="italic text-[var(--color-meta)] shrink-0"
+          >
+            {formatDate(post.data.pubDate)}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
+</BlogLayout>

@@ -1,93 +1,158 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { formatDate } from "../lib/formatDate";
-import { getExcerpt } from "../lib/getExcerpt";
-import { getFeaturedPost } from "../lib/getFeaturedPost";
 
-const allPosts = (await getCollection("posts")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// Posts excluded from the homepage writing list.
+// Career announcements and case studies stay in RSS and /blog — just not shown here.
+const EXCLUDED_SLUGS = [
+  "home-platform-launch",
+  "introducing-compass-one",
+  "compass-one-inman-awards",
+  "promoted-to-staff-engineer",
+  "building-a-transaction-dashboard-on-compass",
+  "hello-world",
+];
 
-const latest = getFeaturedPost(allPosts) ?? allPosts[0];
-const rest = allPosts.filter((p) => p !== latest);
+const allPosts = await getCollection("posts");
+const totalCount = allPosts.length;
+
+const writingPosts = allPosts
+  .filter((p) => !EXCLUDED_SLUGS.includes(p.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+// "aug 2026" — UTC month to avoid date-shift from local timezone
+function postDate(date: Date): string {
+  const months = [
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec",
+  ];
+  return `${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
+}
 ---
 
 <BaseLayout
   title="Anthony Gonzales"
-  description="The personal site and blog of Anthony Gonzales, a Product Engineer based in New York."
+  description="Anthony Gonzales is a Staff Frontend Engineer in New York."
+  homePage
 >
-  <!-- Posts -->
-  <section itemscope itemtype="https://schema.org/Blog">
-    {
-      latest ? (
-        <article
-          itemscope
-          itemtype="https://schema.org/BlogPosting"
-          class="mb-12"
-        >
-          {latest.data.featured ? (
-            <p class="mt-0 mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-meta)]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="inline-block w-[1em] h-[1em] mr-1 align-middle"
-              >
-                <path d="M16 3a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-.187 1.633l-4.52 2.26V15a1 1 0 0 1-.293.707l-2 2A1 1 0 0 1 12 17v-4.586l-3.293 3.293a1 1 0 0 1-1.414-1.414L10.586 11H6a1 1 0 0 1-.707-1.707l2-2A1 1 0 0 1 8 7h3.814l2.26-4.52A1 1 0 0 1 15.707 3z" />
-              </svg>
-              Pinned
-            </p>
-          ) : null}
-          <h2 class="mt-0 mb-2">
-            <a
-              href={`/blog/${latest.id}/`}
-              class="no-underline"
-              itemprop="url headline"
-            >
-              {latest.data.title}
-            </a>
-          </h2>
-          <time
-            datetime={latest.data.pubDate.toISOString()}
-            class="italic text-[var(--color-meta)]"
-            itemprop="datePublished"
-          >
-            {formatDate(latest.data.pubDate)}
-          </time>
-          {latest.data.heroImage ? (
-            <img
-              src={latest.data.heroImage.src}
-              alt={latest.data.title}
-              class="w-full rounded-sm my-4"
-            />
-          ) : null}
-          <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
-          <a href={`/blog/${latest.id}/`} class="no-underline">
-            Read more &rarr;
-          </a>
-        </article>
-      ) : null
-    }
+  <!-- Viewport hero -->
+  <div class="flex flex-col min-h-[calc(100svh-46px)]">
+    <div class="flex-1 w-full content-center pb-[8vh] grid grid-cols-12 gap-x-6 max-w-[74rem] mx-auto px-5 max-[780px]:grid-cols-1 max-[780px]:gap-x-0">
+      <h1 class="col-start-1 col-end-7 font-[var(--font-speech)] text-[clamp(26px,3.2vw,42px)] font-medium leading-[1.25] tracking-[-0.02em] max-[780px]:col-span-full">
+        <b>Anthony Gonzales</b> is a Staff Frontend Engineer in New York. He
+        builds <a href="#record" class="decoration-2 underline-offset-4">frontend platforms</a>
+        &mdash; lately, one codebase that ships as four real-estate brands &mdash;
+        <a href="/blog/" class="decoration-2 underline-offset-4">writes</a>
+        about testing, boundaries, and the contracts between them, and
+        <!-- link to /reading when it exists -->reads
+        twelve books a year, slowly, with notes.
+      </h1>
+      <figure class="col-start-8 col-end-13 self-center m-0 max-[780px]:hidden">
+        <img
+          src="https://placehold.co/440x550/d9d6cf/6e6e6e?text=hero"
+          width="440"
+          height="550"
+          alt="Placeholder — replace with dithered portrait"
+          class="block w-full h-auto [image-rendering:pixelated] border border-[var(--color-border)]"
+        />
+        <figcaption class="mt-[0.4rem] text-[12px] text-[var(--color-meta)]">
+          portrait &middot; Brooklyn, NY
+        </figcaption>
+      </figure>
+    </div>
+  </div>
 
-    {
-      rest.length > 0 ? (
-        <ul class="not-prose list-none p-0 m-0">
-          {rest.map((post) => (
-            <li class="flex justify-between items-baseline gap-6 py-2">
-              <a href={`/blog/${post.id}/`} class="no-underline">
-                {post.data.title}
-              </a>
-              <time
-                datetime={post.data.pubDate.toISOString()}
-                class="italic text-[var(--color-meta)] shrink-0"
-              >
-                {formatDate(post.data.pubDate)}
-              </time>
-            </li>
-          ))}
-        </ul>
-      ) : null
-    }
+  <!-- Record section -->
+  <section id="record">
+    <h2 class="sticky top-0 z-[2] bg-[var(--color-text)] text-[var(--color-bg)]">
+      <span class="flex max-w-[74rem] mx-auto px-5 pt-[8px] pb-[10px] justify-between items-baseline font-[var(--font-speech)] text-[20px] font-medium tracking-[-0.01em] lowercase">
+        record
+        <span class="font-[var(--font-mono)] text-[11px] font-normal tracking-[0.06em]">
+          <!-- case studies → link: omit until /work exists -->
+        </span>
+      </span>
+    </h2>
+    <div class="grid grid-cols-12 gap-x-6 max-w-[74rem] mx-auto px-5 pt-7 pb-[4.5rem] max-[780px]:grid-cols-1 max-[780px]:gap-x-0">
+      <table class="col-start-1 col-end-9 border-collapse max-[780px]:col-span-full">
+        <tr>
+          <td class="align-top py-[0.2rem] w-[6ch] text-[var(--color-meta)] whitespace-nowrap">2026</td>
+          <td class="align-top py-[0.2rem] pl-[1ch]">
+            <a href="/blog/home-platform-launch/">Home Platform</a>
+            <span class="text-[var(--color-meta)]">&middot; rollout across four Compass brands</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="align-top py-[0.2rem] w-[6ch] text-[var(--color-meta)] whitespace-nowrap">2025</td>
+          <td class="align-top py-[0.2rem] pl-[1ch]">
+            Promoted to Staff Engineer <span class="text-[var(--color-meta)]">&middot; Compass</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="align-top py-[0.2rem] w-[6ch] text-[var(--color-meta)] whitespace-nowrap"></td>
+          <td class="align-top py-[0.2rem] pl-[1ch]">
+            Inman Innovator Award <span class="text-[var(--color-meta)]">&middot; Compass One</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="align-top py-[0.2rem] w-[6ch] text-[var(--color-meta)] whitespace-nowrap"></td>
+          <td class="align-top py-[0.2rem] pl-[1ch]">
+            <a href="/blog/introducing-compass-one/">Compass One</a>
+            <span class="text-[var(--color-meta)]">&middot; client dashboard, launched</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="align-top py-[0.2rem] w-[6ch] text-[var(--color-meta)] whitespace-nowrap">&mdash;</td>
+          <td class="align-top py-[0.2rem] pl-[1ch]">
+            <a href="https://bettertests.js.org" target="_blank" rel="noopener">bettertests.js.org</a>
+            <span class="text-[var(--color-meta)]">&middot; open source, ongoing</span>
+          </td>
+        </tr>
+      </table>
+    </div>
   </section>
+
+  <!-- Writing section -->
+  <section id="writing">
+    <h2 class="sticky top-0 z-[2] bg-[var(--color-text)] text-[var(--color-bg)]">
+      <span class="flex max-w-[74rem] mx-auto px-5 pt-[8px] pb-[10px] justify-between items-baseline font-[var(--font-speech)] text-[20px] font-medium tracking-[-0.01em] lowercase">
+        writing
+        <span class="font-[var(--font-mono)] text-[11px] font-normal tracking-[0.06em]">
+          <a href="/blog/" class="text-[var(--color-bg)] underline">archive ({totalCount}) &rarr;</a>
+        </span>
+      </span>
+    </h2>
+    <div class="grid grid-cols-12 gap-x-6 max-w-[74rem] mx-auto px-5 pt-7 pb-[4.5rem] max-[780px]:grid-cols-1 max-[780px]:gap-x-0">
+      <ul class="col-start-1 col-end-9 list-none p-0 max-[780px]:col-span-full">
+        {
+          writingPosts.map((post) => (
+            <li class="flex gap-[1ch] py-[0.2rem]">
+              <span class="text-[var(--color-meta)] whitespace-nowrap w-[8ch] shrink-0">
+                {postDate(post.data.pubDate)}
+              </span>
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <footer class="border-t border-[var(--color-border)]">
+    <div class="grid grid-cols-12 gap-x-6 max-w-[74rem] mx-auto px-5 pt-4 pb-10 text-[13px] text-[var(--color-meta)] max-[780px]:grid-cols-1 max-[780px]:gap-x-0">
+      <div class="col-start-1 col-end-8 max-[780px]:col-span-full">
+        <p class="my-1">this page: __PAGE_KB__ KiB &mdash; no client-side javascript.</p>
+      </div>
+      <div class="col-start-8 col-end-13 justify-self-end text-right max-[780px]:col-span-full max-[780px]:justify-self-start max-[780px]:text-left">
+        <p class="my-1">
+          <a href="https://github.com/antgonzales" target="_blank" rel="noopener" class="text-inherit">github</a>
+          &middot;
+          <a href="https://www.linkedin.com/in/anthony-gonzales-5a06b994" target="_blank" rel="noopener" class="text-inherit">linkedin</a>
+          &middot;
+          <a href="/rss.xml" class="text-inherit">rss</a>
+        </p>
+        <p class="my-1">40.85&deg;N 73.94&deg;W &middot; est&period; 2014 &middot; v2.6.0</p>
+      </div>
+    </div>
+  </footer>
 </BaseLayout>

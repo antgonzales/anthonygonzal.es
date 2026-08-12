@@ -1,0 +1,30 @@
+---
+interface Props {
+  homePage?: boolean;
+}
+
+const { homePage = false } = Astro.props;
+---
+
+<header class="pt-8 pb-4">
+  <div class="max-w-[74rem] mx-auto px-5 flex items-baseline">
+    <nav class="flex items-baseline text-[var(--color-meta)]">
+      {
+        !homePage && (
+          <a
+            href="/"
+            class="no-underline lowercase text-[15px] text-[var(--color-nav)] inline-block py-[10px] px-[10px] hover:bg-[var(--color-link)] hover:text-[var(--color-bg)]"
+          >
+            Anthony Gonzales
+          </a>
+        )
+      }
+      <a
+        href="/blog/"
+        class="no-underline lowercase text-[15px] text-[var(--color-meta)] inline-block py-[10px] px-[10px] hover:bg-[var(--color-link)] hover:text-[var(--color-bg)]"
+      >
+        writing
+      </a>
+    </nav>
+  </div>
+</header>
