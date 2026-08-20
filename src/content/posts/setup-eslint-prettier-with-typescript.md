@@ -1,6 +1,6 @@
 ---
 title: "Setup Prettier and ESLint with Typescript"
-description: "A config that stays out of the way."
+description: "Learn how to leverage ESLint, Prettier with Typescript to reduce bugs and nitpicky reviews. I'll walk you through setup, explain the differences"
 pubDate: 2019-04-01
 updatedDate: 2023-12-20
 ---

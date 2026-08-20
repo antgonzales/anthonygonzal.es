@@ -1,0 +1,22 @@
+{
+  "siteName": "Anthony Gonzales",
+  "siteDescription": "Anthony Gonzales is a Staff Frontend Engineer in New York.",
+  "nav": [
+    { "label": "Writing", "href": "/blog/" },
+    { "label": "Reading", "href": "/reading/" }
+  ],
+  "elsewhere": [
+    {
+      "label": "github.com/antgonzales",
+      "short": "GitHub",
+      "href": "https://github.com/antgonzales"
+    },
+    {
+      "label": "linkedin.com/in/anthony-gonzales",
+      "short": "LinkedIn",
+      "href": "https://www.linkedin.com/in/anthony-gonzales-5a06b994"
+    },
+    { "label": "RSS", "short": "RSS", "href": "/rss.xml" }
+  ],
+  "aboutBlurb": "Anthony Gonzales is a Staff Frontend Engineer at Compass in New York. He writes about frontend systems, and reads slowly, with notes."
+}

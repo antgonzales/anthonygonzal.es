@@ -1,5 +1,6 @@
 ---
-import { elsewhere, siteName } from "../data/site";
+// The footer uses each link's `short` form; the rail uses `label`.
+import { elsewhere, siteName } from "../data/site.json";
 
 interface Props {
   /** The homepage has no rail, so it carries the Elsewhere links here. */
@@ -16,15 +17,16 @@ const year = new Date().getFullYear();
   <span>
     © {year}
     {siteName}{
-      links &&
-        elsewhere.map((item) => (
-          <>
-            {" · "}
-            <a href={item.href} class="text-inherit">
-              {item.short}
-            </a>
-          </>
-        ))
+      links
+        ? elsewhere.map((item) => (
+            <>
+              {" · "}
+              <a href={item.href} class="text-inherit">
+                {item.short}
+              </a>
+            </>
+          ))
+        : null
     }
   </span>
   <span>

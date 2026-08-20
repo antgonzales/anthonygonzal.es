@@ -1,6 +1,6 @@
 ---
 title: "Testing components that make API calls"
-description: "Mock the network boundary, not your own modules."
+description: "Learn how to test API calls in components with examples in React and Jest. Write tests flexible enough for change"
 pubDate: 2020-05-25
 updatedDate: 2024-03-03
 heroImage: ../../assets/img/post-boxes-on-brick-compressed.jpg
@@ -41,7 +41,7 @@ test('loads and displays greeting', async () => {
 })
 ```
 
-<div class="callout warning-callout">
+<div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
 Update: Testing Library recommends <a href="https://mswjs.io" rel="noopener nofollow" target="_blank">Mock Service Worker</a> and no longer maintains the example above.
 </div>
 

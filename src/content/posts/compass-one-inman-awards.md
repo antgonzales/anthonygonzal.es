@@ -1,6 +1,6 @@
 ---
 title: "Compass One Wins Inman Innovator Award 2025"
-description: "The client dashboard takes an industry award."
+description: "Compass One's real estate dashboard has been recognized with an Inman Innovator Award for cutting-edge technology and user-friendly design."
 pubDate: 2025-08-01
 ---
 

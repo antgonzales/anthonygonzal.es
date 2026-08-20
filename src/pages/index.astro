@@ -5,8 +5,10 @@ import Entry from "../components/Entry.astro";
 import SectionLabel from "../components/SectionLabel.astro";
 import { entryDate, getTechnicalPosts, readingTime } from "../lib/posts";
 import { currentlyReading, finishedBooks } from "../lib/reading";
-import { record } from "../data/record";
-import { siteDescription } from "../data/site";
+// Hand-maintained milestones, not content. Home Platform and Compass One
+// point at their launch posts until /work and its case studies exist.
+import record from "../data/record.json";
+import { siteDescription } from "../data/site.json";
 
 const latest = getTechnicalPosts(await getCollection("posts"), 4);
 const books = await getCollection("reading");
@@ -63,9 +65,9 @@ const finished = finishedBooks(books, 3);
 
   <SectionLabel>Reading</SectionLabel>
   {
-    current && (
+    current ? (
       <Entry date="NOW" title={current.data.title} who={current.data.author} />
-    )
+    ) : null
   }
   {
     finished.map((book) => (

@@ -1,6 +1,6 @@
 ---
 title: "How to improve Git monorepo performance"
-description: "Sparse checkout, fsmonitor, and the settings that matter past a few thousand files."
+description: "Optimize Git in monorepos with an optimized Git config. Follow clear steps to boost CPU performance and workflow efficiency"
 pubDate: 2023-12-15
 updatedDate: 2024-05-04
 ---
@@ -9,7 +9,7 @@ updatedDate: 2024-05-04
 
 ## Quickstart
 
-<div class="callout warning-callout">
+<div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
   <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in this tutorial on your main branch. <code>index.skipHash</code> causes errors on older Git versions.
 </div>
 

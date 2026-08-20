@@ -1,198 +1,28 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* ---------------------------------------------------------------------------
-   v4 design tokens.
+   v4 design tokens — the whole stylesheet.
 
    Two voices: serif for speech (headlines, titles, deks, prose), mono for
    records (dates, nav, labels, footer). Zero webfonts — both stacks are
    system faces. Never hardcode a family in a component; use the tokens.
 
-   Colors flip for dark mode at the variable level below. There are no `dark:`
-   variants anywhere in this codebase.
+   Each color carries both modes in one `light-dark()` value, so there is no
+   dark-mode block and no `dark:` variant anywhere in this codebase. The
+   switch is `scheme-light-dark` on <html>, which sets `color-scheme`.
+
+   Everything else is a utility in the markup. Post bodies are styled through
+   Tailwind Typography's `prose-*` variants — see Prose.astro.
 --------------------------------------------------------------------------- */
 @theme {
   --font-serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
 
-  --color-ink: #1f1e1c;
-  --color-faint: #6e6c66;
-  --color-paper: #f7f5f0;
-  --color-rule: #dcd9d1;
+  --color-ink: light-dark(#1f1e1c, #d8d5cd);
+  --color-faint: light-dark(#6e6c66, #8b887f);
+  --color-paper: light-dark(#f7f5f0, #171614);
+  --color-rule: light-dark(#dcd9d1, #33312c);
 
   /* Rail stacks below main under 880px, per spec. */
   --breakpoint-rail: 881px;
-}
-
-/* Unlayered, so it wins over the theme layer without a `dark:` variant. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-ink: #d8d5cd;
-    --color-faint: #8b887f;
-    --color-paper: #171614;
-    --color-rule: #33312c;
-  }
-}
-
-@layer base {
-  html {
-    background: var(--color-paper);
-  }
-
-  body {
-    color: var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: 14px;
-    line-height: 1.6;
-    font-variant-numeric: tabular-nums;
-  }
-
-  a {
-    color: var(--color-ink);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: var(--color-faint);
-  }
-
-  a:hover {
-    text-decoration-color: var(--color-ink);
-    text-decoration-thickness: 2px;
-  }
-
-  a:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Post body.
-
-   Markdown output cannot take utility classes, so prose is styled by element.
-   Code blocks are hairline-bordered paper panels — no ink blocks; inline code
-   is marked by the mono face alone.
---------------------------------------------------------------------------- */
-.post-body p,
-.post-body ul,
-.post-body ol,
-.post-body blockquote {
-  font-family: var(--font-serif);
-  font-size: 17.5px;
-  line-height: 1.68;
-  margin: 0 0 1.3rem;
-  max-width: 60ch;
-}
-
-.post-body ul,
-.post-body ol {
-  padding-left: 1.5rem;
-}
-
-.post-body ul {
-  list-style: disc;
-}
-
-.post-body ol {
-  list-style: decimal;
-}
-
-.post-body li {
-  margin-bottom: 0.4rem;
-}
-
-.post-body li > ul,
-.post-body li > ol {
-  margin: 0.4rem 0 0;
-}
-
-.post-body blockquote {
-  border-left: 1px solid var(--color-rule);
-  padding-left: 1.25rem;
-  color: var(--color-faint);
-}
-
-.post-body h2 {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 400;
-  margin: 2.75rem 0 1rem;
-}
-
-.post-body h3 {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  font-weight: 400;
-  margin: 2rem 0 0.75rem;
-}
-
-.post-body h4 {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 400;
-  margin: 2rem 0 0.75rem;
-}
-
-.post-body code {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
-
-.post-body pre {
-  border: 1px solid var(--color-rule);
-  padding: 1rem 1.25rem;
-  margin: 1.75rem 0;
-  overflow-x: auto;
-  font-size: 13.5px;
-  line-height: 1.6;
-}
-
-.post-body pre code {
-  font-size: inherit;
-}
-
-.post-body img {
-  margin: 1.75rem 0;
-}
-
-.post-body hr {
-  border: 0;
-  border-top: 1px solid var(--color-rule);
-  margin: 2.5rem 0;
-  max-width: 60ch;
-}
-
-.post-body table {
-  font-size: 13px;
-  border-collapse: collapse;
-  margin: 1.75rem 0;
-}
-
-.post-body th,
-.post-body td {
-  border-bottom: 1px solid var(--color-rule);
-  padding: 0.5rem 1.5rem 0.5rem 0;
-  text-align: left;
-  font-weight: 400;
-}
-
-.post-body th {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-/* Callout blocks — used inside MDX, can't take utility classes. */
-.post-body .callout {
-  border: 1px solid var(--color-rule);
-  padding: 1rem 1.25rem;
-  margin: 1.75rem 0;
-  max-width: 60ch;
-}
-
-.post-body .callout > :last-child {
-  margin-bottom: 0;
 }

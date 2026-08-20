@@ -1,6 +1,6 @@
 ---
 title: "How to test React Router components with Testing Library"
-description: "Rendering routed components under test without mocking the router away."
+description: "Discover why avoiding mocks in Jest enhances testing. Learn strategies for resilient, standards-based tests that improve code maintainability and reliability."
 pubDate: 2024-06-03
 updatedDate: 2024-09-29
 ---

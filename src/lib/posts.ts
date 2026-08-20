@@ -3,15 +3,9 @@
  * URLs — they are only held out of the homepage "Latest" list, which is for
  * technical writing. Case-study announcements move to /work when it ships.
  *
- * This is the one place to edit the exclusion.
+ * src/data/announcements.json is the one place to edit the exclusion.
  */
-export const announcementSlugs = [
-  "home-platform-launch",
-  "promoted-to-staff-engineer",
-  "compass-one-inman-awards",
-  "introducing-compass-one",
-  "building-a-transaction-dashboard-on-compass",
-];
+import announcementSlugs from "../data/announcements.json";
 
 interface PostLike {
   id: string;

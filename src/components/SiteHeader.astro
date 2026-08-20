@@ -1,5 +1,7 @@
 ---
-import { nav, siteName } from "../data/site";
+// `nav` is the header order. Add Work here when case studies ship:
+//   { "label": "Work", "href": "/work/" }  — goes first, before Writing.
+import { nav, siteName } from "../data/site.json";
 
 const path = Astro.url.pathname;
 ---
@@ -14,22 +16,27 @@ const path = Astro.url.pathname;
   >
   <nav class="text-[13px]">
     {
-      nav.map((item, i) => (
-        <>
-          {i > 0 && <span class="mx-[1ch] text-faint">/</span>}
-          <a
-            href={item.href}
-            class:list={[
-              "px-[2px] py-2 no-underline hover:underline",
-              path.startsWith(item.href) &&
-                "underline [text-underline-offset:6px]",
-            ]}
-            aria-current={path.startsWith(item.href) ? "page" : undefined}
-          >
-            {item.label}
-          </a>
-        </>
-      ))
+      nav.map((item, i) => {
+        const current = path.startsWith(item.href);
+        return (
+          <>
+            {i > 0 ? <span class="mx-[1ch] text-faint">/</span> : null}
+            <a
+              href={item.href}
+              class:list={[
+                "px-[2px] py-2 no-underline hover:underline",
+                // The current section is the one nav item already wearing the
+                // underline. It sits at the site's 3px offset like every other
+                // link — a custom offset here detached it from the text on hover.
+                current ? "underline" : null,
+              ]}
+              aria-current={current ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </>
+        );
+      })
     }
   </nav>
 </header>

@@ -1,6 +1,5 @@
 ---
 title: "Hello World!"
-description: "The obligatory first post."
 pubDate: 2014-04-17
 updatedDate: 2026-04-19
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Introducing Compass One"
-description: "A live view of the transaction for buyers and sellers."
+description: "As Frontend Lead for Compass One, I helped build the first real estate client dashboard that combines major platform products into an industry-first solution."
 pubDate: 2025-02-10
 heroImage: ../../assets/img/compass-one.webp
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Building a transaction dashboard on Compass"
-description: "Turning a transaction’s scattered state into one view agents and clients read the same way."
+description: "Case study: Leading engineering teams to build Compass One, a real estate transaction dashboard that boosted client engagement by 43% with 4.5/5 satisfaction."
 pubDate: 2025-03-25
 heroImage: ../../assets/img/compass-one.webp
 ---

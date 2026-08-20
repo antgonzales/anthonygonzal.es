@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import {
-  announcementSlugs,
   byNewest,
   entryDate,
   getTechnicalPosts,
@@ -42,10 +41,6 @@ describe("getTechnicalPosts()", () => {
     expect(getTechnicalPosts(posts, 1).map((p) => p.id)).toEqual([
       "stop-branching-on-environment",
     ]);
-  });
-
-  it("keeps the exclusion list in one place", () => {
-    expect(announcementSlugs).toContain("promoted-to-staff-engineer");
   });
 });
 

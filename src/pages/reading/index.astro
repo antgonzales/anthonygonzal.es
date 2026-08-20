@@ -24,7 +24,7 @@ const finished = finishedBooks(books);
   </div>
 
   {
-    current && (
+    current ? (
       <>
         <SectionLabel>Currently</SectionLabel>
         <Entry
@@ -34,7 +34,7 @@ const finished = finishedBooks(books);
           href={current.data.note ? `/blog/${current.data.note}/` : undefined}
         />
       </>
-    )
+    ) : null
   }
 
   <SectionLabel>Finished</SectionLabel>

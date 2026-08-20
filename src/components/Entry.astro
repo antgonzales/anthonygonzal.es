@@ -9,7 +9,8 @@ interface Props {
   /** Second, faint date line. Omitted for year-only rows. */
   year?: string;
   title: string;
-  href?: string;
+  /** Record entries carry an explicit null when there is nothing to link to. */
+  href?: string | null;
   /** Serif sub-line, in faint. */
   dek?: string;
   /** Mono sub-line, in faint — author, role, context. */
@@ -31,7 +32,7 @@ const { date, year, title, href, dek, who, meta } = Astro.props;
 >
   <div class="text-xs leading-[1.7] uppercase">
     {date}
-    {year && <span class="block text-faint">{year}</span>}
+    {year ? <span class="block text-faint">{year}</span> : null}
   </div>
   <div>
     <h3 class="font-serif text-xl leading-tight font-normal">
@@ -46,19 +47,19 @@ const { date, year, title, href, dek, who, meta } = Astro.props;
       }
     </h3>
     {
-      dek && (
+      dek ? (
         <p class="mt-1.5 max-w-[52ch] font-serif text-[15px] leading-[1.55] text-faint">
           {dek}
         </p>
-      )
+      ) : null
     }
-    {who && <p class="mt-1 text-[13px] text-faint">{who}</p>}
+    {who ? <p class="mt-1 text-[13px] text-faint">{who}</p> : null}
   </div>
   {
-    meta && (
+    meta ? (
       <div class="hidden pt-1 text-xs whitespace-nowrap text-faint rail:block">
         {meta}
       </div>
-    )
+    ) : null
   }
 </article>

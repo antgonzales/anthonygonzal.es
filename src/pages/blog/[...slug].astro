@@ -11,8 +11,10 @@ export async function getStaticPaths() {
       params: { slug: post.id },
       props: {
         post,
-        previous: previous && { id: previous.id, title: previous.data.title },
-        next: next && { id: next.id, title: next.data.title },
+        previous: previous
+          ? { id: previous.id, title: previous.data.title }
+          : undefined,
+        next: next ? { id: next.id, title: next.data.title } : undefined,
       },
     };
   });

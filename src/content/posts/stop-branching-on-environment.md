@@ -1,6 +1,6 @@
 ---
 title: "Stop checking NODE_ENV in your frontend"
-description: "Why environment branching in the browser eventually chooses wrong, and the build-time contract that replaces it."
+description: "Why checking process.env.NODE_ENV or hostname in your frontend is an antipattern, and how to let your build process resolve the right value instead."
 pubDate: 2026-08-10
 ---
 
