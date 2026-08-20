@@ -1,14 +1,15 @@
 interface BookLike {
-  data: { started: Date; finished?: Date };
+  data: { finished?: Date };
 }
 
-/** The book with no finish date. There should be at most one. */
+/**
+ * The book with no finish date. There should be at most one; the yaml is
+ * newest-first, so the first match wins.
+ */
 export function currentlyReading<T extends BookLike>(
   books: T[],
 ): T | undefined {
-  return books
-    .filter((book) => !book.data.finished)
-    .sort((a, b) => b.data.started.valueOf() - a.data.started.valueOf())[0];
+  return books.find((book) => !book.data.finished);
 }
 
 /** Finished books, most recently finished first. */

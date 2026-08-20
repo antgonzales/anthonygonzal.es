@@ -1,10 +1,8 @@
 ---
 title: "Launching Home Platform"
-description: "I served as Frontend Engineering Lead at Compass on Home Platform, rolling out across Coldwell Banker Realty, Corcoran, Sotheby's International Realty, and @properties."
+description: "Home Platform rolls out across four Compass brands."
 pubDate: 2026-07-07
 heroImage: ../../assets/img/home-platform.webp
-tags: []
-featured: true
 ---
 
 I'm incredibly proud to share that [Home Platform](https://homeplatform.com),

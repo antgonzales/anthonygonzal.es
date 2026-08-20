@@ -10,10 +10,11 @@ interface Props {
   pubDate: Date;
   updatedDate?: Date;
   heroImage?: ImageMetadata;
-  tags?: string[];
+  previous?: { id: string; title: string };
+  next?: { id: string; title: string };
 }
 
-const { title, description, pubDate, updatedDate, heroImage, tags } =
+const { title, description, pubDate, updatedDate, heroImage, previous, next } =
   Astro.props;
 ---
 
@@ -23,60 +24,64 @@ const { title, description, pubDate, updatedDate, heroImage, tags } =
   pubDate={pubDate}
   updatedDate={updatedDate}
   ogImage={heroImage?.src}
+  rail
 >
-  <article itemscope itemtype="https://schema.org/BlogPosting" class="pt-7">
-    <!-- Post header -->
-    <header class="mb-6">
-      <h1 itemprop="headline" class="mb-2">
-        {title}
-      </h1>
-      <div class="text-[var(--color-meta)] italic">
-        <time itemprop="datePublished" datetime={pubDate.toISOString()}>
-          {formatDate(pubDate)}
-        </time>
-        {
-          updatedDate && (
-            <span class="italic">
-              &ensp;&middot;&ensp; Updated{" "}
-              <time
-                itemprop="dateModified"
-                datetime={updatedDate.toISOString()}
-              >
-                {formatDate(updatedDate)}
-              </time>
-            </span>
-          )
-        }
-      </div>
+  <article itemscope itemtype="https://schema.org/BlogPosting">
+    <h1
+      itemprop="headline"
+      class="max-w-[24ch] font-serif text-[clamp(28px,3.2vw,38px)] leading-[1.25] font-normal"
+    >
+      {title}
+    </h1>
+    <p class="mt-2.5 mb-9 text-xs tracking-[0.08em] text-faint uppercase">
+      <time itemprop="datePublished" datetime={pubDate.toISOString()}>
+        {formatDate(pubDate)}
+      </time>
       {
-        tags && tags.length > 0 && (
-          <div class="flex flex-wrap gap-2 mt-3">
-            {tags.map((tag) => (
-              <span class="text-[var(--color-meta)] border border-[var(--color-border)] px-2 py-0.5 rounded">
-                {tag}
-              </span>
-            ))}
-          </div>
+        updatedDate && (
+          <>
+            {" · Updated "}
+            <time itemprop="dateModified" datetime={updatedDate.toISOString()}>
+              {formatDate(updatedDate)}
+            </time>
+          </>
         )
       }
-    </header>
+    </p>
 
-    <!-- Hero image -->
     {
       heroImage && (
         <Image
           src={heroImage}
           alt={title}
-          class="w-full h-auto rounded mb-8"
+          class="mb-8 h-auto w-full"
           widths={[400, 800, 1200]}
-          sizes="(max-width: 768px) 100vw, 768px"
+          sizes="(max-width: 880px) 100vw, 640px"
         />
       )
     }
 
-    <!-- Post body -->
-    <div itemprop="articleBody" class="mb-16">
+    <div class="post-body" itemprop="articleBody">
       <slot />
     </div>
+
+    <nav
+      class="mt-12 flex justify-between gap-[2ch] border-t border-rule pt-5 text-[13px]"
+    >
+      {
+        previous ? (
+          <a href={`/blog/${previous.id}/`}>&larr; {previous.title}</a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        next ? (
+          <a href={`/blog/${next.id}/`}>{next.title} &rarr;</a>
+        ) : (
+          <a href="/blog/">All writing &rarr;</a>
+        )
+      }
+    </nav>
   </article>
 </BaseLayout>

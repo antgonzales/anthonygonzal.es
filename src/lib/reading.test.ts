@@ -1,26 +1,24 @@
 import { describe, it, expect } from "vitest";
 import { currentlyReading, finishedBooks } from "./reading";
 
-function makeBook(title: string, started: string, finished?: string) {
+function makeBook(title: string, finished?: string) {
   return {
     id: title,
-    data: {
-      title,
-      started: new Date(started),
-      finished: finished ? new Date(finished) : undefined,
-    },
+    data: { title, finished: finished ? new Date(finished) : undefined },
   };
 }
 
+// Newest first, as the yaml is written.
 const books = [
-  makeBook("Stoner", "2025-02-16", "2025-03-22"),
-  makeBook("The Periodic Table", "2026-08-02"),
-  makeBook("Notes from Underground", "2026-06-14", "2026-07-21"),
+  makeBook("Notes of a Native Son"),
+  makeBook("Angel Down", "2026-08"),
+  makeBook("Dungeon Crawler Carl", "2026-07"),
+  makeBook("Interpreter of Maladies", "2026-07"),
 ];
 
 describe("currentlyReading()", () => {
   it("is the book with no finish date", () => {
-    expect(currentlyReading(books)?.data.title).toBe("The Periodic Table");
+    expect(currentlyReading(books)?.data.title).toBe("Notes of a Native Son");
   });
 
   it("is undefined when everything is finished", () => {
@@ -33,14 +31,23 @@ describe("currentlyReading()", () => {
 describe("finishedBooks()", () => {
   it("orders by finish date, most recent first", () => {
     expect(finishedBooks(books).map((b) => b.data.title)).toEqual([
-      "Notes from Underground",
-      "Stoner",
+      "Angel Down",
+      "Dungeon Crawler Carl",
+      "Interpreter of Maladies",
+    ]);
+  });
+
+  it("is stable within a month, since dates carry no day", () => {
+    const july = finishedBooks(books).slice(1);
+    expect(july.map((b) => b.data.title)).toEqual([
+      "Dungeon Crawler Carl",
+      "Interpreter of Maladies",
     ]);
   });
 
   it("takes the most recent N when limited", () => {
     expect(finishedBooks(books, 1).map((b) => b.data.title)).toEqual([
-      "Notes from Underground",
+      "Angel Down",
     ]);
   });
 });
