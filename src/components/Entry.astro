@@ -1,0 +1,64 @@
+---
+/**
+ * The one entry grammar: [72px date][content][optional right meta].
+ * Used by the homepage lists, the writing index, and the reading page.
+ */
+interface Props {
+  /** First date line — "AUG 10", "2026", or "NOW". */
+  date: string;
+  /** Second, faint date line. Omitted for year-only rows. */
+  year?: string;
+  title: string;
+  href?: string;
+  /** Serif sub-line, in faint. */
+  dek?: string;
+  /** Mono sub-line, in faint — author, role, context. */
+  who?: string;
+  /** Right-hand column. Hidden below 880px. */
+  meta?: string;
+}
+
+const { date, year, title, href, dek, who, meta } = Astro.props;
+---
+
+<article
+  class:list={[
+    "grid gap-x-6 border-b border-rule py-[1.4rem]",
+    meta
+      ? "grid-cols-[72px_1fr] rail:grid-cols-[72px_1fr_auto]"
+      : "grid-cols-[72px_1fr]",
+  ]}
+>
+  <div class="text-xs leading-[1.7] uppercase">
+    {date}
+    {year && <span class="block text-faint">{year}</span>}
+  </div>
+  <div>
+    <h3 class="font-serif text-xl leading-tight font-normal">
+      {
+        href ? (
+          <a href={href} class="no-underline hover:underline">
+            {title}
+          </a>
+        ) : (
+          title
+        )
+      }
+    </h3>
+    {
+      dek && (
+        <p class="mt-1.5 max-w-[52ch] font-serif text-[15px] leading-[1.55] text-faint">
+          {dek}
+        </p>
+      )
+    }
+    {who && <p class="mt-1 text-[13px] text-faint">{who}</p>}
+  </div>
+  {
+    meta && (
+      <div class="hidden pt-1 text-xs whitespace-nowrap text-faint rail:block">
+        {meta}
+      </div>
+    )
+  }
+</article>

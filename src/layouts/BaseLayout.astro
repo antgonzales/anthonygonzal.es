@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
-import ThemeToggle from "../components/ThemeToggle.astro";
-import { Font } from "astro:assets";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Rail from "../components/Rail.astro";
+import { siteName } from "../data/site";
 
 interface Props {
   title: string;
@@ -9,12 +11,20 @@ interface Props {
   ogImage?: string;
   pubDate?: Date;
   updatedDate?: Date;
+  /** Interior pages get the two-column layout with the rail. */
+  rail?: boolean;
 }
 
-const { title, description, ogImage, pubDate, updatedDate } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  pubDate,
+  updatedDate,
+  rail = false,
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteName = "Anthony Gonzales";
-const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
+const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 ---
 
 <!doctype html>
@@ -22,8 +32,6 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Font cssVariable="--font-geist" preload />
-    <Font cssVariable="--font-geist-mono" preload />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link
@@ -78,47 +86,23 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
         <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
       )
     }
-
-    <!-- No-flash dark mode init — must run before first paint -->
-    <script is:inline>
-      (function () {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        if (stored === "dark" || (!stored && prefersDark)) {
-          document.documentElement.classList.add("dark");
-        }
-      })();
-    </script>
   </head>
-  <body>
-    <!-- Nav -->
-    <header class="mt-10 mb-10">
-      <div
-        class="max-w-3xl mx-auto px-6 flex justify-between items-center w-full"
-      >
-        <a
-          href="/"
-          aria-label="Anthony Gonzales home"
-          class="text-[var(--color-nav)] leading-tight no-underline hover:no-underline"
-        >
-          <span>Anthony Gonzales</span>
-        </a>
-
-        <!-- Nav links -->
-        <nav class="flex items-center gap-4 p-0 m-0">
-          <a href="/about/" class="text-[var(--color-text)]">About</a>
-          <ThemeToggle />
-        </nav>
-      </div>
-    </header>
-
-    <!-- Main content -->
-    <main
-      class="prose prose-neutral dark:prose-invert prose-headings:font-normal max-w-3xl mx-auto px-6 pb-24 w-full"
-    >
-      <slot />
-    </main>
+  <body class="mx-auto max-w-[69rem] px-5 md:px-8 lg:px-12">
+    <SiteHeader />
+    {
+      rail ? (
+        <div class="grid grid-cols-1 gap-x-12 pt-12 rail:grid-cols-[1fr_272px]">
+          <main class="min-w-0">
+            <slot />
+          </main>
+          <Rail />
+        </div>
+      ) : (
+        <main class="pt-12">
+          <slot />
+        </main>
+      )
+    }
+    <SiteFooter links={!rail} />
   </body>
 </html>

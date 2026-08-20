@@ -1,9 +1,5 @@
 // @ts-check
-import {
-  defineConfig,
-  passthroughImageService,
-  fontProviders,
-} from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import rehypeExternalLinks from "rehype-external-links";
@@ -17,25 +13,10 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
-  fonts: [
-    {
-      provider: fontProviders.fontsource(),
-      name: "Inter",
-      cssVariable: "--font-geist",
-      weights: [400, 500, 700],
-      styles: ["normal", "italic"],
-      display: "optional",
-    },
-    {
-      provider: fontProviders.fontsource(),
-      name: "JetBrains Mono",
-      cssVariable: "--font-geist-mono",
-      weights: [400],
-      styles: ["normal"],
-      display: "optional",
-    },
-  ],
   markdown: {
+    // v4 code blocks are hairline-bordered paper panels — no ink blocks and
+    // no accent color, so Shiki's themed output is off.
+    syntaxHighlight: false,
     rehypePlugins: [
       [rehypeExternalLinks, { rel: ["noopener"], target: "_blank" }],
     ],

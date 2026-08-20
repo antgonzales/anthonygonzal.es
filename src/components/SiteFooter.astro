@@ -1,0 +1,35 @@
+---
+import { elsewhere, siteName } from "../data/site";
+
+interface Props {
+  /** The homepage has no rail, so it carries the Elsewhere links here. */
+  links?: boolean;
+}
+
+const { links = false } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="mt-16 flex justify-between gap-[2ch] border-t border-rule pt-5 pb-10 text-xs text-faint"
+>
+  <span>
+    © {year}
+    {siteName}{
+      links &&
+        elsewhere.map((item) => (
+          <>
+            {" · "}
+            <a href={item.href} class="text-inherit">
+              {item.short}
+            </a>
+          </>
+        ))
+    }
+  </span>
+  <span>
+    Built with <a href="https://astro.build" class="text-inherit">Astro</a> · Hosted
+    on <a href="https://pages.cloudflare.com" class="text-inherit">Cloudflare</a
+    >
+  </span>
+</footer>

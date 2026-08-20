@@ -1,63 +1,65 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
-/* Class-based dark mode — toggled by ThemeToggle */
-@variant dark (&:where(.dark, .dark *));
+/* ---------------------------------------------------------------------------
+   v4 design tokens.
 
-/* Register Astro font CSS variables with Tailwind */
-@theme inline {
-  --font-sans: var(--font-geist), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-}
+   Two voices: serif for speech (headlines, titles, deks, prose), mono for
+   records (dates, nav, labels, footer). Zero webfonts — both stacks are
+   system faces. Never hardcode a family in a component; use the tokens.
 
-/* Color tokens as Tailwind theme variables */
+   Colors flip for dark mode at the variable level below. There are no `dark:`
+   variants anywhere in this codebase.
+--------------------------------------------------------------------------- */
 @theme {
-  --color-bg: #fff;
-  --color-text: #222;
-  --color-link: #76a7d8;
-  --color-nav: #a52a2a;
-  --color-meta: #777;
-  --color-border: #ddd;
-  --color-code-bg: #f6f8fa;
+  --font-serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+
+  --color-ink: #1f1e1c;
+  --color-faint: #6e6c66;
+  --color-paper: #f7f5f0;
+  --color-rule: #dcd9d1;
+
+  /* Rail stacks below main under 880px, per spec. */
+  --breakpoint-rail: 881px;
 }
 
-/* Dark mode token overrides */
-.dark {
-  --color-bg: #1e1e1e;
-  --color-text: #e8e8e8;
-  --color-link: #76a7d8;
-  --color-nav: #cc4444;
-  --color-meta: #888;
-  --color-border: #333;
-  --color-code-bg: #1e1e1e;
+/* Unlayered, so it wins over the theme layer without a `dark:` variant. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #d8d5cd;
+    --color-faint: #8b887f;
+    --color-paper: #171614;
+    --color-rule: #33312c;
+  }
 }
 
-/* Base styles */
 @layer base {
   html {
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background: var(--color-paper);
   }
 
   body {
-    font-size: 1.125rem; /* 18px */
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
   }
 
   a {
-    text-underline-offset: 0.3rem;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--color-faint);
   }
 
-  code {
-    background-color: var(--color-code-bg);
-    border-radius: 0.25rem;
-    padding: 0.15em 0.35em;
-    font-size: 0.875em;
-    font-weight: 400;
+  a:hover {
+    text-decoration-color: var(--color-ink);
+    text-decoration-thickness: 2px;
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
   }
 
   img {
@@ -66,37 +68,131 @@
   }
 }
 
-/* Suppress Tailwind Typography's backtick pseudo-elements on inline code */
-.prose code::before,
-.prose code::after {
-  content: none;
+/* ---------------------------------------------------------------------------
+   Post body.
+
+   Markdown output cannot take utility classes, so prose is styled by element.
+   Code blocks are hairline-bordered paper panels — no ink blocks; inline code
+   is marked by the mono face alone.
+--------------------------------------------------------------------------- */
+.post-body p,
+.post-body ul,
+.post-body ol,
+.post-body blockquote {
+  font-family: var(--font-serif);
+  font-size: 17.5px;
+  line-height: 1.68;
+  margin: 0 0 1.3rem;
+  max-width: 60ch;
 }
 
-/* Callout blocks — used inside MDX, can't use utility classes */
-.callout {
+.post-body ul,
+.post-body ol {
+  padding-left: 1.5rem;
+}
+
+.post-body ul {
+  list-style: disc;
+}
+
+.post-body ol {
+  list-style: decimal;
+}
+
+.post-body li {
+  margin-bottom: 0.4rem;
+}
+
+.post-body li > ul,
+.post-body li > ol {
+  margin: 0.4rem 0 0;
+}
+
+.post-body blockquote {
+  border-left: 1px solid var(--color-rule);
+  padding-left: 1.25rem;
+  color: var(--color-faint);
+}
+
+.post-body h2 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  margin: 2.75rem 0 1rem;
+}
+
+.post-body h3 {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 400;
+  margin: 2rem 0 0.75rem;
+}
+
+.post-body h4 {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin: 2rem 0 0.75rem;
+}
+
+.post-body code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.post-body pre {
+  border: 1px solid var(--color-rule);
   padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
-  border-radius: 0.25rem;
+  margin: 1.75rem 0;
+  overflow-x: auto;
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
-.warning-callout {
-  background-color: #fffbeb;
-  border: 1px solid #f0ce47;
+.post-body pre code {
+  font-size: inherit;
 }
 
-.dark .warning-callout {
-  background-color: #2a2500;
-  border-color: #a08c30;
+.post-body img {
+  margin: 1.75rem 0;
 }
 
-/* External link icon — appears after all target="_blank" links */
-a[target="_blank"]::after {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
-  display: inline-block;
-  margin-left: 0.25em;
-  vertical-align: middle;
+.post-body hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: 2.5rem 0;
+  max-width: 60ch;
 }
 
-.dark a[target="_blank"]::after {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+.post-body table {
+  font-size: 13px;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+}
+
+.post-body th,
+.post-body td {
+  border-bottom: 1px solid var(--color-rule);
+  padding: 0.5rem 1.5rem 0.5rem 0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.post-body th {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Callout blocks — used inside MDX, can't take utility classes. */
+.post-body .callout {
+  border: 1px solid var(--color-rule);
+  padding: 1rem 1.25rem;
+  margin: 1.75rem 0;
+  max-width: 60ch;
+}
+
+.post-body .callout > :last-child {
+  margin-bottom: 0;
 }
