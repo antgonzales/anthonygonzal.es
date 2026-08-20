@@ -1,9 +1,8 @@
 ---
 title: "The joy of tidying npm scripts with nps"
-description: "npm scripts can become unruly quickly, especially when working with an evolving code base. Learn the joy of tidying with nps ✨"
+description: "Moving script sprawl out of package.json."
 pubDate: 2019-04-15
 updatedDate: 2026-04-19
-tags: []
 ---
 
 <div class="callout warning-callout">

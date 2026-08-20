@@ -1,9 +1,8 @@
 ---
 title: "Building a transaction dashboard on Compass"
-description: "Case study: Leading engineering teams to build Compass One, a real estate transaction dashboard that boosted client engagement by 43% with 4.5/5 satisfaction."
+description: "Turning a transaction’s scattered state into one view agents and clients read the same way."
 pubDate: 2025-03-25
 heroImage: ../../assets/img/compass-one.webp
-tags: []
 ---
 
 [Compass One](https://one.compass.com/) is the real estate industry's premier client dashboard providing 24/7 transparency into transactions — the #1 requested feature since 2021. Launched in beta in October 2024 and nationally on February 3, 2025, this platform addresses inefficient communication between clients and agents, transforming how clients track their real estate journey.

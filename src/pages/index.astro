@@ -1,93 +1,79 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { formatDate } from "../lib/formatDate";
-import { getExcerpt } from "../lib/getExcerpt";
-import { getFeaturedPost } from "../lib/getFeaturedPost";
+import Entry from "../components/Entry.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import { entryDate, getTechnicalPosts, readingTime } from "../lib/posts";
+import { currentlyReading, finishedBooks } from "../lib/reading";
+import { record } from "../data/record";
+import { siteDescription } from "../data/site";
 
-const allPosts = (await getCollection("posts")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-
-const latest = getFeaturedPost(allPosts) ?? allPosts[0];
-const rest = allPosts.filter((p) => p !== latest);
+const latest = getTechnicalPosts(await getCollection("posts"), 4);
+const books = await getCollection("reading");
+const current = currentlyReading(books);
+const finished = finishedBooks(books, 3);
 ---
 
-<BaseLayout
-  title="Anthony Gonzales"
-  description="The personal site and blog of Anthony Gonzales, a Product Engineer based in New York."
->
-  <!-- Posts -->
-  <section itemscope itemtype="https://schema.org/Blog">
-    {
-      latest ? (
-        <article
-          itemscope
-          itemtype="https://schema.org/BlogPosting"
-          class="mb-12"
-        >
-          {latest.data.featured ? (
-            <p class="mt-0 mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-meta)]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="inline-block w-[1em] h-[1em] mr-1 align-middle"
-              >
-                <path d="M16 3a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-.187 1.633l-4.52 2.26V15a1 1 0 0 1-.293.707l-2 2A1 1 0 0 1 12 17v-4.586l-3.293 3.293a1 1 0 0 1-1.414-1.414L10.586 11H6a1 1 0 0 1-.707-1.707l2-2A1 1 0 0 1 8 7h3.814l2.26-4.52A1 1 0 0 1 15.707 3z" />
-              </svg>
-              Pinned
-            </p>
-          ) : null}
-          <h2 class="mt-0 mb-2">
-            <a
-              href={`/blog/${latest.id}/`}
-              class="no-underline"
-              itemprop="url headline"
-            >
-              {latest.data.title}
-            </a>
-          </h2>
-          <time
-            datetime={latest.data.pubDate.toISOString()}
-            class="italic text-[var(--color-meta)]"
-            itemprop="datePublished"
-          >
-            {formatDate(latest.data.pubDate)}
-          </time>
-          {latest.data.heroImage ? (
-            <img
-              src={latest.data.heroImage.src}
-              alt={latest.data.title}
-              class="w-full rounded-sm my-4"
-            />
-          ) : null}
-          <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
-          <a href={`/blog/${latest.id}/`} class="no-underline">
-            Read more &rarr;
-          </a>
-        </article>
-      ) : null
-    }
+<BaseLayout title="Anthony Gonzales" description={siteDescription}>
+  <div>
+    <h1
+      class="max-w-[30ch] font-serif text-[clamp(28px,3.6vw,48px)] leading-[1.26] font-normal"
+    >
+      Staff Frontend Engineer in New York, building software for real estate
+      agents at Compass.
+    </h1>
+    <p class="mt-5 max-w-[52ch] font-serif text-lg leading-[1.6]">
+      I write about the work: how it&rsquo;s architected, how it&rsquo;s built,
+      and what I learn making it. I live in NYC with my wife, Lauren, and my
+      cat, Bugs.
+    </p>
+  </div>
 
-    {
-      rest.length > 0 ? (
-        <ul class="not-prose list-none p-0 m-0">
-          {rest.map((post) => (
-            <li class="flex justify-between items-baseline gap-6 py-2">
-              <a href={`/blog/${post.id}/`} class="no-underline">
-                {post.data.title}
-              </a>
-              <time
-                datetime={post.data.pubDate.toISOString()}
-                class="italic text-[var(--color-meta)] shrink-0"
-              >
-                {formatDate(post.data.pubDate)}
-              </time>
-            </li>
-          ))}
-        </ul>
-      ) : null
-    }
-  </section>
+  <SectionLabel>Latest</SectionLabel>
+  {
+    latest.map((post) => {
+      const date = entryDate(post.data.pubDate);
+      return (
+        <Entry
+          date={date.line}
+          year={date.year}
+          title={post.data.title}
+          href={`/blog/${post.id}/`}
+          dek={post.data.description}
+          meta={readingTime(post.body ?? "")}
+        />
+      );
+    })
+  }
+  <a class="mt-5 inline-block text-[13px]" href="/blog/"
+    >View all writing &rarr;</a
+  >
+
+  <SectionLabel>Record</SectionLabel>
+  {
+    record.map((item) => (
+      <Entry
+        date={item.year}
+        title={item.title}
+        href={item.href}
+        who={item.who}
+      />
+    ))
+  }
+
+  <SectionLabel>Reading</SectionLabel>
+  {
+    current && (
+      <Entry date="NOW" title={current.data.title} who={current.data.author} />
+    )
+  }
+  {
+    finished.map((book) => (
+      <Entry
+        date={String(book.data.finished!.getUTCFullYear())}
+        title={book.data.title}
+        who={book.data.author}
+      />
+    ))
+  }
 </BaseLayout>

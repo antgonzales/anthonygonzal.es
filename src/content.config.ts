@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
+import { parseReadingYaml } from "./lib/parseReadingYaml";
 
 const posts = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
@@ -15,12 +16,13 @@ const posts = defineCollection({
 });
 
 const reading = defineCollection({
-  loader: glob({ pattern: "**/*.json", base: "./src/content/reading" }),
+  // One appendable file, not one file per book. Ids are derived from titles
+  // by the parser so the yaml itself stays three lines per entry.
+  loader: file("src/data/reading.yaml", { parser: parseReadingYaml }),
   schema: z.object({
     title: z.string(),
     author: z.string(),
-    started: z.coerce.date(),
-    finished: z.coerce.date().optional(),
+    finished: z.coerce.date().optional(), // month precision; absent = currently reading
     note: z.string().optional(), // slug of a reflection, when written
   }),
 });

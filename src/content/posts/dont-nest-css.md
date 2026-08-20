@@ -1,9 +1,8 @@
 ---
 title: "Don't nest CSS"
-description: "SASS nesting promised clean, scoped styles. Native CSS nesting delivers the same promise. The problem was never the preprocessor."
+description: "Specificity debt, and how nesting compounds it."
 pubDate: 2014-09-28
 updatedDate: 2026-04-01
-tags: []
 ---
 What's wrong with this code?
 
