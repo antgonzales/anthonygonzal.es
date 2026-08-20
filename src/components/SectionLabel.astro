@@ -1,0 +1,19 @@
+---
+interface Props {
+  /** Section labels sit flush to the top when they open a column. */
+  first?: boolean;
+  class?: string;
+}
+
+const { first = false, class: className } = Astro.props;
+---
+
+<h2
+  class:list={[
+    "border-b border-rule pb-2 text-[11px] font-normal tracking-[0.14em] uppercase",
+    first ? "mt-0" : "mt-14",
+    className,
+  ]}
+>
+  <slot />
+</h2>
