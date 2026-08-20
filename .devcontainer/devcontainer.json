@@ -5,5 +5,5 @@
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
   },
   "forwardPorts": [4321],
-  "postCreateCommand": "corepack enable && pnpm install"
+  "postCreateCommand": "pnpm install"
 }
