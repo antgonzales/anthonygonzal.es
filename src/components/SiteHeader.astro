@@ -5,7 +5,9 @@ import { nav, siteName } from "../data/site.json";
 
 const path = Astro.url.pathname;
 // The homepage opens with the name in its own headline, so the wordmark
-// would only say it twice. The nav keeps the right edge on its own.
+// would only say it twice. It stays in the layout as an invisible span
+// rather than being dropped — otherwise the header loses its serif line
+// height on `/` and the ink rule jumps as you navigate.
 const isHome = path === "/";
 ---
 
@@ -13,7 +15,14 @@ const isHome = path === "/";
   class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pt-8 pb-4"
 >
   {
-    isHome ? null : (
+    isHome ? (
+      <span
+        aria-hidden="true"
+        class="invisible font-serif text-2xl font-normal"
+      >
+        {siteName}
+      </span>
+    ) : (
       <a
         href="/"
         class="font-serif text-2xl font-normal no-underline hover:no-underline"
@@ -22,26 +31,28 @@ const isHome = path === "/";
       </a>
     )
   }
-  <nav class:list={["text-[13px]", isHome ? "ml-auto" : null]}>
+  <nav class="text-[13px]">
     {
       nav.map((item, i) => {
         const current = path.startsWith(item.href);
         return (
           <>
             {i > 0 ? <span class="mx-[1ch] text-faint">/</span> : null}
+            {/* set:text, not a child node: Astro keeps the newline and indent
+                around a child as real whitespace, and the underline runs under
+                it. Prettier reflows any hand-tightened markup right back. */}
             <a
               href={item.href}
               class:list={[
-                "px-[2px] py-2",
+                "py-2",
                 // Every link underlines now, so the current section can't be
                 // marked by the line itself. It takes the ink decoration that
                 // hover uses, against the faint default of its neighbours.
                 current ? "decoration-ink" : null,
               ]}
               aria-current={current ? "page" : undefined}
-            >
-              {item.label}
-            </a>
+              set:text={item.label}
+            />
           </>
         );
       })

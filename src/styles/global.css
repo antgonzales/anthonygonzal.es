@@ -18,10 +18,12 @@
 @theme {
   --font-serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
 
-  --color-ink: light-dark(#1f1e1c, #d8d5cd);
-  --color-faint: light-dark(#6e6c66, #8b887f);
-  --color-paper: light-dark(#f7f5f0, #171614);
-  --color-rule: light-dark(#dcd9d1, #33312c);
+  /* Warm neutrals borrowed from thewayofcode.com: paper and ink trade places
+     between modes, and the two grays are that palette's own. */
+  --color-ink: light-dark(#1f1e1d, #f0eee6);
+  --color-faint: light-dark(#5e5d59, #87867f);
+  --color-paper: light-dark(#f0eee6, #1f1e1d);
+  --color-rule: light-dark(#e0ded8, #3e3d39);
 
   /* Rail stacks below main under 880px, per spec. */
   --breakpoint-rail: 881px;

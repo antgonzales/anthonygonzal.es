@@ -53,10 +53,19 @@ export function monthYear(date: Date): { line: string; year: string } {
   return { line, year: String(date.getUTCFullYear()) };
 }
 
-/** Right-hand entry meta. 200 words a minute, floor of one. */
+/**
+ * Right-hand entry meta, floor of one minute.
+ *
+ * 150 words a minute rather than the usual 200: that figure is for general
+ * prose, and technical reading runs 100–150. Code blocks count as words at
+ * the same rate, which is rough in both directions — code is slower to read
+ * than prose, but blocks also get skimmed. It's an estimate, not a stopwatch.
+ */
+const WORDS_PER_MINUTE = 150;
+
 export function readingTime(body: string): string {
   const words = body.trim().split(/\s+/).filter(Boolean).length;
-  return `${Math.max(1, Math.round(words / 200))} min read`;
+  return `${Math.max(1, Math.round(words / WORDS_PER_MINUTE))} min read`;
 }
 
 /** Previous (older) and next (newer) post, for the postnav row. */

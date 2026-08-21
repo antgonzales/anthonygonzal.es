@@ -67,8 +67,8 @@ describe("monthYear()", () => {
 });
 
 describe("readingTime()", () => {
-  it("rounds to whole minutes at 200 words a minute", () => {
-    expect(readingTime("word ".repeat(400))).toBe("2 min read");
+  it("rounds to whole minutes at 150 words a minute", () => {
+    expect(readingTime("word ".repeat(300))).toBe("2 min read");
   });
 
   it("never reports zero minutes", () => {

@@ -1,6 +1,6 @@
 ---
 import SectionLabel from "./SectionLabel.astro";
-// The rail spells links out in full (`label`); the footer abbreviates.
+// Rail and footer share one label per link — plain names, not URLs.
 import { aboutBlurb, elsewhere } from "../data/site.json";
 ---
 
@@ -18,14 +18,21 @@ import { aboutBlurb, elsewhere } from "../data/site.json";
     /* Currently reading slots here when the reading collection has a book in
       progress: label "Currently reading" / serif title / mono author. */
   }
-  <div class="border-t border-rule pt-6 pb-8">
+  {
+    /* No divider between modules: each section label already carries its own
+      hairline, and a third rule floating in the gap read as an accident. */
+  }
+  <div class="pb-8">
     <SectionLabel first class="mb-2.5">Elsewhere</SectionLabel>
     <div>
       {
         elsewhere.map((item) => (
-          <a href={item.href} class="block py-1 text-[13px]">
-            {item.label}
-          </a>
+          // set:text keeps the underline off the surrounding whitespace.
+          <a
+            href={item.href}
+            class="block py-1 text-[13px]"
+            set:text={item.label}
+          />
         ))
       }
     </div>

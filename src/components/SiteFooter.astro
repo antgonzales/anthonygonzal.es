@@ -1,5 +1,5 @@
 ---
-// The footer uses each link's `short` form; the rail uses `label`.
+// Rail and footer share one label per link — plain names, not URLs.
 import { elsewhere, siteName } from "../data/site.json";
 
 interface Props {
@@ -21,9 +21,8 @@ const year = new Date().getFullYear();
         ? elsewhere.map((item) => (
             <>
               {" · "}
-              <a href={item.href} class="text-inherit">
-                {item.short}
-              </a>
+              {/* set:text keeps the underline off the surrounding whitespace. */}
+              <a href={item.href} class="text-inherit" set:text={item.label} />
             </>
           ))
         : null

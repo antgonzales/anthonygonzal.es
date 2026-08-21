@@ -6,17 +6,16 @@
     { "label": "Reading", "href": "/reading/" }
   ],
   "elsewhere": [
+    { "label": "GitHub", "href": "https://github.com/antgonzales" },
     {
-      "label": "github.com/antgonzales",
-      "short": "GitHub",
-      "href": "https://github.com/antgonzales"
-    },
-    {
-      "label": "linkedin.com/in/anthony-gonzales",
-      "short": "LinkedIn",
+      "label": "LinkedIn",
       "href": "https://www.linkedin.com/in/anthony-gonzales-5a06b994"
     },
-    { "label": "RSS", "short": "RSS", "href": "/rss.xml" }
+    {
+      "label": "Stack Overflow",
+      "href": "https://stackoverflow.com/users/4500640/anthony-gonzales"
+    },
+    { "label": "RSS", "href": "/rss.xml" }
   ],
-  "aboutBlurb": "Anthony Gonzales is a Staff Frontend Engineer at Compass in New York. He writes about frontend systems, and reads slowly, with notes."
+  "aboutBlurb": "Anthony Gonzales is a Staff Frontend Engineer at Compass in New York. He writes about frontend systems, and keeps notes on what he reads."
 }
