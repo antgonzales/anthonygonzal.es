@@ -17,19 +17,23 @@ const finished = finishedBooks(books, 3);
 ---
 
 <BaseLayout title="Anthony Gonzales" description={siteDescription}>
-  <div>
-    <h1
-      class="max-w-[30ch] font-serif text-[clamp(28px,3.6vw,48px)] leading-[1.26] font-normal"
-    >
-      Staff Frontend Engineer in New York, building software for real estate
-      agents at Compass.
-    </h1>
-    <p class="mt-5 max-w-[52ch] font-serif text-lg leading-[1.6]">
-      I write about the work: how it&rsquo;s architected, how it&rsquo;s built,
-      and what I learn making it. I live in NYC with my wife, Lauren, and my
-      cat, Bugs.
-    </p>
-  </div>
+  {
+    /* One paragraph at one size — the whole pitch is the heading. Links are
+      italic rather than colored; v4 has no accent. */
+  }
+  <h1
+    class="max-w-[46ch] font-serif text-[clamp(26px,3.4vw,38px)] leading-[1.3] font-normal"
+  >
+    Anthony Gonzales is a Staff Frontend Engineer at <a
+      href="https://compass.com"
+      class="italic">Compass</a
+    >, building software for real estate agents. He <a
+      href="/blog/"
+      class="italic">writes about the work</a
+    >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
+    making it. He <a href="/reading/" class="italic">reads slowly</a>, with
+    notes.
+  </h1>
 
   <SectionLabel>Latest</SectionLabel>
   {

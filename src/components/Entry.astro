@@ -36,15 +36,7 @@ const { date, year, title, href, dek, who, meta } = Astro.props;
   </div>
   <div>
     <h3 class="font-serif text-xl leading-tight font-normal">
-      {
-        href ? (
-          <a href={href} class="no-underline hover:underline">
-            {title}
-          </a>
-        ) : (
-          title
-        )
-      }
+      {href ? <a href={href}>{title}</a> : title}
     </h3>
     {
       dek ? (

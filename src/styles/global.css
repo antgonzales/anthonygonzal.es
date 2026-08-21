@@ -26,3 +26,14 @@
   /* Rail stacks below main under 880px, per spec. */
   --breakpoint-rail: 881px;
 }
+
+/* Preflight resets anchors to `text-decoration: inherit`, which leaves the
+   decoration color, offset, and hover rules on <body> with no line to act
+   on. Putting the line back here — base layer, element selector — means
+   every link is underlined by default and `no-underline` still wins, since
+   utilities always outrank base. */
+@layer base {
+  a {
+    text-decoration-line: underline;
+  }
+}
