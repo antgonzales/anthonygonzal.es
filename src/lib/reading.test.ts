@@ -1,52 +1,62 @@
 import { describe, it, expect } from "vitest";
 import { currentlyReading, finishedBooks } from "./reading";
 
-function makeBook(title: string, finished?: string) {
+function book(title: string, finished?: string) {
   return {
     id: title,
     data: { title, finished: finished ? new Date(finished) : undefined },
   };
 }
 
-// Newest first, as the yaml is written.
-const books = [
-  makeBook("Notes of a Native Son"),
-  makeBook("Angel Down", "2026-08"),
-  makeBook("Dungeon Crawler Carl", "2026-07"),
-  makeBook("Interpreter of Maladies", "2026-07"),
-];
-
 describe("currentlyReading()", () => {
-  it("is the book with no finish date", () => {
+  it("finds the book with no finish date", () => {
+    const books = [
+      book("Angel Down", "2026-08"),
+      book("Notes of a Native Son"),
+    ];
     expect(currentlyReading(books)?.data.title).toBe("Notes of a Native Son");
   });
 
-  it("is undefined when everything is finished", () => {
-    expect(
-      currentlyReading(books.filter((b) => b.data.finished)),
-    ).toBeUndefined();
+  it("finds nothing when every book is finished", () => {
+    expect(currentlyReading([book("Angel Down", "2026-08")])).toBeUndefined();
+  });
+
+  it("takes the first unfinished book, since the file lists them newest first", () => {
+    const books = [book("Started later"), book("Started earlier")];
+    expect(currentlyReading(books)?.data.title).toBe("Started later");
   });
 });
 
 describe("finishedBooks()", () => {
-  it("orders by finish date, most recent first", () => {
-    expect(finishedBooks(books).map((b) => b.data.title)).toEqual([
+  it("puts the most recently finished first", () => {
+    const books = [book("Stoner", "2026-01"), book("Angel Down", "2026-08")];
+    expect(finishedBooks(books).map((entry) => entry.data.title)).toEqual([
       "Angel Down",
+      "Stoner",
+    ]);
+  });
+
+  it("leaves out the book still being read", () => {
+    const books = [book("Notes of a Native Son"), book("Stoner", "2026-01")];
+    expect(finishedBooks(books).map((entry) => entry.data.title)).toEqual([
+      "Stoner",
+    ]);
+  });
+
+  it("keeps books finished the same month in the order given", () => {
+    const books = [
+      book("Dungeon Crawler Carl", "2026-07"),
+      book("Interpreter of Maladies", "2026-07"),
+    ];
+    expect(finishedBooks(books).map((entry) => entry.data.title)).toEqual([
       "Dungeon Crawler Carl",
       "Interpreter of Maladies",
     ]);
   });
 
-  it("is stable within a month, since dates carry no day", () => {
-    const july = finishedBooks(books).slice(1);
-    expect(july.map((b) => b.data.title)).toEqual([
-      "Dungeon Crawler Carl",
-      "Interpreter of Maladies",
-    ]);
-  });
-
-  it("takes the most recent N when limited", () => {
-    expect(finishedBooks(books, 1).map((b) => b.data.title)).toEqual([
+  it("returns no more than the limit it is given", () => {
+    const books = [book("Angel Down", "2026-08"), book("Stoner", "2026-01")];
+    expect(finishedBooks(books, 1).map((entry) => entry.data.title)).toEqual([
       "Angel Down",
     ]);
   });
