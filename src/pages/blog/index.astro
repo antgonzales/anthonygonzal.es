@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Entry from "../../components/Entry.astro";
-import { byNewest, entryDate, readingTime } from "../../lib/posts";
+import { byNewest, entryDate } from "../../lib/posts";
 
 const posts = byNewest(await getCollection("posts"));
 ---
@@ -12,25 +12,22 @@ const posts = byNewest(await getCollection("posts"));
   description="Everything Anthony Gonzales has written, newest first."
   rail
 >
-  <div class="mb-2">
-    <h1 class="font-serif text-[34px] font-normal">Writing</h1>
+  <div class="pagehead mb-2">
+    <h1 class="font-display text-xl font-bold tracking-[0.12em] uppercase">
+      Writing
+    </h1>
     <p class="mt-2 text-[13px] text-faint">
       {posts.length} posts &middot; <a href="/rss.xml">RSS</a>
     </p>
   </div>
   {
-    posts.map((post) => {
-      const date = entryDate(post.data.pubDate);
-      return (
-        <Entry
-          date={date.line}
-          year={date.year}
-          title={post.data.title}
-          href={`/blog/${post.id}/`}
-          dek={post.data.description}
-          meta={readingTime(post.body ?? "")}
-        />
-      );
-    })
+    posts.map((post) => (
+      <Entry
+        date={entryDate(post.data.pubDate)}
+        title={post.data.title}
+        href={`/blog/${post.id}/`}
+        dek={post.data.description}
+      />
+    ))
   }
 </BaseLayout>

@@ -1,0 +1,86 @@
+{
+  "name": "ink",
+  "displayName": "Ink",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#1e1d1a",
+    "editor.foreground": "#d8d5cd",
+    "editor.selectionBackground": "#232220",
+    "editor.selectionHighlightBackground": "#2b2a26",
+    "editorCursor.foreground": "#879da2",
+    "editorLineNumber.foreground": "#817d73",
+    "editorWhitespace.foreground": "#33312c"
+  },
+  "settings": [
+    {
+      "scope": ["comment", "punctuation.definition.comment"],
+      "settings": { "foreground": "#817d73", "fontStyle": "italic" }
+    },
+    {
+      "scope": [
+        "keyword",
+        "keyword.control",
+        "storage",
+        "storage.type",
+        "storage.modifier"
+      ],
+      "settings": { "foreground": "#c98a63" }
+    },
+    {
+      "scope": [
+        "string",
+        "string.quoted",
+        "string.template",
+        "punctuation.definition.string"
+      ],
+      "settings": { "foreground": "#bda27e" }
+    },
+    {
+      "scope": [
+        "constant.numeric",
+        "constant.language",
+        "constant.character",
+        "support.constant"
+      ],
+      "settings": { "foreground": "#cbb05f" }
+    },
+    {
+      "scope": [
+        "entity.name.type",
+        "entity.name.class",
+        "support.type",
+        "support.class",
+        "storage.type.class"
+      ],
+      "settings": { "foreground": "#a3a37e" }
+    },
+    {
+      "scope": [
+        "entity.name.function",
+        "support.function",
+        "variable.function",
+        "meta.function-call"
+      ],
+      "settings": { "foreground": "#879da2" }
+    },
+    {
+      "scope": [
+        "variable",
+        "variable.other",
+        "variable.parameter",
+        "support.variable",
+        "meta.object-literal.key",
+        "entity.other.attribute-name"
+      ],
+      "settings": { "foreground": "#d8d5cd" }
+    },
+    {
+      "scope": ["punctuation", "meta.brace", "meta.delimiter"],
+      "settings": { "foreground": "#817d73" }
+    },
+    {
+      "scope": ["invalid", "invalid.illegal"],
+      "settings": { "foreground": "#c98a63", "fontStyle": "underline" }
+    }
+  ]
+}

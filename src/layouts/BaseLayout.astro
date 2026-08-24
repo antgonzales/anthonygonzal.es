@@ -11,7 +11,6 @@ interface Props {
   ogImage?: string;
   pubDate?: Date;
   updatedDate?: Date;
-  /** Interior pages get the two-column layout with the rail. */
   rail?: boolean;
 }
 
@@ -34,6 +33,13 @@ const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="preload"
+      href="/fonts/SpaceGrotesk-700-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -97,30 +103,26 @@ const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
   </head>
   <body
     class:list={[
-      "mx-auto max-w-[69rem] px-5 font-mono text-sm leading-[1.6] tabular-nums text-ink md:px-8 lg:px-12",
-      // The site-wide link treatment, in one place. Every property here is
-      // inert while `text-decoration-line` is none, so links that opt out
-      // with `no-underline` are untouched and no specificity fight follows.
-      "[&_a]:decoration-faint [&_a]:underline-offset-[3px]",
-      "[&_a:hover]:decoration-ink [&_a:hover]:decoration-2",
-      "[&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-2 [&_a:focus-visible]:outline-ink",
+      // One shell on every route keeps the header and footer anchored while
+      // the content between them changes shape.
+      "mx-auto max-w-[62rem] px-5 font-mono text-sm leading-[1.6] tabular-nums text-ink md:px-8",
     ]}
   >
     <SiteHeader />
     {
       rail ? (
-        <div class="grid grid-cols-1 gap-x-12 pt-12 rail:grid-cols-[1fr_272px]">
-          <main class="min-w-0">
+        <main class="grid grid-cols-1 gap-x-12 pt-14 min-[881px]:grid-cols-[minmax(0,1fr)_272px]">
+          <div class="min-w-0">
             <slot />
-          </main>
+          </div>
           <Rail />
-        </div>
+        </main>
       ) : (
         <main class="pt-12">
           <slot />
         </main>
       )
     }
-    <SiteFooter links={!rail} />
+    <SiteFooter showElsewhere={Astro.url.pathname === "/"} />
   </body>
 </html>

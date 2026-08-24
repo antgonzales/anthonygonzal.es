@@ -1,41 +1,68 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/SpaceGrotesk-700-subset.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --display: "Space Grotesk", var(--sans);
+}
+
 /* ---------------------------------------------------------------------------
    v4 design tokens — the whole stylesheet.
 
-   Two voices: serif for speech (headlines, titles, deks, prose), mono for
-   records (dates, nav, labels, footer). Zero webfonts — both stacks are
-   system faces. Never hardcode a family in a component; use the tokens.
+   Site surfaces use sans and mono. The serif token remains available for
+   isolated editorial treatments. Never hardcode a family in a component.
 
-   Each color carries both modes in one `light-dark()` value, so there is no
-   dark-mode block and no `dark:` variant anywhere in this codebase. The
-   switch is `scheme-light-dark` on <html>, which sets `color-scheme`.
+   Each site color carries both modes in one `light-dark()` value. The switch
+   is `scheme-light-dark` on <html>, which sets `color-scheme`. Shiki is the
+   exception: its generated dual-theme variables require the media query below.
 
-   Everything else is a utility in the markup. Post bodies are styled through
-   Tailwind Typography's `prose-*` variants — see Prose.astro.
+   Everything else is a utility in the markup, including descendant utilities
+   for generated Markdown — see Prose.astro.
 --------------------------------------------------------------------------- */
 @theme {
   --font-serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  --font-sans: var(--sans);
+  --font-display: var(--display);
 
   /* Warm neutrals borrowed from thewayofcode.com: paper and ink trade places
      between modes, and the two grays are that palette's own. */
   --color-ink: light-dark(#1f1e1d, #f0eee6);
   --color-faint: light-dark(#5e5d59, #87867f);
-  --color-paper: light-dark(#f0eee6, #1f1e1d);
+  --color-paper: light-dark(#faf9f5, #1f1e1d);
   --color-rule: light-dark(#e0ded8, #3e3d39);
-
-  /* Rail stacks below main under 880px, per spec. */
-  --breakpoint-rail: 881px;
 }
 
-/* Preflight resets anchors to `text-decoration: inherit`, which leaves the
-   decoration color, offset, and hover rules on <body> with no line to act
-   on. Putting the line back here — base layer, element selector — means
-   every link is underlined by default and `no-underline` still wins, since
-   utilities always outrank base. */
+/* One low-specificity link default. Component utilities can safely override
+   its thickness, offset, color, or remove the underline altogether. */
 @layer base {
   a {
-    text-decoration-line: underline;
+    @apply decoration-faint underline underline-offset-[3px];
+  }
+
+  a:hover {
+    @apply decoration-ink;
+  }
+
+  a:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ink;
+  }
+}
+
+/* Astro/Shiki emits both palettes inline; this is the switch between them. */
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
   }
 }

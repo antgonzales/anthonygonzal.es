@@ -1,6 +1,6 @@
 ---
 title: "How to improve Git monorepo performance"
-description: "Optimize Git in monorepos with an optimized Git config. Follow clear steps to boost CPU performance and workflow efficiency"
+description: "Sparse checkout, fsmonitor, and the settings that matter past a few thousand files."
 pubDate: 2023-12-15
 updatedDate: 2024-05-04
 ---

@@ -5,18 +5,30 @@ import react from "@astrojs/react";
 import rehypeExternalLinks from "rehype-external-links";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
+import inkPaper from "./src/themes/ink-paper.json" with { type: "json" };
+import ink from "./src/themes/ink.json" with { type: "json" };
+
+// JSON imports widen literal strings; restore Shiki's discriminated theme type.
+const inkPaperTheme = {
+  ...inkPaper,
+  type: /** @type {"light"} */ ("light"),
+};
+const inkTheme = { ...ink, type: /** @type {"dark"} */ ("dark") };
 
 export default defineConfig({
   site: "https://anthonygonzal.es",
   output: "static",
   trailingSlash: "always",
+  redirects: {
+    "/about": "/",
+  },
   image: {
     service: passthroughImageService(),
   },
   markdown: {
-    // v4 code blocks are hairline-bordered paper panels — no ink blocks and
-    // no accent color, so Shiki's themed output is off.
-    syntaxHighlight: false,
+    shikiConfig: {
+      themes: { light: inkPaperTheme, dark: inkTheme },
+    },
     rehypePlugins: [
       [rehypeExternalLinks, { rel: ["noopener"], target: "_blank" }],
     ],

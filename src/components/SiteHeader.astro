@@ -4,10 +4,8 @@
 import { nav, siteName } from "../data/site.json";
 
 const path = Astro.url.pathname;
-// The homepage opens with the name in its own headline, so the wordmark
-// would only say it twice. It stays in the layout as an invisible span
-// rather than being dropped — otherwise the header loses its serif line
-// height on `/` and the ink rule jumps as you navigate.
+// The homepage opens with the name in its own headline, so its wordmark stays
+// visually hidden. Keeping its box preserves identical header geometry.
 const isHome = path === "/";
 ---
 
@@ -18,14 +16,14 @@ const isHome = path === "/";
     isHome ? (
       <span
         aria-hidden="true"
-        class="invisible font-serif text-2xl font-normal"
+        class="invisible font-display text-[15px] font-bold tracking-[0.06em] uppercase"
       >
         {siteName}
       </span>
     ) : (
       <a
         href="/"
-        class="font-serif text-2xl font-normal no-underline hover:no-underline"
+        class="font-display text-[15px] font-bold tracking-[0.06em] uppercase no-underline hover:no-underline"
       >
         {siteName}
       </a>
@@ -44,11 +42,12 @@ const isHome = path === "/";
             <a
               href={item.href}
               class:list={[
-                "py-2",
-                // Every link underlines now, so the current section can't be
-                // marked by the line itself. It takes the ink decoration that
-                // hover uses, against the faint default of its neighbours.
-                current ? "decoration-ink" : null,
+                "py-2 hover:underline",
+                isHome ? null : "no-underline",
+                current && !isHome
+                  ? "underline decoration-ink underline-offset-[6px]"
+                  : null,
+                current && isHome ? "decoration-ink" : null,
               ]}
               aria-current={current ? "page" : undefined}
               set:text={item.label}

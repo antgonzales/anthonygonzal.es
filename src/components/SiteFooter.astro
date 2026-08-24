@@ -1,23 +1,23 @@
 ---
-// Rail and footer share one label per link — plain names, not URLs.
+// Interior rails own Elsewhere; only the rail-less homepage repeats those
+// links in its footer. The chrome remains geometrically identical.
 import { elsewhere, siteName } from "../data/site.json";
 
 interface Props {
-  /** The homepage has no rail, so it carries the Elsewhere links here. */
-  links?: boolean;
+  showElsewhere?: boolean;
 }
 
-const { links = false } = Astro.props;
+const { showElsewhere = false } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
 <footer
-  class="mt-16 flex justify-between gap-[2ch] border-t border-rule pt-5 pb-10 text-xs text-faint"
+  class="mt-16 flex flex-wrap justify-between gap-x-[2ch] gap-y-1.5 pt-5 pb-10 text-xs text-faint max-[560px]:flex-col"
 >
   <span>
     © {year}
     {siteName}{
-      links
+      showElsewhere
         ? elsewhere.map((item) => (
             <>
               {" · "}

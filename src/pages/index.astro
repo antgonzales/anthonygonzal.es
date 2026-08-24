@@ -3,84 +3,104 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Entry from "../components/Entry.astro";
 import SectionLabel from "../components/SectionLabel.astro";
-import { entryDate, getTechnicalPosts, readingTime } from "../lib/posts";
+import { entryDate, getTechnicalPosts } from "../lib/posts";
 import { currentlyReading, finishedBooks } from "../lib/reading";
 // Hand-maintained milestones, not content. Home Platform and Compass One
 // point at their launch posts until /work and its case studies exist.
 import record from "../data/record.json";
 import { siteDescription } from "../data/site.json";
 
-const latest = getTechnicalPosts(await getCollection("posts"), 4);
+const latest = getTechnicalPosts(await getCollection("posts"), 6);
 const books = await getCollection("reading");
 const current = currentlyReading(books);
-const finished = finishedBooks(books, 3);
+const finished = finishedBooks(books, 2);
+
+const homepageTitles: Record<string, string> = {
+  "how-to-test-react-router-components": "How to test React Router components",
+  "how-to-solve-match-media-is-not-a-function":
+    "Fix window.matchMedia is not a function in Jest",
+};
 ---
 
 <BaseLayout title="Anthony Gonzales" description={siteDescription}>
-  {
-    /* One paragraph at one size — the whole pitch is the heading. Links are
-      italic rather than colored; v4 has no accent. */
-  }
-  <h1
-    class="max-w-[46ch] font-serif text-[clamp(26px,3.4vw,38px)] leading-[1.3] font-normal"
-  >
-    Anthony Gonzales is a Staff Frontend Engineer at <a
-      href="https://compass.com"
-      class="italic">Compass</a
-    >, building software for real estate agents. He <a
-      href="/blog/"
-      class="italic">writes about the work</a
-    >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
-    making it. He keeps <a href="/reading/" class="italic"
-      >notes on what he reads</a
-    >.
-  </h1>
+  <div class="pt-2">
+    <h1
+      class="font-display text-[clamp(44px,6vw,72px)] leading-[0.98] font-bold tracking-[-0.01em] uppercase"
+    >
+      Anthony<br /><span
+        class="text-ink supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)]"
+        >Gonzales</span
+      >
+    </h1>
+    <p class="mt-6 max-w-[44rem] font-sans text-[19px] leading-[1.55]">
+      Staff Frontend Engineer in NYC, building software for real estate agents
+      at <a href="https://compass.com">Compass</a>. He <a href="/blog/"
+        >writes about the work</a
+      >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
+      making it. He keeps <a href="/reading/">notes on what he reads</a>.
+    </p>
+  </div>
 
-  <SectionLabel>Latest</SectionLabel>
-  {
-    latest.map((post) => {
-      const date = entryDate(post.data.pubDate);
-      return (
-        <Entry
-          date={date.line}
-          year={date.year}
-          title={post.data.title}
-          href={`/blog/${post.id}/`}
-          dek={post.data.description}
-          meta={readingTime(post.body ?? "")}
-        />
-      );
-    })
-  }
-  <a class="mt-5 inline-block text-[13px]" href="/blog/"
-    >View all writing &rarr;</a
-  >
+  <!-- (dés)ordres returns here with its writeup — see home-4.17.0 spec for the plinth treatment -->
 
-  <SectionLabel>Record</SectionLabel>
-  {
-    record.map((item) => (
-      <Entry
-        date={item.year}
-        title={item.title}
-        href={item.href}
-        who={item.who}
-      />
-    ))
-  }
+  <div class="grid grid-cols-1 gap-x-18 pt-4 min-[881px]:grid-cols-[1fr_330px]">
+    <section>
+      <SectionLabel display>Writing</SectionLabel>
+      {
+        latest.map((post) => (
+          <Entry
+            home
+            date={entryDate(post.data.pubDate)}
+            title={homepageTitles[post.id] ?? post.data.title}
+            href={`/blog/${post.id}/`}
+            dek={post.data.description}
+          />
+        ))
+      }
+      <a class="mt-5 inline-block text-[13px]" href="/blog/"
+        >View all writing &rarr;</a
+      >
+    </section>
 
-  <SectionLabel>Reading</SectionLabel>
-  {
-    current ? (
-      <Entry date="NOW" title={current.data.title} who={current.data.author} />
-    ) : null
-  }
-  {
-    finished.map((book) => (
-      <Entry
-        date={String(book.data.finished!.getUTCFullYear())}
-        title={book.data.title}
-        who={book.data.author}
-      />
-    ))
-  }
+    <div class="min-[881px]:mt-0 max-[880px]:mt-4">
+      <section>
+        <SectionLabel display>Releases</SectionLabel>
+        {
+          record.map((item) => (
+            <Entry
+              home
+              date={item.year}
+              title={item.title}
+              href={item.href}
+              who={item.who}
+            />
+          ))
+        }
+      </section>
+
+      <section>
+        <SectionLabel display>Reading</SectionLabel>
+        {
+          current ? (
+            <Entry
+              home
+              date="NOW"
+              title={current.data.title}
+              who={current.data.author}
+            />
+          ) : null
+        }
+        {
+          finished.map((book) => (
+            <Entry
+              home
+              date={String(book.data.finished!.getUTCFullYear())}
+              title={book.data.title}
+              who={book.data.author}
+            />
+          ))
+        }
+      </section>
+    </div>
+  </div>
 </BaseLayout>

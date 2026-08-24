@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Entry from "../../components/Entry.astro";
-import SectionLabel from "../../components/SectionLabel.astro";
 import { monthYear } from "../../lib/posts";
 import { currentlyReading, finishedBooks } from "../../lib/reading";
 
@@ -16,36 +15,33 @@ const finished = finishedBooks(books);
   description="What Anthony Gonzales is reading, and what he has finished."
   rail
 >
-  <h1 class="mb-2 font-serif text-[34px] font-normal">Reading</h1>
+  <div class="mb-2">
+    <h1 class="font-display text-xl font-bold tracking-[0.12em] uppercase">
+      Reading
+    </h1>
+    <p class="mt-2 text-[13px] text-faint">{books.length} books</p>
+  </div>
 
   {
     current ? (
-      <>
-        <SectionLabel>Currently</SectionLabel>
-        <Entry
-          date="NOW"
-          title={current.data.title}
-          who={current.data.author}
-          href={current.data.note ? `/blog/${current.data.note}/` : undefined}
-        />
-      </>
+      <Entry
+        date="NOW"
+        title={current.data.title}
+        who={current.data.author}
+        href={current.data.note ? `/blog/${current.data.note}/` : undefined}
+      />
     ) : null
   }
 
-  <SectionLabel>Finished</SectionLabel>
   {
-    finished.map((book) => {
-      const date = monthYear(book.data.finished!);
-      return (
-        <Entry
-          date={date.line}
-          year={date.year}
-          title={book.data.title}
-          who={book.data.author}
-          href={book.data.note ? `/blog/${book.data.note}/` : undefined}
-        />
-      );
-    })
+    finished.map((book) => (
+      <Entry
+        date={monthYear(book.data.finished!)}
+        title={book.data.title}
+        who={book.data.author}
+        href={book.data.note ? `/blog/${book.data.note}/` : undefined}
+      />
+    ))
   }
   {/* Dithered dual-mode book covers slot in here later, via <picture>. */}
 </BaseLayout>

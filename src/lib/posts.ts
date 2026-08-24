@@ -31,41 +31,29 @@ export function getTechnicalPosts<T extends PostLike>(
 }
 
 /**
- * The stacked two-line entry date: month-day over year.
+ * The entry date line — "AUG 10, 2026".
  * UTC throughout, so "2025-09-15" never renders as the 14th.
  */
-export function entryDate(date: Date): { line: string; year: string } {
-  const line = date
+export function entryDate(date: Date): string {
+  return date
     .toLocaleDateString("en-US", {
       month: "short",
       day: "2-digit",
+      year: "numeric",
       timeZone: "UTC",
     })
     .toUpperCase();
-  return { line, year: String(date.getUTCFullYear()) };
 }
 
-/** Month over year, for records that only know their month. */
-export function monthYear(date: Date): { line: string; year: string } {
-  const line = date
-    .toLocaleDateString("en-US", { month: "short", timeZone: "UTC" })
+/** "JUL 2026", for records that only know their month. */
+export function monthYear(date: Date): string {
+  return date
+    .toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC",
+    })
     .toUpperCase();
-  return { line, year: String(date.getUTCFullYear()) };
-}
-
-/**
- * Right-hand entry meta, floor of one minute.
- *
- * 150 words a minute rather than the usual 200: that figure is for general
- * prose, and technical reading runs 100–150. Code blocks count as words at
- * the same rate, which is rough in both directions — code is slower to read
- * than prose, but blocks also get skimmed. It's an estimate, not a stopwatch.
- */
-const WORDS_PER_MINUTE = 150;
-
-export function readingTime(body: string): string {
-  const words = body.trim().split(/\s+/).filter(Boolean).length;
-  return `${Math.max(1, Math.round(words / WORDS_PER_MINUTE))} min read`;
 }
 
 /** Previous (older) and next (newer) post, for the postnav row. */

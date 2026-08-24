@@ -6,7 +6,6 @@ import {
   getTechnicalPosts,
   monthYear,
   neighbors,
-  readingTime,
 } from "./posts";
 
 function post(id: string, pubDate: string) {
@@ -65,52 +64,26 @@ describe("getTechnicalPosts()", () => {
 });
 
 describe("entryDate()", () => {
-  it("renders the month and day", () => {
-    expect(entryDate(new Date("2026-08-10")).line).toBe("AUG 10");
+  it("writes the whole date on one line", () => {
+    expect(entryDate(new Date("2026-08-10"))).toBe("AUG 10, 2026");
   });
 
-  it("renders the year on its own line", () => {
-    expect(entryDate(new Date("2026-08-10")).year).toBe("2026");
-  });
-
-  it("pads a single-digit day, so the column stays aligned", () => {
-    expect(entryDate(new Date("2026-08-01")).line).toBe("AUG 01");
+  it("pads a single-digit day", () => {
+    expect(entryDate(new Date("2026-08-01"))).toBe("AUG 01, 2026");
   });
 
   it("renders a midnight UTC date as that day, not the day before", () => {
-    expect(entryDate(new Date("2025-09-15")).line).toBe("SEP 15");
+    expect(entryDate(new Date("2025-09-15"))).toBe("SEP 15, 2025");
   });
 });
 
 describe("monthYear()", () => {
-  it("renders the month without a day", () => {
-    expect(monthYear(new Date("2026-07-21")).line).toBe("JUL");
-  });
-
-  it("renders the year on its own line", () => {
-    expect(monthYear(new Date("2026-07-21")).year).toBe("2026");
+  it("names the month and year, never the day", () => {
+    expect(monthYear(new Date("2026-07-21"))).toBe("JUL 2026");
   });
 
   it("keeps the first of January in the year it falls in", () => {
-    expect(monthYear(new Date("2026-01-01")).year).toBe("2026");
-  });
-});
-
-describe("readingTime()", () => {
-  it("reads 150 words a minute", () => {
-    expect(readingTime("word ".repeat(300))).toBe("2 min read");
-  });
-
-  it("rounds to the nearest minute", () => {
-    expect(readingTime("word ".repeat(380))).toBe("3 min read");
-  });
-
-  it("claims a minute for a post of a few words", () => {
-    expect(readingTime("short")).toBe("1 min read");
-  });
-
-  it("claims a minute for an empty post", () => {
-    expect(readingTime("")).toBe("1 min read");
+    expect(monthYear(new Date("2026-01-01"))).toBe("JAN 2026");
   });
 });
 

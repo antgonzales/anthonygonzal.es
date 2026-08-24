@@ -27,14 +27,14 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
   ogImage={heroImage?.src}
   rail
 >
-  <article itemscope itemtype="https://schema.org/BlogPosting">
+  <article class="min-w-0" itemscope itemtype="https://schema.org/BlogPosting">
     <h1
       itemprop="headline"
-      class="max-w-[24ch] font-serif text-[clamp(28px,3.2vw,38px)] leading-[1.25] font-normal"
+      class="mb-3 max-w-[24ch] font-sans text-[clamp(28px,3.2vw,38px)] leading-[1.25] font-normal"
     >
       {title}
     </h1>
-    <p class="mt-2.5 mb-9 text-xs tracking-[0.08em] text-faint uppercase">
+    <p class="mb-12 text-xs tracking-[0.08em] text-faint uppercase">
       <time itemprop="datePublished" datetime={pubDate.toISOString()}>
         {formatDate(pubDate)}
       </time>
@@ -57,7 +57,7 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
           alt={title}
           class="mb-8 h-auto w-full"
           widths={[400, 800, 1200]}
-          sizes="(max-width: 880px) 100vw, 640px"
+          sizes="(max-width: 880px) 100vw, 616px"
         />
       ) : null
     }
