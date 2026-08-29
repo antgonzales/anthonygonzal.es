@@ -1,16 +1,16 @@
 ---
 title: "How to improve Git monorepo performance"
-description: "Optimize Git in monorepos with an optimized Git config. Follow clear steps to boost CPU performance and workflow efficiency"
+description: "Sparse checkout, fsmonitor, and the settings that matter past a few thousand files."
 pubDate: 2023-12-15
 updatedDate: 2024-05-04
-tags: []
+tags: ["technical"]
 ---
 
 [Git v2.37.0](https://github.blog/2022-06-27-highlights-from-git-2-37/) introduced new features that significantly improve performance for repositories with large numbers of files. This blog post will cover custom Git monorepo configurations to improve local performance and provide step-by-step guidance to rollback if anything goes wrong.
 
 ## Quickstart
 
-<div class="callout warning-callout">
+<div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
   <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in this tutorial on your main branch. <code>index.skipHash</code> causes errors on older Git versions.
 </div>
 

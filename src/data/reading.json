@@ -1,0 +1,101 @@
+{
+  "the-secret-history": {
+    "title": "The Secret History",
+    "author": "Donna Tartt"
+  },
+  "angel-down": {
+    "title": "Angel Down",
+    "author": "Daniel Kraus",
+    "finished": "2026-08"
+  },
+  "dungeon-crawler-carl": {
+    "title": "Dungeon Crawler Carl",
+    "author": "Matt Dinniman",
+    "finished": "2026-07"
+  },
+  "interpreter-of-maladies": {
+    "title": "Interpreter of Maladies",
+    "author": "Jhumpa Lahiri",
+    "finished": "2026-07"
+  },
+  "all-fours": {
+    "title": "All Fours",
+    "author": "Miranda July",
+    "finished": "2026-06"
+  },
+  "small-things-like-these": {
+    "title": "Small Things Like These",
+    "author": "Claire Keegan",
+    "finished": "2026-05"
+  },
+  "to-kill-a-mockingbird": {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "finished": "2026-05"
+  },
+  "normal-people": {
+    "title": "Normal People",
+    "author": "Sally Rooney",
+    "finished": "2026-05"
+  },
+  "notes-from-underground": {
+    "title": "Notes from Underground",
+    "author": "Fyodor Dostoevsky",
+    "finished": "2026-04"
+  },
+  "the-stranger": {
+    "title": "The Stranger",
+    "author": "Albert Camus",
+    "finished": "2026-04"
+  },
+  "kafka-on-the-shore": {
+    "title": "Kafka on the Shore",
+    "author": "Haruki Murakami",
+    "finished": "2026-03"
+  },
+  "disgrace": {
+    "title": "Disgrace",
+    "author": "J.M. Coetzee",
+    "finished": "2026-02"
+  },
+  "the-road": {
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "finished": "2026-02"
+  },
+  "there-there": {
+    "title": "There There",
+    "author": "Tommy Orange",
+    "finished": "2026-02"
+  },
+  "the-bluest-eye": {
+    "title": "The Bluest Eye",
+    "author": "Toni Morrison",
+    "finished": "2026-02"
+  },
+  "stoner": {
+    "title": "Stoner",
+    "author": "John Williams",
+    "finished": "2026-01"
+  },
+  "the-sympathizer": {
+    "title": "The Sympathizer",
+    "author": "Viet Thanh Nguyen",
+    "finished": "2026-01"
+  },
+  "the-adventures-of-huckleberry-finn": {
+    "title": "The Adventures of Huckleberry Finn",
+    "author": "Mark Twain",
+    "finished": "2025-12"
+  },
+  "say-nothing": {
+    "title": "Say Nothing",
+    "author": "Patrick Radden Keefe",
+    "finished": "2025-11"
+  },
+  "between-two-fires": {
+    "title": "Between Two Fires",
+    "author": "Christopher Buehlman",
+    "finished": "2025-11"
+  }
+}

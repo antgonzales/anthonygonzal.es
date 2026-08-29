@@ -1,0 +1,60 @@
+---
+// `nav` is the header order. Add Work here when case studies ship:
+//   { "label": "Work", "href": "/work/" }  — goes first, before Writing.
+import { nav, siteName } from "../data/site.json";
+
+const path = Astro.url.pathname;
+// The homepage opens with the name in its own headline, so its wordmark stays
+// visually hidden. Keeping its box preserves identical header geometry.
+const isHome = path === "/";
+---
+
+<header
+  class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pt-8 pb-4"
+>
+  {
+    isHome ? (
+      <span
+        aria-hidden="true"
+        class="invisible font-display text-[15px] font-bold tracking-[0.06em] uppercase"
+      >
+        {siteName}
+      </span>
+    ) : (
+      <a
+        href="/"
+        class="font-display text-[15px] font-bold tracking-[0.06em] uppercase no-underline hover:no-underline"
+      >
+        {siteName}
+      </a>
+    )
+  }
+  <nav class="text-[13px]">
+    {
+      nav.map((item, i) => {
+        const current = path.startsWith(item.href);
+        return (
+          <>
+            {i > 0 ? <span class="mx-[1ch] text-faint">/</span> : null}
+            {/* set:text, not a child node: Astro keeps the newline and indent
+                around a child as real whitespace, and the underline runs under
+                it. Prettier reflows any hand-tightened markup right back. */}
+            <a
+              href={item.href}
+              class:list={[
+                "py-2 hover:underline",
+                isHome ? null : "no-underline",
+                current && !isHome
+                  ? "underline decoration-ink underline-offset-[6px]"
+                  : null,
+                current && isHome ? "decoration-ink" : null,
+              ]}
+              aria-current={current ? "page" : undefined}
+              set:text={item.label}
+            />
+          </>
+        );
+      })
+    }
+  </nav>
+</header>

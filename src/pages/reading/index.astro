@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Entry from "../../components/Entry.astro";
+import { monthYear } from "../../lib/posts";
+import { currentlyReading, finishedBooks } from "../../lib/reading";
+
+const books = await getCollection("reading");
+const current = currentlyReading(books);
+const finished = finishedBooks(books);
+---
+
+<BaseLayout
+  title="Reading"
+  description="What Anthony Gonzales is reading, and what he has finished."
+  rail
+>
+  <div class="mb-2">
+    <h1 class="font-display text-xl font-bold tracking-[0.12em] uppercase">
+      Reading
+    </h1>
+  </div>
+
+  {
+    current ? (
+      <Entry
+        date="NOW"
+        title={current.data.title}
+        who={current.data.author}
+        href={current.data.note ? `/blog/${current.data.note}/` : undefined}
+      />
+    ) : null
+  }
+
+  {
+    finished.map((book) => (
+      <Entry
+        date={monthYear(book.data.finished!)}
+        title={book.data.title}
+        who={book.data.author}
+        href={book.data.note ? `/blog/${book.data.note}/` : undefined}
+      />
+    ))
+  }
+  {/* Dithered dual-mode book covers slot in here later, via <picture>. */}
+</BaseLayout>

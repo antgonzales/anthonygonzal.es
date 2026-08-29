@@ -1,93 +1,106 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { formatDate } from "../lib/formatDate";
-import { getExcerpt } from "../lib/getExcerpt";
-import { getFeaturedPost } from "../lib/getFeaturedPost";
+import Entry from "../components/Entry.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import { entryDate, getTechnicalPosts } from "../lib/posts";
+import { currentlyReading, finishedBooks } from "../lib/reading";
+// Hand-maintained milestones, not content. Home Platform and Compass One
+// point at their launch posts until /work and its case studies exist.
+import record from "../data/record.json";
+import { siteDescription } from "../data/site.json";
 
-const allPosts = (await getCollection("posts")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const latest = getTechnicalPosts(await getCollection("posts"), 6);
+const books = await getCollection("reading");
+const current = currentlyReading(books);
+const finished = finishedBooks(books, 2);
 
-const latest = getFeaturedPost(allPosts) ?? allPosts[0];
-const rest = allPosts.filter((p) => p !== latest);
+const homepageTitles: Record<string, string> = {
+  "how-to-test-react-router-components": "How to test React Router components",
+  "how-to-solve-match-media-is-not-a-function":
+    "Fix window.matchMedia is not a function in Jest",
+};
 ---
 
-<BaseLayout
-  title="Anthony Gonzales"
-  description="The personal site and blog of Anthony Gonzales, a Product Engineer based in New York."
->
-  <!-- Posts -->
-  <section itemscope itemtype="https://schema.org/Blog">
-    {
-      latest ? (
-        <article
-          itemscope
-          itemtype="https://schema.org/BlogPosting"
-          class="mb-12"
-        >
-          {latest.data.featured ? (
-            <p class="mt-0 mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-meta)]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="inline-block w-[1em] h-[1em] mr-1 align-middle"
-              >
-                <path d="M16 3a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-.187 1.633l-4.52 2.26V15a1 1 0 0 1-.293.707l-2 2A1 1 0 0 1 12 17v-4.586l-3.293 3.293a1 1 0 0 1-1.414-1.414L10.586 11H6a1 1 0 0 1-.707-1.707l2-2A1 1 0 0 1 8 7h3.814l2.26-4.52A1 1 0 0 1 15.707 3z" />
-              </svg>
-              Pinned
-            </p>
-          ) : null}
-          <h2 class="mt-0 mb-2">
-            <a
-              href={`/blog/${latest.id}/`}
-              class="no-underline"
-              itemprop="url headline"
-            >
-              {latest.data.title}
-            </a>
-          </h2>
-          <time
-            datetime={latest.data.pubDate.toISOString()}
-            class="italic text-[var(--color-meta)]"
-            itemprop="datePublished"
-          >
-            {formatDate(latest.data.pubDate)}
-          </time>
-          {latest.data.heroImage ? (
-            <img
-              src={latest.data.heroImage.src}
-              alt={latest.data.title}
-              class="w-full rounded-sm my-4"
-            />
-          ) : null}
-          <p itemprop="description">{getExcerpt(latest.body ?? "")}</p>
-          <a href={`/blog/${latest.id}/`} class="no-underline">
-            Read more &rarr;
-          </a>
-        </article>
-      ) : null
-    }
+<BaseLayout title="Anthony Gonzales" description={siteDescription}>
+  <div class="pt-2">
+    <h1
+      class="font-display text-[clamp(44px,6vw,72px)] leading-[0.98] font-bold tracking-[-0.01em] uppercase"
+    >
+      Anthony<br /><span
+        class="text-ink supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)]"
+        >Gonzales</span
+      >
+    </h1>
+    <p class="mt-6 max-w-[44rem] font-sans text-[19px] leading-[1.55]">
+      Staff Frontend Engineer in NYC, building software for real estate agents
+      at <a href="https://compass.com" target="_blank">Compass</a>. He <a
+        href="/blog/">writes about the work</a
+      >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
+      making it. He keeps <a href="/reading/">notes on what he reads</a>.
+    </p>
+  </div>
 
-    {
-      rest.length > 0 ? (
-        <ul class="not-prose list-none p-0 m-0">
-          {rest.map((post) => (
-            <li class="flex justify-between items-baseline gap-6 py-2">
-              <a href={`/blog/${post.id}/`} class="no-underline">
-                {post.data.title}
-              </a>
-              <time
-                datetime={post.data.pubDate.toISOString()}
-                class="italic text-[var(--color-meta)] shrink-0"
-              >
-                {formatDate(post.data.pubDate)}
-              </time>
-            </li>
-          ))}
-        </ul>
-      ) : null
-    }
-  </section>
+  <!-- (dés)ordres returns here with its writeup — see home-4.17.0 spec for the plinth treatment -->
+
+  <div class="grid grid-cols-1 gap-x-18 pt-4 min-[881px]:grid-cols-[1fr_330px]">
+    <section>
+      <SectionLabel display>Writing</SectionLabel>
+      {
+        latest.map((post) => (
+          <Entry
+            home
+            date={entryDate(post.data.pubDate)}
+            title={homepageTitles[post.id] ?? post.data.title}
+            href={`/blog/${post.id}/`}
+            dek={post.data.description}
+          />
+        ))
+      }
+      <a class="mt-5 inline-block text-[13px]" href="/blog/"
+        >View all writing &rarr;</a
+      >
+    </section>
+
+    <div class="min-[881px]:mt-0 max-[880px]:mt-4">
+      <section>
+        <SectionLabel display>Releases</SectionLabel>
+        {
+          record.map((item) => (
+            <Entry
+              home
+              date={item.year}
+              title={item.title}
+              href={item.href}
+              who={item.who}
+            />
+          ))
+        }
+      </section>
+
+      <section>
+        <SectionLabel display>Reading</SectionLabel>
+        {
+          current ? (
+            <Entry
+              home
+              date="NOW"
+              title={current.data.title}
+              who={current.data.author}
+            />
+          ) : null
+        }
+        {
+          finished.map((book) => (
+            <Entry
+              home
+              date={String(book.data.finished!.getUTCFullYear())}
+              title={book.data.title}
+              who={book.data.author}
+            />
+          ))
+        }
+      </section>
+    </div>
+  </div>
 </BaseLayout>

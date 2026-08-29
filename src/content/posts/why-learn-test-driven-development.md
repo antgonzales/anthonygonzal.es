@@ -1,9 +1,9 @@
 ---
 title: "Why learn Test-Driven Development?"
-description: "Create a safe environment to take risks, build confidence, and write legible code. Learn how to start with Javascript, React"
+description: "What the discipline buys you beyond the tests themselves."
 pubDate: 2020-04-21
 heroImage: ../../assets/img/glass-house-at-night-compressed.jpg
-tags: []
+tags: ["technical"]
 ---
 
 Across all of my professional software projects, I insist on Test-Driven Development (TDD). Not all developers share my enthusiasm and some see testing as onerous and costly. TDD is another skill to learn and a powerful tool for the long term health of a software project. Test-Driven Development creates a safe environment for developers to take risks, builds trust between team members and management, and provides legibility for other developers to make changes.

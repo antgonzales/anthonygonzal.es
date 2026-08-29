@@ -3,10 +3,10 @@ title: "The joy of tidying npm scripts with nps"
 description: "npm scripts can become unruly quickly, especially when working with an evolving code base. Learn the joy of tidying with nps ✨"
 pubDate: 2019-04-15
 updatedDate: 2026-04-19
-tags: []
+tags: ["technical"]
 ---
 
-<div class="callout warning-callout">
+<div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
   <strong>Note:</strong> <code>nps</code> is unmaintained as of 2026. If you're in a monorepo, your workspace tooling likely handles this better. For single packages, <code>npm run</code> lists all scripts out of the box, which covers most of the discoverability problem. For documentation that doesn't fit in a script name, your README is the right place.
 </div>
 

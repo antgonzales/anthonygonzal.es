@@ -3,7 +3,7 @@ title: "Introducing Compass One"
 description: "As Frontend Lead for Compass One, I helped build the first real estate client dashboard that combines major platform products into an industry-first solution."
 pubDate: 2025-02-10
 heroImage: ../../assets/img/compass-one.webp
-tags: []
+tags: ["announcement"]
 ---
 
 I'm proud to have served as the Frontend Engineering Lead for [Compass One](https://one.compass.com), the first-ever real estate client dashboard! This project has been years in the making and combines some of the largest products on the platform into an industry first.

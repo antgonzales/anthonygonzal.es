@@ -1,102 +1,68 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Class-based dark mode — toggled by ThemeToggle */
-@variant dark (&:where(.dark, .dark *));
-
-/* Register Astro font CSS variables with Tailwind */
-@theme inline {
-  --font-sans: var(--font-geist), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/fonts/SpaceGrotesk-700-subset.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
-/* Color tokens as Tailwind theme variables */
+:root {
+  --sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --display: "Space Grotesk", var(--sans);
+}
+
+/* ---------------------------------------------------------------------------
+   v4 design tokens — the whole stylesheet.
+
+   Site surfaces use sans and mono. The serif token remains available for
+   isolated editorial treatments. Never hardcode a family in a component.
+
+   Each site color carries both modes in one `light-dark()` value. The switch
+   is `scheme-light-dark` on <html>, which sets `color-scheme`. Shiki is the
+   exception: its generated dual-theme variables require the media query below.
+
+   Everything else is a utility in the markup, including descendant utilities
+   for generated Markdown — see Prose.astro.
+--------------------------------------------------------------------------- */
 @theme {
-  --color-bg: #fff;
-  --color-text: #222;
-  --color-link: #76a7d8;
-  --color-nav: #a52a2a;
-  --color-meta: #777;
-  --color-border: #ddd;
-  --color-code-bg: #f6f8fa;
+  --font-serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  --font-sans: var(--sans);
+  --font-display: var(--display);
+
+  /* Warm neutrals borrowed from thewayofcode.com: paper and ink trade places
+     between modes, and the two grays are that palette's own. */
+  --color-ink: light-dark(#1f1e1d, #f0eee6);
+  --color-faint: light-dark(#5e5d59, #87867f);
+  --color-paper: light-dark(#faf9f5, #1f1e1d);
+  --color-rule: light-dark(#e0ded8, #3e3d39);
 }
 
-/* Dark mode token overrides */
-.dark {
-  --color-bg: #1e1e1e;
-  --color-text: #e8e8e8;
-  --color-link: #76a7d8;
-  --color-nav: #cc4444;
-  --color-meta: #888;
-  --color-border: #333;
-  --color-code-bg: #1e1e1e;
-}
-
-/* Base styles */
+/* One low-specificity link default. Component utilities can safely override
+   its thickness, offset, color, or remove the underline altogether. */
 @layer base {
-  html {
-    background-color: var(--color-bg);
-    color: var(--color-text);
-  }
-
-  body {
-    font-size: 1.125rem; /* 18px */
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
-  }
-
   a {
-    text-underline-offset: 0.3rem;
+    @apply decoration-faint underline underline-offset-[3px];
   }
 
-  code {
-    background-color: var(--color-code-bg);
-    border-radius: 0.25rem;
-    padding: 0.15em 0.35em;
-    font-size: 0.875em;
-    font-weight: 400;
+  a:hover {
+    @apply decoration-ink;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
+  a:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ink;
   }
 }
 
-/* Suppress Tailwind Typography's backtick pseudo-elements on inline code */
-.prose code::before,
-.prose code::after {
-  content: none;
-}
-
-/* Callout blocks — used inside MDX, can't use utility classes */
-.callout {
-  padding: 1rem 1.25rem;
-  margin: 1.5rem 0;
-  border-radius: 0.25rem;
-}
-
-.warning-callout {
-  background-color: #fffbeb;
-  border: 1px solid #f0ce47;
-}
-
-.dark .warning-callout {
-  background-color: #2a2500;
-  border-color: #a08c30;
-}
-
-/* External link icon — appears after all target="_blank" links */
-a[target="_blank"]::after {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
-  display: inline-block;
-  margin-left: 0.25em;
-  vertical-align: middle;
-}
-
-.dark a[target="_blank"]::after {
-  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+/* Astro/Shiki emits both palettes inline; this is the switch between them. */
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
 }

@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Entry from "../../components/Entry.astro";
+import { byNewest, entryDate } from "../../lib/posts";
+
+const posts = byNewest(await getCollection("posts"));
+---
+
+<BaseLayout
+  title="Writing"
+  description="Everything Anthony Gonzales has written, newest first."
+  rail
+>
+  <div class="pagehead mb-2">
+    <h1 class="font-display text-xl font-bold tracking-[0.12em] uppercase">
+      Writing
+    </h1>
+  </div>
+  {
+    posts.map((post) => (
+      <Entry
+        date={entryDate(post.data.pubDate)}
+        title={post.data.title}
+        href={`/blog/${post.id}/`}
+        dek={post.data.description}
+      />
+    ))
+  }
+</BaseLayout>

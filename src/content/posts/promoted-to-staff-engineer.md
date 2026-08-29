@@ -2,7 +2,7 @@
 title: "Promoted to Staff Engineer"
 description: "Celebrating my promotion to Staff Engineer at Compass after 8 years. Grateful for the journey from IC2 to IC5 and excited for what's next."
 pubDate: 2025-09-15
-tags: []
+tags: ["announcement"]
 ---
 
 I'm happy to announce that I've been promoted to Staff Engineer at Compass.

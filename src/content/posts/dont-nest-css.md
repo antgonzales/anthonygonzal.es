@@ -3,7 +3,7 @@ title: "Don't nest CSS"
 description: "SASS nesting promised clean, scoped styles. Native CSS nesting delivers the same promise. The problem was never the preprocessor."
 pubDate: 2014-09-28
 updatedDate: 2026-04-01
-tags: []
+tags: ["technical"]
 ---
 What's wrong with this code?
 

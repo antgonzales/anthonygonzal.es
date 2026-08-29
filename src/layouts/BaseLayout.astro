@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
-import ThemeToggle from "../components/ThemeToggle.astro";
-import { Font } from "astro:assets";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Rail from "../components/Rail.astro";
+import { siteName } from "../data/site.json";
 
 interface Props {
   title: string;
@@ -9,23 +11,38 @@ interface Props {
   ogImage?: string;
   pubDate?: Date;
   updatedDate?: Date;
+  rail?: boolean;
+  /** Keep the page out of search results. For chrome-only routes like 404. */
+  noindex?: boolean;
 }
 
-const { title, description, ogImage, pubDate, updatedDate } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  pubDate,
+  updatedDate,
+  rail = false,
+  noindex = false,
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteName = "Anthony Gonzales";
-const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
+const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scheme-light-dark bg-paper">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Font cssVariable="--font-geist" preload />
-    <Font cssVariable="--font-geist-mono" preload />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link
+      rel="preload"
+      href="/fonts/SpaceGrotesk-700-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -33,37 +50,42 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
       href="/rss.xml"
     />
     <link rel="canonical" href={canonicalURL} />
+    {noindex ? <meta name="robots" content="noindex" /> : null}
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
-    {description && <meta name="description" content={description} />}
+    {description ? <meta name="description" content={description} /> : null}
 
     <!-- Open Graph -->
     <meta property="og:type" content={pubDate ? "article" : "website"} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={siteName} />
-    {description && <meta property="og:description" content={description} />}
     {
-      ogImage && (
-        <meta property="og:image" content={new URL(ogImage, Astro.site)} />
-      )
+      description ? (
+        <meta property="og:description" content={description} />
+      ) : null
     }
     {
-      pubDate && (
+      ogImage ? (
+        <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+      ) : null
+    }
+    {
+      pubDate ? (
         <meta
           property="article:published_time"
           content={pubDate.toISOString()}
         />
-      )
+      ) : null
     }
     {
-      updatedDate && (
+      updatedDate ? (
         <meta
           property="article:modified_time"
           content={updatedDate.toISOString()}
         />
-      )
+      ) : null
     }
 
     <!-- Twitter card -->
@@ -72,53 +94,42 @@ const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
       content={ogImage ? "summary_large_image" : "summary"}
     />
     <meta name="twitter:title" content={fullTitle} />
-    {description && <meta name="twitter:description" content={description} />}
     {
-      ogImage && (
+      description ? (
+        <meta name="twitter:description" content={description} />
+      ) : null
+    }
+    {
+      ogImage ? (
         <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+      ) : null
+    }
+  </head>
+  <body
+    class:list={[
+      // One shell on every route keeps the header and footer anchored while
+      // the content between them changes shape. The min-height flex column
+      // pins the footer to the viewport bottom on pages too short to fill it;
+      // `main` takes the slack via flex-1. Width and gutters stay on this same
+      // element, so centering is unaffected.
+      "mx-auto flex min-h-screen max-w-[62rem] flex-col px-5 font-mono text-sm leading-[1.6] tabular-nums text-ink md:px-8",
+    ]}
+  >
+    <SiteHeader />
+    {
+      rail ? (
+        <main class="flex-1 grid grid-cols-1 gap-x-12 pt-14 min-[881px]:grid-cols-[minmax(0,1fr)_272px]">
+          <div class="min-w-0">
+            <slot />
+          </div>
+          <Rail />
+        </main>
+      ) : (
+        <main class="flex-1 pt-12">
+          <slot />
+        </main>
       )
     }
-
-    <!-- No-flash dark mode init — must run before first paint -->
-    <script is:inline>
-      (function () {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        if (stored === "dark" || (!stored && prefersDark)) {
-          document.documentElement.classList.add("dark");
-        }
-      })();
-    </script>
-  </head>
-  <body>
-    <!-- Nav -->
-    <header class="mt-10 mb-10">
-      <div
-        class="max-w-3xl mx-auto px-6 flex justify-between items-center w-full"
-      >
-        <a
-          href="/"
-          aria-label="Anthony Gonzales home"
-          class="text-[var(--color-nav)] leading-tight no-underline hover:no-underline"
-        >
-          <span>Anthony Gonzales</span>
-        </a>
-
-        <!-- Nav links -->
-        <nav class="flex items-center gap-4 p-0 m-0">
-          <a href="/about/" class="text-[var(--color-text)]">About</a>
-          <ThemeToggle />
-        </nav>
-      </div>
-    </header>
-
-    <!-- Main content -->
-    <main
-      class="prose prose-neutral dark:prose-invert prose-headings:font-normal max-w-3xl mx-auto px-6 pb-24 w-full"
-    >
-      <slot />
-    </main>
+    <SiteFooter showElsewhere={!rail} />
   </body>
 </html>

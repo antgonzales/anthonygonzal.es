@@ -1,0 +1,144 @@
+import { describe, it, expect } from "vitest";
+import {
+  byNewest,
+  entryDate,
+  getTechnicalPosts,
+  monthYear,
+  neighbors,
+} from "./posts";
+
+function post(id: string, pubDate: string) {
+  return { id, data: { pubDate: new Date(pubDate), tags: ["technical"] } };
+}
+
+function announcement(id: string, pubDate: string) {
+  return { id, data: { pubDate: new Date(pubDate), tags: ["announcement"] } };
+}
+
+function untagged(id: string, pubDate: string) {
+  return { id, data: { pubDate: new Date(pubDate) } };
+}
+
+describe("byNewest()", () => {
+  it("puts the most recent post first", () => {
+    const posts = [post("older", "2020-01-01"), post("newer", "2026-01-01")];
+    expect(byNewest(posts).map((entry) => entry.id)).toEqual([
+      "newer",
+      "older",
+    ]);
+  });
+
+  it("leaves the list it was given untouched", () => {
+    const posts = [post("older", "2020-01-01"), post("newer", "2026-01-01")];
+    byNewest(posts);
+    expect(posts.map((entry) => entry.id)).toEqual(["older", "newer"]);
+  });
+
+  it("keeps posts sharing a date in the order given", () => {
+    const posts = [post("first", "2026-01-01"), post("second", "2026-01-01")];
+    expect(byNewest(posts).map((entry) => entry.id)).toEqual([
+      "first",
+      "second",
+    ]);
+  });
+});
+
+describe("getTechnicalPosts()", () => {
+  it("lists posts newest first", () => {
+    const posts = [post("older", "2014-09-28"), post("newer", "2026-08-10")];
+    expect(getTechnicalPosts(posts).map((entry) => entry.id)).toEqual([
+      "newer",
+      "older",
+    ]);
+  });
+
+  it("leaves out announcements", () => {
+    const posts = [
+      announcement("a-launch-post", "2026-09-15"),
+      post("a-technical-post", "2026-08-10"),
+    ];
+    expect(getTechnicalPosts(posts).map((entry) => entry.id)).toEqual([
+      "a-technical-post",
+    ]);
+  });
+
+  it("leaves out a post that carries no tags at all", () => {
+    const posts = [
+      untagged("no-tags", "2026-09-15"),
+      post("tagged", "2026-08-10"),
+    ];
+    expect(getTechnicalPosts(posts).map((entry) => entry.id)).toEqual([
+      "tagged",
+    ]);
+  });
+
+  it("returns no more than the limit it is given", () => {
+    const posts = [post("newer", "2026-08-10"), post("older", "2014-09-28")];
+    expect(getTechnicalPosts(posts, 1).map((entry) => entry.id)).toEqual([
+      "newer",
+    ]);
+  });
+});
+
+describe("entryDate()", () => {
+  it("writes the whole date on one line", () => {
+    expect(entryDate(new Date("2026-08-10"))).toBe("AUG 10, 2026");
+  });
+
+  it("pads a single-digit day", () => {
+    expect(entryDate(new Date("2026-08-01"))).toBe("AUG 01, 2026");
+  });
+
+  it("renders a midnight UTC date as that day, not the day before", () => {
+    expect(entryDate(new Date("2025-09-15"))).toBe("SEP 15, 2025");
+  });
+});
+
+describe("monthYear()", () => {
+  it("names the month and year, never the day", () => {
+    expect(monthYear(new Date("2026-07-21"))).toBe("JUL 2026");
+  });
+
+  it("keeps the first of January in the year it falls in", () => {
+    expect(monthYear(new Date("2026-01-01"))).toBe("JAN 2026");
+  });
+});
+
+describe("neighbors()", () => {
+  function archive() {
+    return [
+      post("newest", "2026-01-01"),
+      post("middle", "2025-01-01"),
+      post("oldest", "2024-01-01"),
+    ];
+  }
+
+  it("finds the older post as previous", () => {
+    expect(neighbors(archive(), "middle").previous?.id).toBe("oldest");
+  });
+
+  it("finds the newer post as next", () => {
+    expect(neighbors(archive(), "middle").next?.id).toBe("newest");
+  });
+
+  it("orders the posts itself, whatever order they arrive in", () => {
+    const shuffled = [
+      post("oldest", "2024-01-01"),
+      post("newest", "2026-01-01"),
+      post("middle", "2025-01-01"),
+    ];
+    expect(neighbors(shuffled, "middle").next?.id).toBe("newest");
+  });
+
+  it("finds nothing newer than the newest post", () => {
+    expect(neighbors(archive(), "newest").next).toBeUndefined();
+  });
+
+  it("finds nothing older than the oldest post", () => {
+    expect(neighbors(archive(), "oldest").previous).toBeUndefined();
+  });
+
+  it("finds no neighbours for a post that was never published", () => {
+    expect(neighbors(archive(), "never-published")).toEqual({});
+  });
+});

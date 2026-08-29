@@ -1,0 +1,33 @@
+---
+/** Tailwind Typography owns the generated Markdown element styles. */
+interface Props {
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { class: className, ...attrs } = Astro.props;
+---
+
+<div
+  class:list={[
+    "prose max-w-none font-sans",
+    "[--tw-prose-body:var(--color-ink)] [--tw-prose-headings:var(--color-ink)]",
+    "[--tw-prose-lead:var(--color-ink)] [--tw-prose-links:var(--color-ink)]",
+    "[--tw-prose-bold:var(--color-ink)] [--tw-prose-counters:var(--color-faint)]",
+    "[--tw-prose-bullets:var(--color-faint)] [--tw-prose-hr:var(--color-rule)]",
+    "[--tw-prose-quotes:var(--color-faint)] [--tw-prose-quote-borders:var(--color-rule)]",
+    "[--tw-prose-captions:var(--color-faint)] [--tw-prose-code:var(--color-ink)]",
+    "[--tw-prose-pre-code:var(--color-ink)] [--tw-prose-pre-bg:transparent]",
+    "[--tw-prose-th-borders:var(--color-rule)] [--tw-prose-td-borders:var(--color-rule)]",
+    "prose-p:text-[19px] prose-p:leading-[1.55]",
+    "prose-headings:font-sans prose-headings:font-normal",
+    "[&_:not(pre)>code]:rounded-sm [&_:not(pre)>code]:bg-rule [&_:not(pre)>code]:px-1 [&_:not(pre)>code]:py-0.5",
+    "[&_:not(pre)>code]:font-mono [&_:not(pre)>code]:text-[0.85em] [&_:not(pre)>code]:font-normal",
+    "[&_:not(pre)>code]:before:content-none [&_:not(pre)>code]:after:content-none",
+    "prose-pre:rounded-none prose-pre:px-5 prose-pre:py-4",
+    className,
+  ]}
+  {...attrs}
+>
+  <slot />
+</div>

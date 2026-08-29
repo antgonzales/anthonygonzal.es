@@ -1,0 +1,16 @@
+{
+  "siteName": "Anthony Gonzales",
+  "siteDescription": "Anthony Gonzales is a Staff Frontend Engineer in New York.",
+  "nav": [
+    { "label": "Writing", "href": "/blog/" },
+    { "label": "Reading", "href": "/reading/" }
+  ],
+  "elsewhere": [
+    { "label": "GitHub", "href": "https://github.com/antgonzales" },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/anthony-gonzales-5a06b994"
+    },
+    { "label": "RSS", "href": "/rss.xml" }
+  ]
+}

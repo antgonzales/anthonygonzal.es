@@ -1,10 +1,10 @@
 ---
 title: "Testing components that make API calls"
-description: "Learn how to test API calls in components with examples in React and Jest. Write tests flexible enough for change"
+description: "Mock the network boundary, not your own modules."
 pubDate: 2020-05-25
 updatedDate: 2024-03-03
 heroImage: ../../assets/img/post-boxes-on-brick-compressed.jpg
-tags: []
+tags: ["technical"]
 ---
 
 Most examples that discuss [Test-Driven Development](/blog/why-learn-test-driven-development/) don't include information about how to test components that fetch data. With Jest, we get an environment in Node.js that mimics the browser because it provides jsdom. However, Jest does not describe a "batteries included" vision for server responses. Let's discuss the best way to test front-end components that make API calls.
@@ -42,7 +42,7 @@ test('loads and displays greeting', async () => {
 })
 ```
 
-<div class="callout warning-callout">
+<div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
 Update: Testing Library recommends <a href="https://mswjs.io" rel="noopener nofollow" target="_blank">Mock Service Worker</a> and no longer maintains the example above.
 </div>
 
