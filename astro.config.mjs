@@ -5,15 +5,18 @@ import react from "@astrojs/react";
 import rehypeExternalLinks from "rehype-external-links";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import inkPaper from "./src/themes/ink-paper.json" with { type: "json" };
-import ink from "./src/themes/ink.json" with { type: "json" };
+import replicaBone from "./src/themes/replica-bone.json" with { type: "json" };
+import replicaCarbon from "./src/themes/replica-carbon.json" with { type: "json" };
 
 // JSON imports widen literal strings; restore Shiki's discriminated theme type.
-const inkPaperTheme = {
-  ...inkPaper,
+const replicaBoneTheme = {
+  ...replicaBone,
   type: /** @type {"light"} */ ("light"),
 };
-const inkTheme = { ...ink, type: /** @type {"dark"} */ ("dark") };
+const replicaCarbonTheme = {
+  ...replicaCarbon,
+  type: /** @type {"dark"} */ ("dark"),
+};
 
 export default defineConfig({
   site: "https://anthonygonzal.es",
@@ -27,7 +30,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      themes: { light: inkPaperTheme, dark: inkTheme },
+      themes: { light: replicaBoneTheme, dark: replicaCarbonTheme },
     },
     rehypePlugins: [
       [rehypeExternalLinks, { rel: ["noopener"], target: "_blank" }],

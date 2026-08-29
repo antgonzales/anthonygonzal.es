@@ -51,6 +51,7 @@ export default function Desordres({
   seed = 0x9c43,
   animated = true,
   className,
+  style,
   ...props
 }: ArtworkProps) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -112,6 +113,7 @@ export default function Desordres({
       {...props}
       ref={svgRef}
       className={className}
+      style={{ backgroundColor: "light-dark(#e5e2d9, #201f1d)", ...style }}
       viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
       xmlns="http://www.w3.org/2000/svg"
       role="img"

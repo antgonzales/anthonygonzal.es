@@ -4,15 +4,16 @@ import { elsewhere } from "../data/site.json";
 ---
 
 <aside
-  class="border-rule min-w-0 border-l pl-8 max-[880px]:mt-12 max-[880px]:border-t max-[880px]:border-l-0 max-[880px]:pt-8 max-[880px]:pl-0 [&_a]:decoration-faint [&_a]:decoration-[0.04em] [&_a]:underline-offset-[0.1em] [&_a:hover]:decoration-[0.04em] [&_a:hover]:decoration-ink"
+  class="border-rule min-w-0 border-l pl-8 max-[880px]:mt-12 max-[880px]:border-l-0 max-[880px]:pt-8 max-[880px]:pl-0 [&_a]:decoration-faint [&_a]:decoration-[0.04em] [&_a]:underline-offset-[0.1em] [&_a:hover]:decoration-[0.04em] [&_a:hover]:decoration-ink"
 >
   <section class="pb-7">
     <SectionLabel first display class="mb-2.5">About</SectionLabel>
     <p class="font-sans text-[15px] leading-[1.55]">
-      Anthony Gonzales is a Staff Frontend Engineer at Compass in New York. He
-      writes about frontend systems, and reads slowly, with notes. <a href="/"
-        >More &rarr;</a
-      >
+      Anthony Gonzales is a Staff Frontend Engineer in NYC, building software
+      for real estate agents at <a href="https://compass.com">Compass</a>. He <a
+        href="/blog/">writes about the work</a
+      >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
+      making it. He keeps <a href="/reading/">notes on what he reads</a>.
     </p>
   </section>
 
@@ -23,7 +24,12 @@ import { elsewhere } from "../data/site.json";
     <div class="text-[13px]">
       {
         elsewhere.map((item) => (
-          <a class="block py-1" href={item.href}>
+          <a
+            class="block py-1"
+            href={item.href}
+            target="_blank"
+            rel="noopener"
+          >
             {item.label}
           </a>
         ))
