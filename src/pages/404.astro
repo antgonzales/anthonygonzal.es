@@ -1,10 +1,27 @@
 ---
+// Cloudflare Pages serves this as 404.html, with a real 404 status, for any
+// unmatched path. No rail, so the footer carries Elsewhere.
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Page not found" description="This page does not exist.">
-  <h1 class="font-serif text-[34px] font-normal">Page not found</h1>
-  <p class="mt-4 font-serif text-[17.5px] leading-[1.68]">
-    That URL doesn&rsquo;t exist. <a href="/">Go home</a>.
+<BaseLayout title="404" noindex>
+  <h1
+    class="font-display text-[clamp(56px,13.5vw,148px)] leading-[0.92] font-bold tracking-[-0.02em] text-ink supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)]"
+  >
+    404
+  </h1>
+  <p class="mt-6 font-mono text-[13.5px] text-faint">
+    This page doesn&rsquo;t exist. The URL may have changed, or it never was.
   </p>
+  <nav class="mt-8 font-mono text-[13px]">
+    {
+      /* set:text, as in SiteHeader: a child node keeps its surrounding newline
+        and indent as real whitespace, and the underline runs under it. */
+    }
+    <a href="/" set:text="Home" />
+    <span class="mx-[1ch] text-faint">·</span>
+    <a href="/blog/" set:text="Writing" />
+    <span class="mx-[1ch] text-faint">·</span>
+    <a href="/reading/" set:text="Reading" />
+  </nav>
 </BaseLayout>

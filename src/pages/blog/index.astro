@@ -16,9 +16,6 @@ const posts = byNewest(await getCollection("posts"));
     <h1 class="font-display text-xl font-bold tracking-[0.12em] uppercase">
       Writing
     </h1>
-    <p class="mt-2 text-[13px] text-faint">
-      {posts.length} posts &middot; <a href="/rss.xml">RSS</a>
-    </p>
   </div>
   {
     posts.map((post) => (

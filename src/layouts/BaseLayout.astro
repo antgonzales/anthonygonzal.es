@@ -12,6 +12,8 @@ interface Props {
   pubDate?: Date;
   updatedDate?: Date;
   rail?: boolean;
+  /** Keep the page out of search results. For chrome-only routes like 404. */
+  noindex?: boolean;
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   pubDate,
   updatedDate,
   rail = false,
+  noindex = false,
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
@@ -47,6 +50,7 @@ const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
       href="/rss.xml"
     />
     <link rel="canonical" href={canonicalURL} />
+    {noindex ? <meta name="robots" content="noindex" /> : null}
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
@@ -104,25 +108,28 @@ const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
   <body
     class:list={[
       // One shell on every route keeps the header and footer anchored while
-      // the content between them changes shape.
-      "mx-auto max-w-[62rem] px-5 font-mono text-sm leading-[1.6] tabular-nums text-ink md:px-8",
+      // the content between them changes shape. The min-height flex column
+      // pins the footer to the viewport bottom on pages too short to fill it;
+      // `main` takes the slack via flex-1. Width and gutters stay on this same
+      // element, so centering is unaffected.
+      "mx-auto flex min-h-screen max-w-[62rem] flex-col px-5 font-mono text-sm leading-[1.6] tabular-nums text-ink md:px-8",
     ]}
   >
     <SiteHeader />
     {
       rail ? (
-        <main class="grid grid-cols-1 gap-x-12 pt-14 min-[881px]:grid-cols-[minmax(0,1fr)_272px]">
+        <main class="flex-1 grid grid-cols-1 gap-x-12 pt-14 min-[881px]:grid-cols-[minmax(0,1fr)_272px]">
           <div class="min-w-0">
             <slot />
           </div>
           <Rail />
         </main>
       ) : (
-        <main class="pt-12">
+        <main class="flex-1 pt-12">
           <slot />
         </main>
       )
     }
-    <SiteFooter showElsewhere={Astro.url.pathname === "/"} />
+    <SiteFooter showElsewhere={!rail} />
   </body>
 </html>
