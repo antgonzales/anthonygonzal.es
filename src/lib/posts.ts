@@ -1,15 +1,6 @@
-/**
- * Announcement posts. They stay in the writing index, in RSS, and at their
- * URLs — they are only held out of the homepage "Latest" list, which is for
- * technical writing. Case-study announcements move to /work when it ships.
- *
- * src/data/announcements.json is the one place to edit the exclusion.
- */
-import announcementSlugs from "../data/announcements.json";
-
 interface PostLike {
   id: string;
-  data: { pubDate: Date };
+  data: { pubDate: Date; tags?: readonly string[] };
 }
 
 /** Newest first. */
@@ -19,13 +10,20 @@ export function byNewest<T extends PostLike>(posts: T[]): T[] {
   );
 }
 
-/** The homepage list: the N most recent technical posts. */
+/**
+ * The homepage Writing section: the N most recent technical posts.
+ *
+ * Drawn from posts tagged `technical`, so this is opt-in: an untagged post
+ * will not appear here. Everything else — announcements included — still
+ * shows in /blog/, in RSS, and at its URL. Case-study announcements move to
+ * /work when it ships.
+ */
 export function getTechnicalPosts<T extends PostLike>(
   posts: T[],
   limit?: number,
 ): T[] {
-  const technical = byNewest(posts).filter(
-    (post) => !announcementSlugs.includes(post.id),
+  const technical = byNewest(posts).filter((post) =>
+    post.data.tags?.includes("technical"),
   );
   return limit === undefined ? technical : technical.slice(0, limit);
 }

@@ -3,6 +3,7 @@ title: "Setup Prettier and ESLint with Typescript"
 description: "Learn how to leverage ESLint, Prettier with Typescript to reduce bugs and nitpicky reviews. I'll walk you through setup, explain the differences"
 pubDate: 2019-04-01
 updatedDate: 2023-12-20
+tags: ["technical"]
 ---
 
 Learn how to setup ESLint and Prettier with Typescript to free your team from standards, formatting, and type checking discussions. Each of these tools aren't hard to configure independently, but getting the type checker, linter, and style formatter to work together is tricky. Let's go through each of the tools I personally use, how I set them up, and how they work. Use the quickstart to get going if you don't have time for the longer explanation.

@@ -3,6 +3,7 @@ title: "How to improve Git monorepo performance"
 description: "Sparse checkout, fsmonitor, and the settings that matter past a few thousand files."
 pubDate: 2023-12-15
 updatedDate: 2024-05-04
+tags: ["technical"]
 ---
 
 [Git v2.37.0](https://github.blog/2022-06-27-highlights-from-git-2-37/) introduced new features that significantly improve performance for repositories with large numbers of files. This blog post will cover custom Git monorepo configurations to improve local performance and provide step-by-step guidance to rollback if anything goes wrong.

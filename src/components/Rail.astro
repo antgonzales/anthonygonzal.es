@@ -24,12 +24,7 @@ import { elsewhere } from "../data/site.json";
     <div class="text-[13px]">
       {
         elsewhere.map((item) => (
-          <a
-            class="block py-1"
-            href={item.href}
-            target="_blank"
-            rel="noopener"
-          >
+          <a class="block py-1" href={item.href} target="_blank" rel="noopener">
             {item.label}
           </a>
         ))

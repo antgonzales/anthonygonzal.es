@@ -11,6 +11,16 @@ const posts = defineCollection({
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       heroImage: image().optional(),
+      /**
+       * A closed vocabulary, so a typo fails the build instead of silently
+       * doing nothing. Widen it by adding a word here.
+       *
+       * `technical` — technical writing. This is what the homepage Writing
+       * list is drawn from, so a post without it will not appear there.
+       * `announcement` — a launch, award, or promotion. Still in /blog/, in
+       * RSS, and at its URL; just not in the homepage Writing list.
+       */
+      tags: z.array(z.enum(["technical", "announcement"])).optional(),
     }),
 });
 

@@ -3,6 +3,7 @@ title: "How to test React Router components with Testing Library"
 description: "Rendering routed components under test without mocking the router away."
 pubDate: 2024-06-03
 updatedDate: 2024-09-29
+tags: ["technical"]
 ---
 
 Let's test React Router components with Jest.

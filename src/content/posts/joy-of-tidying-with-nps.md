@@ -3,6 +3,7 @@ title: "The joy of tidying npm scripts with nps"
 description: "npm scripts can become unruly quickly, especially when working with an evolving code base. Learn the joy of tidying with nps ✨"
 pubDate: 2019-04-15
 updatedDate: 2026-04-19
+tags: ["technical"]
 ---
 
 <div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">

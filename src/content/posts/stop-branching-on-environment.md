@@ -2,6 +2,7 @@
 title: "Stop checking NODE_ENV in your frontend"
 description: "Why environment branching in the browser eventually chooses wrong, and the build-time contract that replaces it."
 pubDate: 2026-08-10
+tags: ["technical"]
 ---
 
 What's wrong with this code?

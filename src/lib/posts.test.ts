@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import announcements from "../data/announcements.json";
 import {
   byNewest,
   entryDate,
@@ -9,6 +8,14 @@ import {
 } from "./posts";
 
 function post(id: string, pubDate: string) {
+  return { id, data: { pubDate: new Date(pubDate), tags: ["technical"] } };
+}
+
+function announcement(id: string, pubDate: string) {
+  return { id, data: { pubDate: new Date(pubDate), tags: ["announcement"] } };
+}
+
+function untagged(id: string, pubDate: string) {
   return { id, data: { pubDate: new Date(pubDate) } };
 }
 
@@ -47,11 +54,21 @@ describe("getTechnicalPosts()", () => {
 
   it("leaves out announcements", () => {
     const posts = [
-      post(announcements[0], "2026-09-15"),
+      announcement("a-launch-post", "2026-09-15"),
       post("a-technical-post", "2026-08-10"),
     ];
     expect(getTechnicalPosts(posts).map((entry) => entry.id)).toEqual([
       "a-technical-post",
+    ]);
+  });
+
+  it("leaves out a post that carries no tags at all", () => {
+    const posts = [
+      untagged("no-tags", "2026-09-15"),
+      post("tagged", "2026-08-10"),
+    ];
+    expect(getTechnicalPosts(posts).map((entry) => entry.id)).toEqual([
+      "tagged",
     ]);
   });
 
