@@ -1,5 +1,5 @@
 ---
-title: "Stop checking NODE_ENV in your frontend"
+title: "Stop checking the environment in your frontend"
 description: "Why environment branching in the browser eventually chooses wrong, and the build-time contract that replaces it."
 pubDate: 2026-08-10
 tags: ["technical"]
@@ -12,20 +12,20 @@ const isProd = /^(www\.)?myapp\.com$/.test(window.location.hostname);
 const apiKey = isProd ? PRODUCTION_KEY : TEST_KEY;
 ```
 
-It works until someone adds a subdomain, migrates the domain, or spins up a
-preview environment nobody anticipated. Then the hostname check silently returns
-the wrong key, and the bug surfaces in production.
+It works until you add a subdomain, migrate the domain, or spin up a preview
+environment. In each of these cases, the hostname check will silently return
+the test key.
 
-The instinct is to make the detection smarter: add hostnames to the regex, pass
-an env prop, read it from context. But the problem isn't how the frontend
-detects its environment. It's the branch itself. Any code that chooses between
-values by environment will eventually choose wrong, because it can only handle
-the environments someone remembered to write down.
+Your instinct may be to make the detection smarter: add hostnames to the regex,
+pass an env prop, or read it from context. But the problem isn't how the
+frontend detects the environment. It's the branch itself. Any code that chooses
+between values by environment will eventually choose wrong, because it can only
+handle the environments you've considered.
 
 ## Let the build process decide
 
-So don't detect, and don't choose. Read one value that resolves before the code
-runs:
+The better option is not write runtime code to detect the environment. We can
+instead read one value before the code runs:
 
 ```js
 // before
@@ -37,18 +37,16 @@ const apiKey = process.env.PUBLISHABLE_API_KEY;
 ```
 
 Whether your build process injects the variable at build time (`VITE_` prefixed
-variables in Vite, `NEXT_PUBLIC_` in Next.js, `REACT_APP_` in Create React
-App) or at runtime (Docker, a deploy script), each environment receives its
-own value.
+variables in Vite, `NEXT_PUBLIC_` in Next.js, `REACT_APP_` in Create React App)
+or at runtime (Docker, a deploy script), each environment determines the value.
 
 The hostname regex, the `isProduction` helper, and the alternate keys all
-disappear from the codebase. What remains is a single stable contract: one
-name, one value. The preview environment that broke the regex just works,
-because its build receives its own key like every other.
+disappear from the codebase. What remains is a single stable contract instead
+of the maintenance burden of checking logically at runtime.
 
-One note on scope: anything bundled into the frontend is client-visible by
-definition, so this is for publishable configuration. A value that must stay
-secret never belongs in the browser at all.
+One note on scope: anything bundled into the frontend is client-visible on the
+browser. A value that must stay secret should never be used in client-side
+code.
 
 This is also how many hosting platforms expect you to work. <a href="https://developers.cloudflare.com/pages/configuration/build-configuration/" target="_blank" rel="nofollow noopener">Cloudflare Pages</a>
 supports separate variables for production and preview deployments. <a href="https://docs.netlify.com/build/environment-variables/overview/" target="_blank" rel="nofollow noopener">Netlify</a>
@@ -89,14 +87,11 @@ if (import.meta.env.DEV) {
 ```
 
 Branching on a build-tool flag is fine, and it isn't an exception. `DEV` is a
-flag set by the build tool, not calculated by application logic. It gates dev
+flag set by the build tool, not determined by application logic. It gates dev
 tooling rather than choosing between production values.
 
-The line to draw: reading a build-tool flag for dev tooling is fine. Application
-code choosing between runtime values by environment should move upstream.
-
-Environment detection in the frontend is the client reaching into knowledge it
-doesn't own, re-making a decision the build process already made correctly.
+Reading a build-tool flag for dev tooling is fine. Application code choosing
+between runtime values by environment should move upstream.
 
 Resolve the value upstream, hand the application one stable value, and an entire
 class of silent misconfiguration disappears. Tests get simpler for the same
