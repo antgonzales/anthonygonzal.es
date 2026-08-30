@@ -27,13 +27,12 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
   rail
 >
   <article class="prose" itemscope itemtype="https://schema.org/BlogPosting">
-    <h1 class="mb-2" itemprop="headline">
-      {title}
-    </h1>
-    <p class="mb-12 font-mono text-xs tracking-[0.08em] text-faint uppercase">
-      <time itemprop="datePublished" datetime={pubDate.toISOString()}>
-        {formatDate(pubDate)}
-      </time>
+    <time
+      class="font-mono text-xs tracking-[0.08em] text-faint uppercase"
+      itemprop="datePublished"
+      datetime={pubDate.toISOString()}
+    >
+      {formatDate(pubDate)}
       {
         updatedDate ? (
           <>
@@ -44,7 +43,10 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
           </>
         ) : null
       }
-    </p>
+    </time>
+    <h1 itemprop="headline">
+      {title}
+    </h1>
 
     {
       heroImage ? (
