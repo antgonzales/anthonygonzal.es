@@ -33,7 +33,10 @@ export default defineConfig({
       themes: { light: replicaBoneTheme, dark: replicaCarbonTheme },
     },
     rehypePlugins: [
-      [rehypeExternalLinks, { rel: ["noopener"], target: "_blank" }],
+      [
+        rehypeExternalLinks,
+        { rel: ["nofollow", "noopener"], target: "_blank" },
+      ],
     ],
   },
   integrations: [react(), mdx(), sitemap()],

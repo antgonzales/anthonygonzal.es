@@ -9,6 +9,9 @@ import { currentlyReading, finishedBooks } from "../lib/reading";
 // point at their launch posts until /work and its case studies exist.
 import record from "../data/record.json";
 import { siteDescription } from "../data/site.json";
+import { externalAttrs } from "../lib/links";
+
+const compass = "https://compass.com";
 
 const latest = getTechnicalPosts(await getCollection("posts"), 6);
 const books = await getCollection("reading");
@@ -34,7 +37,7 @@ const homepageTitles: Record<string, string> = {
     </h1>
     <p class="mt-6 max-w-[44rem] font-sans text-[19px] leading-[1.55]">
       Staff Frontend Engineer in NYC, building software for real estate agents
-      at <a href="https://compass.com" target="_blank">Compass</a>. He <a
+      at <a href={compass} {...externalAttrs(compass)}>Compass</a>. He <a
         href="/blog/">writes about the work</a
       >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
       making it. He keeps <a href="/reading/">notes on what he reads</a>.

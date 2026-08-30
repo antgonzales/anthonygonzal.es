@@ -2,6 +2,7 @@
 // Interior rails own Elsewhere; only the rail-less homepage repeats those
 // links in its footer. The chrome remains geometrically identical.
 import { elsewhere, siteName } from "../data/site.json";
+import { externalAttrs } from "../lib/links";
 
 interface Props {
   showElsewhere?: boolean;
@@ -9,6 +10,8 @@ interface Props {
 
 const { showElsewhere = false } = Astro.props;
 const year = new Date().getFullYear();
+const astroSite = "https://astro.build";
+const cloudflare = "https://pages.cloudflare.com";
 ---
 
 <footer
@@ -22,15 +25,26 @@ const year = new Date().getFullYear();
             <>
               {" · "}
               {/* set:text keeps the underline off the surrounding whitespace. */}
-              <a href={item.href} class="text-inherit" set:text={item.label} />
+              <a
+                href={item.href}
+                class="text-inherit"
+                set:text={item.label}
+                {...externalAttrs(item.href)}
+              />
             </>
           ))
         : null
     }
   </span>
   <span>
-    Built with <a href="https://astro.build" class="text-inherit">Astro</a> · Hosted
-    on <a href="https://pages.cloudflare.com" class="text-inherit">Cloudflare</a
+    Built with <a
+      href={astroSite}
+      class="text-inherit"
+      {...externalAttrs(astroSite)}>Astro</a
+    > · Hosted on <a
+      href={cloudflare}
+      class="text-inherit"
+      {...externalAttrs(cloudflare)}>Cloudflare</a
     >
   </span>
 </footer>

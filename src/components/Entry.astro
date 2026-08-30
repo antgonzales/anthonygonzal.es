@@ -4,6 +4,8 @@
  * then the dek. Block layout — no date column, no right-hand meta cell.
  * Used by the homepage lists, the writing index, and the reading page.
  */
+import { externalAttrs } from "../lib/links";
+
 interface Props {
   /** One line, already formatted — "AUG 10, 2026", "JUL 2026", "2019", "NOW". */
   date: string;
@@ -33,6 +35,7 @@ const { date, title, href, dek, who, home = false } = Astro.props;
         <a
           href={href}
           class="decoration-faint decoration-[0.04em] underline-offset-[0.1em] hover:decoration-[0.04em] hover:decoration-ink"
+          {...externalAttrs(href)}
         >
           {title}
         </a>

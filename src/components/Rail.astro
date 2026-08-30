@@ -1,6 +1,9 @@
 ---
 import SectionLabel from "./SectionLabel.astro";
 import { elsewhere } from "../data/site.json";
+import { externalAttrs } from "../lib/links";
+
+const compass = "https://compass.com";
 ---
 
 <aside
@@ -10,8 +13,8 @@ import { elsewhere } from "../data/site.json";
     <SectionLabel first display class="mb-2.5">About</SectionLabel>
     <p class="font-sans text-[15px] leading-[1.55]">
       Anthony Gonzales is a Staff Frontend Engineer at <a
-        href="https://compass.com"
-        target="_blank">Compass</a
+        href={compass}
+        {...externalAttrs(compass)}>Compass</a
       > in New York. He <a href="/blog/">writes about frontend systems</a>, and <a
         href="/reading/">takes notes as he reads</a
       >.
@@ -25,7 +28,7 @@ import { elsewhere } from "../data/site.json";
     <div class="text-[13px]">
       {
         elsewhere.map((item) => (
-          <a class="block py-1" href={item.href} target="_blank" rel="noopener">
+          <a class="block py-1" href={item.href} {...externalAttrs(item.href)}>
             {item.label}
           </a>
         ))
