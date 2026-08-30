@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, passthroughImageService } from "astro/config";
 import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 import react from "@astrojs/react";
 import rehypeExternalLinks from "rehype-external-links";
 import sitemap from "@astrojs/sitemap";
@@ -32,12 +33,14 @@ export default defineConfig({
     shikiConfig: {
       themes: { light: replicaBoneTheme, dark: replicaCarbonTheme },
     },
-    rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        { rel: ["nofollow", "noopener"], target: "_blank" },
+    processor: unified({
+      rehypePlugins: [
+        [
+          rehypeExternalLinks,
+          { rel: ["nofollow", "noopener"], target: "_blank" },
+        ],
       ],
-    ],
+    }),
   },
   integrations: [react(), mdx(), sitemap()],
   vite: {
