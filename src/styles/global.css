@@ -26,13 +26,16 @@
    is `scheme-light-dark` on <html>, which sets `color-scheme`. Shiki is the
    exception: its generated dual-theme variables require the media query below.
 
-   Everything else is a utility in the markup, including descendant utilities
-   for generated Markdown — see Prose.astro.
+   Everything else is a utility in the markup, including the descendant
+   utilities for generated Markdown — see PostLayout.
 --------------------------------------------------------------------------- */
 @theme {
   --font-serif: "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
   --font-sans: var(--sans);
   --font-display: var(--display);
+
+  /* The site reads in sans; the chrome opts into mono where it wants it. */
+  --default-font-family: var(--font-sans);
 
   /* Warm neutrals borrowed from thewayofcode.com: paper and ink trade places
      between modes, and the two grays are that palette's own. */

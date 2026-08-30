@@ -7,11 +7,11 @@ const compass = "https://compass.com";
 ---
 
 <aside
-  class="border-rule min-w-0 border-l pl-8 max-[880px]:mt-12 max-[880px]:border-l-0 max-[880px]:pt-8 max-[880px]:pl-0 [&_a]:decoration-faint [&_a]:decoration-[0.04em] [&_a]:underline-offset-[0.1em] [&_a:hover]:decoration-[0.04em] [&_a:hover]:decoration-ink"
+  class="border-rule min-w-0 border-l pl-8 max-[880px]:mt-12 max-[880px]:border-l-0 max-[880px]:pt-8 max-[880px]:pl-0 [&_a]:decoration-[0.04em] [&_a]:underline-offset-[0.1em] [&_a:hover]:decoration-[0.04em]"
 >
   <section class="pb-7">
     <SectionLabel first display class="mb-2.5">About</SectionLabel>
-    <p class="font-sans text-[15px] leading-[1.55]">
+    <p>
       Anthony Gonzales is a Staff Frontend Engineer at <a
         href={compass}
         {...externalAttrs(compass)}>Compass</a
@@ -25,7 +25,7 @@ const compass = "https://compass.com";
 
   <section class="py-7">
     <SectionLabel first display class="mb-2.5">Elsewhere</SectionLabel>
-    <div class="text-[13px]">
+    <div class="font-mono text-sm">
       {
         elsewhere.map((item) => (
           <a class="block py-1" href={item.href} {...externalAttrs(item.href)}>

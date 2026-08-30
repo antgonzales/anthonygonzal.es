@@ -10,7 +10,7 @@ tags: ["technical"]
 
 ## Quickstart
 
-<div class="my-7 border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
+<div class="my-7 border border-rule px-5 py-4 font-mono">
   <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in this tutorial on your main branch. <code>index.skipHash</code> causes errors on older Git versions.
 </div>
 

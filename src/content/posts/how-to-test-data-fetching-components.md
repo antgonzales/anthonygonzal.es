@@ -41,7 +41,7 @@ test('loads and displays greeting', async () => {
 })
 ```
 
-<div class="my-7 border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
+<div class="my-7 border border-rule px-5 py-4 font-mono">
 Update: Testing Library recommends <a href="https://mswjs.io" rel="noopener nofollow" target="_blank">Mock Service Worker</a> and no longer maintains the example above.
 </div>
 

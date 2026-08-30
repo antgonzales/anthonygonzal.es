@@ -24,17 +24,17 @@ const { date, title, href, dek, who, home = false } = Astro.props;
 ---
 
 <article class="py-7">
-  <div class="mb-[7px] text-xs tracking-[0.08em] text-faint uppercase">
+  <div
+    class="mb-[7px] font-mono text-xs tracking-[0.08em] text-faint uppercase"
+  >
     {date}
   </div>
-  <h3
-    class="font-sans text-[19px] leading-[1.3] font-semibold tracking-[-0.01em]"
-  >
+  <h3 class="text-[19px] leading-[1.3] font-semibold tracking-[-0.01em]">
     {
       href ? (
         <a
           href={href}
-          class="decoration-faint decoration-[0.04em] underline-offset-[0.1em] hover:decoration-[0.04em] hover:decoration-ink"
+          class="decoration-[0.04em] underline-offset-[0.1em] hover:decoration-[0.04em]"
           {...externalAttrs(href)}
         >
           {title}
@@ -50,7 +50,7 @@ const { date, title, href, dek, who, home = false } = Astro.props;
         class:list={[
           "mt-1.5 text-faint",
           home
-            ? "font-sans text-[13.5px] leading-[1.6]"
+            ? "text-[13.5px] leading-[1.6]"
             : "font-mono text-[13.5px] leading-[1.6]",
         ]}
       >
@@ -63,9 +63,7 @@ const { date, title, href, dek, who, home = false } = Astro.props;
       <p
         class:list={[
           "mt-1 text-faint",
-          home
-            ? "font-sans text-[13.5px] leading-[1.6]"
-            : "font-mono text-[13px]",
+          home ? "text-[13.5px] leading-[1.6]" : "font-mono text-[13px]",
         ]}
       >
         {who}

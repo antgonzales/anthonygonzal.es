@@ -2,7 +2,6 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import BaseLayout from "./BaseLayout.astro";
-import Prose from "../components/Prose.astro";
 import { formatDate } from "../lib/formatDate";
 
 interface Props {
@@ -27,14 +26,11 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
   ogImage={heroImage?.src}
   rail
 >
-  <article class="min-w-0" itemscope itemtype="https://schema.org/BlogPosting">
-    <h1
-      itemprop="headline"
-      class="mb-3 max-w-[24ch] font-sans text-[clamp(28px,3.2vw,38px)] leading-[1.25] font-normal"
-    >
+  <article class="prose" itemscope itemtype="https://schema.org/BlogPosting">
+    <h1 class="mb-2" itemprop="headline">
       {title}
     </h1>
-    <p class="mb-12 text-xs tracking-[0.08em] text-faint uppercase">
+    <p class="mb-12 font-mono text-xs tracking-[0.08em] text-faint uppercase">
       <time itemprop="datePublished" datetime={pubDate.toISOString()}>
         {formatDate(pubDate)}
       </time>
@@ -62,12 +58,12 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
       ) : null
     }
 
-    <Prose itemprop="articleBody">
+    <div class="mb-12" itemprop="articleBody">
       <slot />
-    </Prose>
+    </div>
 
     <nav
-      class="mt-12 flex justify-between gap-[2ch] border-t border-rule pt-5 text-[13px]"
+      class="flex justify-between gap-[2ch] border-t border-rule pt-5 font-mono text-sm"
     >
       {
         previous ? (

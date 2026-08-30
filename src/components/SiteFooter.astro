@@ -15,7 +15,7 @@ const cloudflare = "https://pages.cloudflare.com";
 ---
 
 <footer
-  class="mt-16 flex flex-wrap justify-between gap-x-[2ch] gap-y-1.5 pt-5 pb-10 text-xs text-faint max-[560px]:flex-col"
+  class="mt-16 flex flex-wrap justify-between gap-x-[2ch] gap-y-1.5 pt-5 pb-10 font-mono text-xs text-faint max-[560px]:flex-col"
 >
   <span>
     © {year}
@@ -27,7 +27,6 @@ const cloudflare = "https://pages.cloudflare.com";
               {/* set:text keeps the underline off the surrounding whitespace. */}
               <a
                 href={item.href}
-                class="text-inherit"
                 set:text={item.label}
                 {...externalAttrs(item.href)}
               />
@@ -37,14 +36,7 @@ const cloudflare = "https://pages.cloudflare.com";
     }
   </span>
   <span>
-    Built with <a
-      href={astroSite}
-      class="text-inherit"
-      {...externalAttrs(astroSite)}>Astro</a
-    > · Hosted on <a
-      href={cloudflare}
-      class="text-inherit"
-      {...externalAttrs(cloudflare)}>Cloudflare</a
-    >
+    Built with <a href={astroSite} {...externalAttrs(astroSite)}>Astro</a> · Hosted
+    on <a href={cloudflare} {...externalAttrs(cloudflare)}>Cloudflare</a>
   </span>
 </footer>

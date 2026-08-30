@@ -10,26 +10,26 @@ const isHome = path === "/";
 ---
 
 <header
-  class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pt-8 pb-4"
+  class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pt-8 pb-4 text-sm"
 >
   {
     isHome ? (
       <span
         aria-hidden="true"
-        class="invisible font-display text-[15px] font-bold tracking-[0.06em] uppercase"
+        class="invisible font-display font-bold tracking-[0.06em] uppercase"
       >
         {siteName}
       </span>
     ) : (
       <a
         href="/"
-        class="font-display text-[15px] font-bold tracking-[0.06em] uppercase no-underline hover:no-underline"
+        class="font-display font-bold tracking-[0.06em] uppercase no-underline hover:no-underline"
       >
         {siteName}
       </a>
     )
   }
-  <nav class="text-[13px]">
+  <nav class="font-mono">
     {
       nav.map((item, i) => {
         const current = path.startsWith(item.href);
