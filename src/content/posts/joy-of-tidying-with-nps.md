@@ -6,7 +6,7 @@ updatedDate: 2026-04-19
 tags: ["technical"]
 ---
 
-<div class="my-7 max-w-[60ch] border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
+<div class="my-7 border border-rule px-5 py-4 font-mono text-sm leading-[1.6]">
   <strong>Note:</strong> <code>nps</code> is unmaintained as of 2026. If you're in a monorepo, your workspace tooling likely handles this better. For single packages, <code>npm run</code> lists all scripts out of the box, which covers most of the discoverability problem. For documentation that doesn't fit in a script name, your README is the right place.
 </div>
 

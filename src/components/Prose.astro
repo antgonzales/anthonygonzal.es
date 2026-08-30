@@ -25,6 +25,11 @@ const { class: className, ...attrs } = Astro.props;
     "[&_:not(pre)>code]:font-mono [&_:not(pre)>code]:text-[0.85em] [&_:not(pre)>code]:font-normal",
     "[&_:not(pre)>code]:before:content-none [&_:not(pre)>code]:after:content-none",
     "prose-pre:rounded-none prose-pre:px-5 prose-pre:py-4",
+    // Outdent the panel by its own px-5, so the code text lands on the prose's
+    // left edge and the panel hangs equally into both margins. Mirror this if
+    // the padding above changes. Not below md: there the column already meets
+    // the screen gutter, and the panel would sit flush to the viewport.
+    "md:prose-pre:-mx-5",
     className,
   ]}
   {...attrs}
