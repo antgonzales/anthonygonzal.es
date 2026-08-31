@@ -22,7 +22,9 @@ export default function ArtworkFigure({
     <figure className={figureClassName}>
       <Component {...artworkProps} />
       {showCaption ? (
-        <figcaption className={captionClassName}>{metadata.caption}</figcaption>
+        <figcaption className={captionClassName}>
+          <span>{metadata.caption}</span>
+        </figcaption>
       ) : null}
     </figure>
   );
