@@ -1,17 +1,18 @@
 ---
 title: "Compass One Wins Inman Innovator Award 2025"
-description: "Compass One's real estate dashboard has been recognized with an Inman Innovator Award for cutting-edge technology and user-friendly design."
+description: "Compass One's real estate dashboard has been recognized with an Inman Innovator Award."
 pubDate: 2025-08-01
+updatedDate: 2026-08-31
 tags: ["announcement"]
 ---
 
-I'm thrilled to share that Compass One has been recognized with the [Inman Innovators 2025 Award](https://web.archive.org/web/20250808132533/https://www.inman.com/inman-innovator-awards/) for Most Innovative Client Experience Solution!
+Compass One won an Inman Innovators 2025 award for client experience, which
+means I can now say "award-winning" at parties, and I will.
 
-This recognition from Inman validates what our team set out to build — the industry's first all-in-one client dashboard providing 24/7 transparency into real estate transactions. As the Frontend Engineering Lead, I'm incredibly proud of what the team has accomplished.
-
-## Impact
-
-By Q2 2025, agents chose to use Compass One with 116,000 clients. This contributed to Compass achieving record quarterly results with a 6.09% market share and the platform hitting an all-time high of 24 average weekly sessions per agent.
+I'm proud of this project, and I keep coming back to one number: by Q2, agents
+had invited 116,000 clients onto the dashboard to guide them through one of the
+biggest financial choices of their lives. That's 116,000 people who don't have
+to text their agent, "sorry, when do we close escrow?"
 
 ## Links
 
