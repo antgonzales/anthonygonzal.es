@@ -25,7 +25,7 @@ const { date, title, href, dek, who, home = false } = Astro.props;
 
 <article class="py-7">
   <div
-    class="mb-[7px] font-mono text-xs tracking-[0.08em] text-faint uppercase"
+    class="mb-[7px] font-mono text-xs tracking-[0.08em] text-faint dark:text-faint-dark uppercase"
   >
     {date}
   </div>
@@ -48,7 +48,7 @@ const { date, title, href, dek, who, home = false } = Astro.props;
     dek ? (
       <p
         class:list={[
-          "mt-1.5 text-faint",
+          "mt-1.5 text-faint dark:text-faint-dark",
           home
             ? "text-[13.5px] leading-[1.6]"
             : "font-mono text-[13.5px] leading-[1.6]",
@@ -62,7 +62,7 @@ const { date, title, href, dek, who, home = false } = Astro.props;
     who ? (
       <p
         class:list={[
-          "mt-1 text-faint",
+          "mt-1 text-faint dark:text-faint-dark",
           home ? "text-[13.5px] leading-[1.6]" : "font-mono text-[13px]",
         ]}
       >

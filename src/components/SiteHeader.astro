@@ -10,7 +10,7 @@ const isHome = path === "/";
 ---
 
 <header
-  class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pt-8 pb-4 text-sm"
+  class="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink dark:border-ink-dark pt-8 pb-4 text-sm"
 >
   {
     isHome ? (
@@ -35,7 +35,9 @@ const isHome = path === "/";
         const current = path.startsWith(item.href);
         return (
           <>
-            {i > 0 ? <span class="mx-[1ch] text-faint">/</span> : null}
+            {i > 0 ? (
+              <span class="mx-[1ch] text-faint dark:text-faint-dark">/</span>
+            ) : null}
             {/* set:text, not a child node: Astro keeps the newline and indent
                 around a child as real whitespace, and the underline runs under
                 it. Prettier reflows any hand-tightened markup right back. */}
@@ -45,9 +47,11 @@ const isHome = path === "/";
                 "py-2 hover:underline",
                 isHome ? null : "no-underline",
                 current && !isHome
-                  ? "underline decoration-ink underline-offset-[6px]"
+                  ? "underline decoration-ink dark:decoration-ink-dark underline-offset-[6px]"
                   : null,
-                current && isHome ? "decoration-ink" : null,
+                current && isHome
+                  ? "decoration-ink dark:decoration-ink-dark"
+                  : null,
               ]}
               aria-current={current ? "page" : undefined}
               set:text={item.label}

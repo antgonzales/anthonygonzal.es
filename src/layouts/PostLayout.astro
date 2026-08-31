@@ -28,7 +28,7 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
 >
   <article class="prose" itemscope itemtype="https://schema.org/BlogPosting">
     <time
-      class="font-mono text-xs tracking-[0.08em] text-faint uppercase"
+      class="font-mono text-xs tracking-[0.08em] text-faint dark:text-faint-dark uppercase"
       itemprop="datePublished"
       datetime={pubDate.toISOString()}
     >
@@ -65,7 +65,7 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
     </div>
 
     <nav
-      class="flex justify-between gap-[2ch] border-t border-rule pt-5 font-mono text-sm"
+      class="flex justify-between gap-[2ch] border-t border-rule dark:border-rule-dark pt-5 font-mono text-sm"
     >
       {
         previous ? (

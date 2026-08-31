@@ -6,11 +6,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout title="404" noindex>
   <h1
-    class="font-display text-[clamp(56px,13.5vw,148px)] leading-[0.92] font-bold tracking-[-0.02em] text-ink supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)]"
+    class="font-display text-[clamp(56px,13.5vw,148px)] leading-[0.92] font-bold tracking-[-0.02em] text-ink dark:text-ink-dark supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)] dark:supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink-dark)]"
   >
     404
   </h1>
-  <p class="mt-6 font-mono text-[13.5px] text-faint">
+  <p class="mt-6 font-mono text-[13.5px] text-faint dark:text-faint-dark">
     This page doesn&rsquo;t exist. The URL may have changed, or it never was.
   </p>
   <nav class="mt-8 font-mono text-[13px]">
@@ -19,9 +19,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         and indent as real whitespace, and the underline runs under it. */
     }
     <a href="/" set:text="Home" />
-    <span class="mx-[1ch] text-faint">·</span>
+    <span class="mx-[1ch] text-faint dark:text-faint-dark">·</span>
     <a href="/blog/" set:text="Writing" />
-    <span class="mx-[1ch] text-faint">·</span>
+    <span class="mx-[1ch] text-faint dark:text-faint-dark">·</span>
     <a href="/reading/" set:text="Reading" />
   </nav>
 </BaseLayout>

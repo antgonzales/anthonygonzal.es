@@ -30,7 +30,7 @@ const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 ---
 
 <!doctype html>
-<html lang="en" class="scheme-light-dark bg-paper">
+<html lang="en" class="scheme-light-dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -112,13 +112,13 @@ const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
       // pins the footer to the viewport bottom on pages too short to fill it;
       // `main` takes the slack via flex-1. Width and gutters stay on this same
       // element, so centering is unaffected.
-      "mx-auto flex min-h-screen max-w-[62rem] flex-col px-5 md:px-8",
+      "mx-auto flex min-h-screen max-w-shell flex-col px-5 md:px-8",
     ]}
   >
     <SiteHeader />
     {
       rail ? (
-        <main class="flex-1 grid grid-cols-1 gap-x-12 pt-14 min-[881px]:grid-cols-[minmax(0,1fr)_272px]">
+        <main class="flex-1 grid grid-cols-1 gap-x-12 pt-14 lg:grid-cols-[minmax(0,1fr)_var(--container-rail)]">
           <div class="min-w-0">
             <slot />
           </div>

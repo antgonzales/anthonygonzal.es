@@ -31,11 +31,11 @@ const homepageTitles: Record<string, string> = {
       class="font-display text-[clamp(44px,6vw,72px)] leading-[0.98] font-bold tracking-[-0.01em] uppercase"
     >
       Anthony<br /><span
-        class="text-ink supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)]"
+        class="text-ink dark:text-ink-dark supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)] dark:supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink-dark)]"
         >Gonzales</span
       >
     </h1>
-    <p class="mt-6 max-w-[44rem] text-[19px] leading-[1.55]">
+    <p class="mt-6 max-w-measure text-[19px] leading-[1.55]">
       Staff Frontend Engineer in NYC, building software for real estate agents
       at <a href={compass} {...externalAttrs(compass)}>Compass</a>. He <a
         href="/blog/">writes about the work</a
@@ -46,7 +46,9 @@ const homepageTitles: Record<string, string> = {
 
   <!-- (dés)ordres returns here with its writeup — see home-4.17.0 spec for the plinth treatment -->
 
-  <div class="grid grid-cols-1 gap-x-18 pt-4 min-[881px]:grid-cols-[1fr_330px]">
+  <div
+    class="grid grid-cols-1 gap-x-18 pt-4 lg:grid-cols-[1fr_var(--container-rail)]"
+  >
     <section>
       <SectionLabel display>Writing</SectionLabel>
       {
@@ -65,7 +67,7 @@ const homepageTitles: Record<string, string> = {
       >
     </section>
 
-    <div class="min-[881px]:mt-0 max-[880px]:mt-4">
+    <div class="lg:mt-0 max-lg:mt-4">
       <section>
         <SectionLabel display>Releases</SectionLabel>
         {
