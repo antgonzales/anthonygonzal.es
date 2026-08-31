@@ -1,8 +1,7 @@
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, ReactNode, SVGProps } from "react";
 
 export interface ArtworkProps extends SVGProps<SVGSVGElement> {
   seed?: number;
-  animated?: boolean;
 }
 
 export interface ArtworkMetadata {
@@ -10,7 +9,8 @@ export interface ArtworkMetadata {
   title: string;
   year: number;
   description: string;
-  caption: string;
+  /** Rendered as-is, so it may carry markup such as a source link. */
+  caption: ReactNode;
   inspiration?: string;
 }
 

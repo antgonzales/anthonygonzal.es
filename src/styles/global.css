@@ -45,6 +45,13 @@
   --color-paper: #faf9f5;
   --color-rule: #e0ded8;
 
+  /* Artwork plate. A single `light-dark()` pair rather than the paired
+     `-dark` tokens above, because it is consumed from an inline style
+     where the `dark:` variant cannot reach. The dark value is lifted off
+     paper-dark by the same 8 L* step the light value takes below paper,
+     so the plate reads in both modes. */
+  --color-surface: light-dark(#e5e2d9, #302f2b);
+
   /* One container width, and the stock breakpoint scale. `lg` (64rem) is wider
      than the shell, so the rule is simply: one column until the container is
      full, then the rail appears. No custom breakpoint needed. */

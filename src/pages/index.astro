@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Entry from "../components/Entry.astro";
 import SectionLabel from "../components/SectionLabel.astro";
+import { ArtworkFigure } from "../artworks";
 import { entryDate, getTechnicalPosts } from "../lib/posts";
 import { currentlyReading, finishedBooks } from "../lib/reading";
 // Hand-maintained milestones, not content. Home Platform and Compass One
@@ -26,30 +27,37 @@ const homepageTitles: Record<string, string> = {
 ---
 
 <BaseLayout title="Anthony Gonzales" description={siteDescription}>
-  <div class="pt-2">
-    <h1
-      class="font-display text-[clamp(44px,6vw,72px)] leading-[0.98] font-bold tracking-[-0.01em] uppercase"
-    >
-      Anthony<br /><span
-        class="text-ink dark:text-ink-dark supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)] dark:supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink-dark)]"
-        >Gonzales</span
+  <div class="grid grid-cols-1 items-start gap-x-8 pt-2 md:grid-cols-12">
+    <div class="md:col-span-8">
+      <h1
+        class="font-display text-[clamp(44px,6vw,72px)] leading-[0.98] font-bold tracking-[-0.01em] uppercase"
       >
-    </h1>
-    <p class="mt-6 max-w-measure text-[19px] leading-[1.55]">
-      Staff Frontend Engineer in NYC, building software for real estate agents
-      at <a href={compass} {...externalAttrs(compass)}>Compass</a>. He <a
-        href="/blog/">writes about the work</a
-      >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
-      making it. He keeps <a href="/reading/">notes on what he reads</a>.
-    </p>
+        Anthony<br /><span
+          class="text-ink dark:text-ink-dark supports-[-webkit-text-stroke:1px_black]:text-transparent supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink)] dark:supports-[-webkit-text-stroke:1px_black]:[-webkit-text-stroke:2px_var(--color-ink-dark)]"
+          >Gonzales</span
+        >
+      </h1>
+      <p class="mt-6 max-w-measure text-[19px] leading-[1.55]">
+        Staff Frontend Engineer in NYC, building software for real estate agents
+        at <a href={compass} {...externalAttrs(compass)}>Compass</a>. He <a
+          href="/blog/">writes about the work</a
+        >: how it&rsquo;s architected, how it&rsquo;s built, and what he learns
+        making it. He keeps <a href="/reading/">a list of what he reads</a>.
+      </p>
+    </div>
+
+    <ArtworkFigure
+      artwork="desordres"
+      className="h-auto w-full"
+      figureClassName="hidden md:col-span-4 md:mt-1 md:block"
+      captionClassName="mt-3 font-mono text-xs opacity-70"
+    />
   </div>
 
   <!-- (dés)ordres returns here with its writeup — see home-4.17.0 spec for the plinth treatment -->
 
-  <div
-    class="grid grid-cols-1 gap-x-18 pt-4 lg:grid-cols-[1fr_var(--container-rail)]"
-  >
-    <section>
+  <div class="grid grid-cols-1 gap-x-8 pt-4 md:grid-cols-12">
+    <section class="md:col-span-8">
       <SectionLabel display>Writing</SectionLabel>
       {
         latest.map((post) => (
@@ -67,7 +75,7 @@ const homepageTitles: Record<string, string> = {
       >
     </section>
 
-    <div class="lg:mt-0 max-lg:mt-4">
+    <div class="md:col-span-4 md:mt-0 max-md:mt-4">
       <section>
         <SectionLabel display>Releases</SectionLabel>
         {
