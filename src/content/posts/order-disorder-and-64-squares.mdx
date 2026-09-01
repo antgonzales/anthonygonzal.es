@@ -1,0 +1,207 @@
+---
+title: "Order, disorder, and 64 squares"
+description: "Vera Molnár drew (Dés)ordres by giving a plotter a perfect grid and then a small amount of permission to be wrong. The disorder only reads because the order is still under it."
+pubDate: 2026-08-31
+tags: ["technical"]
+---
+
+import Desordres from "../../artworks/desordres/Desordres";
+import { ArtworkFigure } from "../../artworks";
+
+In 1974 Vera Molnár sat at a plotter and drew a grid of nested squares, then
+drew it again with the corners slightly wrong. She called the series
+_(Dés)ordres_ — disorders, with the negation in parentheses, so the word holds
+both readings at once. The pen is mechanical and does exactly what it is told.
+Everything that looks like a hand in the finished plot was specified.
+
+The study in my homepage hero is after that series. It is about sixty lines of
+React that return an SVG, and the interesting part is not the drawing code. It
+is that the disorder is a parameter, and that the parameter can be turned to
+zero.
+
+## Start with order
+
+The grid comes first, and it is the least negotiable thing in the piece. Eight
+by eight for the hero, sixty-four cells, every center exact arithmetic:
+
+```tsx
+const cell = VIEWBOX_SIZE / gridSize;
+
+Array.from({ length: gridSize * gridSize }, (_, index) => {
+  const row = Math.floor(index / gridSize);
+  const column = index % gridSize;
+  const centerX = cell * (column + 0.5);
+  const centerY = cell * (row + 0.5);
+});
+```
+
+No randomness has entered yet. Every cell center is arithmetic, and it stays
+arithmetic — the disorder that arrives later never touches these numbers. What
+moves is the drawing inside the cell; the lattice holding it does not.
+
+<figure>
+  <Desordres disorder={0} maxRings={1} className="h-auto w-full" />
+  <figcaption>One square per cell, corners exact.</figcaption>
+</figure>
+
+## Nest the squares
+
+Each cell gets one to five concentric squares. The outermost spans most of
+the cell, and the rest step inward:
+
+```tsx
+const ringCount = MIN_RINGS + Math.floor(random() * RING_RANGE);
+const outerHalf = ((FILL + random() * FILL_RANGE) * cell) / 2;
+
+const half = outerHalf * (1 - layer / ringCount);
+```
+
+That last line is the whole character of the piece. The step is even in
+absolute terms — divide the cell's half-width by the ring count and walk in —
+so a stack of five rings reads as five evenly spaced lines, not as one box
+inside a much smaller one. Ramping the size instead, by some fraction per
+layer, collapses the inner rings into a knot and leaves a gap around them. I
+had it that way first and the plate looked sparse no matter how many rings I
+added.
+
+<figure>
+  <Desordres disorder={0} className="h-auto w-full" />
+  <figcaption>Nested, still exact. Varied, not yet disordered.</figcaption>
+</figure>
+
+That plate is busy, and none of it is disorder. Ring count and size are drawn
+at random, but every square is perfectly square and perfectly centered in its
+cell. What you are looking at is variation inside a rule, which the eye reads
+as pattern. Disorder is a departure from the rule, and it reads completely
+differently. Keeping the two apart is most of the work.
+
+## The same accident twice
+
+Everything random here comes from a seeded generator, not `Math.random`:
+
+```tsx
+export function createRandom(seed: number) {
+  let state = seed >>> 0;
+
+  return () => {
+    state += 0x6d2b79f5;
+    let value = state;
+    value = Math.imul(value ^ (value >>> 15), value | 1);
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
+}
+```
+
+A hero that reshuffles on every load cannot be art-directed. You cannot decide
+that this composition is the one, cannot check it at three widths, cannot tell
+whether a change you made improved it or whether you just got a different roll.
+Seeding turns the piece into something you can review, and it makes the numbers
+in the code above meaningful — `0.78` is a decision about one specific plate,
+not a hope about the average one.
+
+Molnár had this from the other direction and got no choice about it. A plotter
+run is reproducible by construction; the same program and the same tape draw
+the same sheet. The seed is how you buy that back on a machine that has
+forgotten it.
+
+## Now break it
+
+The disorder is per-corner. Each of a square's four corners is displaced on its
+own, so the box goes slightly out of true rather than sliding around intact —
+this is the move the [generative-landscapes
+walkthrough](https://generative-landscapes.com/pattern-based-on-vera-molnars-des-ordres-series-1974-algorithm-21-01/)
+of the series is built on, where the point is made that a given corner's
+jitter has to be independent of the same corner in every other square.
+
+That is also why the shapes are not `<rect>`. A rect is an origin and a size;
+it has no corners you can move. Four points do:
+
+```tsx
+const amount = Math.min(JITTER, half * JITTER_CEILING) * disorder;
+
+return [
+  { x: centerX - half, y: centerY - half },
+  { x: centerX + half, y: centerY - half },
+  { x: centerX + half, y: centerY + half },
+  { x: centerX - half, y: centerY + half },
+].map(({ x, y }) => ({
+  x: x + (random() * 2 - 1) * amount,
+  y: y + (random() * 2 - 1) * amount,
+}));
+```
+
+Displacement is small: one user unit against a cell sixty-six across. My first
+pass used more than twice that, on the theory that disorder you cannot see is
+not doing anything, and every square came out visibly bent — a field of
+trapezoids, which is a different and worse picture. The wobble is not supposed
+to live in any one square. It accumulates down the stack, where five rings each
+off by a little put the innermost box somewhere the outermost one does not
+predict. That is the effect, and it needs the rings more than it needs the
+amplitude.
+
+The count matters as much at the other end, and it is where I overshot
+hardest. My first pass ran three to ten rings, and every cell came out full —
+which is texture, not composition. Even one to seven left the plate busier than
+it wanted to be at hero size. The range has to reach down to one, because a
+bare square sitting next to a five-deep stack is the contrast that gives the
+grid a rhythm you can read across. Density is not the thing. The difference in
+density is the thing.
+
+Measuring in absolute units rather than as a fraction of the square means the
+small inner boxes shake proportionally harder, which is what makes them look
+drawn while the outer ones look ruled. The ceiling keeps that from going too
+far: no corner moves more than 40% of its own half-width.
+
+<figure>
+  <ArtworkFigure
+    artwork="desordres"
+    className="h-auto w-full"
+    captionClassName="mt-3 font-mono text-xs opacity-70"
+  />
+</figure>
+
+`disorder` scales that amplitude, and at `0` the draws still happen and resolve
+to zero. That matters more than it looks: the ordered plates above are not a
+different program with the randomness stripped out, they are the same
+composition with the shake taken off. Consuming the draws either way keeps the
+sequence aligned, so nothing shifts underneath when you turn the parameter.
+
+## What I left out
+
+The walkthrough also removes about a third of the squares outright, which is a
+second, coarser kind of disorder — structural rather than gestural. It wants a
+denser field than the hero's. Molnár's plot is 17×17, where losing a third of
+the boxes thins it; at sixty-four cells it just leaves holes, and ring count is
+already doing that job more gently.
+
+The grid size is a prop, so the original density is one number away:
+
+<figure>
+  <Desordres gridSize={17} className="h-auto w-full" />
+  <figcaption>The same algorithm at 17×17, Molnár's density.</figcaption>
+</figure>
+
+Which is the better picture, and it is not the one in the hero. At 289 cells
+the plate wants the full width of a page; in a quarter-width column the rings
+close up into gray. The hero is 8×8 because that is what survives the column,
+not because it is the composition I would print.
+
+The piece also used to animate. That came out when it moved into the hero: the
+motion was a second idea competing with the first, and dropping it means the
+page ships no JavaScript for the artwork at all. The draws that used to feed
+movement sat in the code as discards for a while, holding the sequence steady
+for a seed. They turned out to be the right size and in the right place for the
+corner jitter, which is a tidier ending than I deserved.
+
+What makes this a study rather than a picture is the parameter. `disorder={0}`
+is a real composition, not a debug view, and every plate in this post is the
+same sixty-four cells at a different setting of one number. Molnár's title has
+the negation in parentheses for the same reason. The order does not go away
+when you disturb it; it is what you are seeing the disturbance against.
+
+## Resources
+
+- [Pattern based on Vera Molnár's (Dés)ordres series](https://generative-landscapes.com/pattern-based-on-vera-molnars-des-ordres-series-1974-algorithm-21-01/) on Generative Landscapes
+- [Joy Division](https://generativeartistry.com/tutorials/joy-division/) at Generative Artistry, on building a piece one parameter at a time
+- [Vera Molnár](https://en.wikipedia.org/wiki/Vera_Moln%C3%A1r) on Wikipedia
