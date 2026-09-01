@@ -2,6 +2,12 @@ import type { ComponentType, ReactNode, SVGProps } from "react";
 
 export interface ArtworkProps extends SVGProps<SVGSVGElement> {
   seed?: number;
+  /** 0 leaves the composition perfectly square; 1 is the shipped shake. */
+  disorder?: number;
+  /** Caps the nested squares per cell, for showing the build a layer at a time. */
+  maxRings?: number;
+  /** Cells per side. 8 reads at hero size; Molnár's 1974 plot is 17. */
+  gridSize?: number;
 }
 
 export interface ArtworkMetadata {

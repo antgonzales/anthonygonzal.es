@@ -18,6 +18,10 @@ artworks/
 Artwork components accept the shared `ArtworkProps` contract:
 
 - `seed` reproduces a composition and makes tutorial results testable.
+- `disorder` scales the perturbation: `0` is exact, `1` is the shipped piece.
+  Random draws happen either way, so the composition holds still as it changes.
+- `maxRings` caps the nested shapes per cell, for showing a build a layer at a
+  time.
 - `animated={false}` provides a stable rendering for examples and screenshots.
 - Standard SVG properties such as `className`, `aria-label`, and `style` pass
   through to the root SVG.
@@ -33,7 +37,7 @@ import { ArtworkFigure } from "../../artworks";
 <ArtworkFigure
   client:visible
   artwork="desordres"
-  seed={0x9c43}
+  seed={0x2a69e}
   className="artwork"
 />
 ```
