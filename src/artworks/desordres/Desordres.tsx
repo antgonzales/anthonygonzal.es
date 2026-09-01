@@ -6,18 +6,22 @@ const VIEWBOX_SIZE = 528;
 const GRID_SIZE = 8;
 /* Paper around the grid, ~4% of its width, as in Molnár's 1974 plot. */
 const PADDING = 10;
-/* Share of the cell the outermost square spans, before its own variation. */
-const FILL = 0.78;
-const FILL_RANGE = 0.12;
-const MIN_RINGS = 1;
-const RING_RANGE = 5;
-/* Corner displacement at full disorder, in user units. Small against the
-   square: the wobble reads because it accumulates down a stack of rings, not
-   because any one box is bent far. */
-const JITTER = 1.0;
-/* No corner moves more than this share of its own half-width, so the
-   innermost rings stay square. */
-const JITTER_CEILING = 0.4;
+/* Share of its cell each grid square spans. Uniform: in the plot every outer
+   box is the same size, and the variety comes from the reduction below. */
+const FILL = 0.84;
+/* The offset series runs from the square's edge to `half / 2.01` — near the
+   center without reaching it — in `OFFSETS` even steps. The step at offset 0
+   is dropped, since a square offset by nothing is the square itself. */
+const CENTER_DIVISOR = 2.01;
+const OFFSETS = 9;
+/* Share of all squares deleted at random. This is the whole engine of the
+   piece: strike squares out of a uniform even stack and the cells come out
+   with different depths and uneven gaps, while every square that survives is
+   still exactly where the ladder put it. */
+const REDUCE = 0.35;
+/* Vertex displacement as a share of the cell, applied to X and Y of every
+   corner independently. */
+const JITTER_SHARE = 0.022;
 
 interface Corner {
   x: number;
@@ -32,48 +36,47 @@ function createComposition(
 ): Corner[][] {
   const random = createRandom(seed);
   const cell = VIEWBOX_SIZE / gridSize;
+  const outerHalf = (FILL * cell) / 2;
+  // cell / 2.01 is the distance from a square's edge to just short of its
+  // center; the series divides that into even steps.
+  const interval = ((outerHalf * 2) / CENTER_DIVISOR / OFFSETS) * FILL;
+  const jitter = JITTER_SHARE * cell * disorder;
+  const rings = Math.min(OFFSETS, maxRings);
 
   return Array.from({ length: gridSize * gridSize }, (_, index) => {
     const row = Math.floor(index / gridSize);
     const column = index % gridSize;
     const centerX = cell * (column + 0.5);
     const centerY = cell * (row + 0.5);
-    // Draw the full ring count either way, so capping it thins the stack
-    // without moving anything that survives.
-    const ringCount = Math.min(
-      MIN_RINGS + Math.floor(random() * RING_RANGE),
-      maxRings,
-    );
-    const outerHalf = ((FILL + random() * FILL_RANGE) * cell) / 2;
 
-    return Array.from({ length: ringCount }, (_, layer) => {
-      // Even absolute steps from the outer edge toward the center, so a deep
-      // stack reads as concentric rather than as one box inside a much
-      // smaller one.
-      const half = outerHalf * (1 - layer / ringCount);
-      const amount = Math.min(JITTER, half * JITTER_CEILING) * disorder;
+    return Array.from({ length: rings }, (_, layer) => {
+      const half = outerHalf - layer * interval;
 
-      // Every corner is displaced on its own, so a square's four corners drift
-      // apart instead of the whole box sliding. At disorder 0 the draws still
-      // happen and resolve to zero, which holds the composition still while the
-      // shake comes off.
-      return [
+      // Random Reduce, on every square rather than on whole cells. Draws are
+      // spent whether or not the square survives, so the surviving squares do
+      // not shift when the reduction changes.
+      const kept = random() >= REDUCE;
+
+      const corners = [
         { x: centerX - half, y: centerY - half },
         { x: centerX + half, y: centerY - half },
         { x: centerX + half, y: centerY + half },
         { x: centerX - half, y: centerY + half },
       ].map(({ x, y }) => ({
-        x: x + (random() * 2 - 1) * amount,
-        y: y + (random() * 2 - 1) * amount,
+        x: x + (random() * 2 - 1) * jitter,
+        y: y + (random() * 2 - 1) * jitter,
       }));
-    });
+
+      return kept ? corners : null;
+    }).filter((corners): corners is Corner[] => corners !== null);
   }).flat();
 }
 
+/* 20180921 in hex: 21 September 2018. */
 export default function Desordres({
-  seed = 0x2a69e,
+  seed = 0x133efb9,
   disorder = 1,
-  maxRings = MIN_RINGS + RING_RANGE,
+  maxRings = OFFSETS,
   gridSize = GRID_SIZE,
   className,
   style,
@@ -97,8 +100,8 @@ export default function Desordres({
     >
       <title id={titleId}>(Dés)Ordres study</title>
       <desc id={descriptionId}>
-        A grid of cells, each holding a stack of concentric squares with every
-        corner knocked slightly off true.
+        A grid of cells, each holding concentric squares struck out at random,
+        with every corner knocked slightly off true.
       </desc>
       {squares.map((corners, index) => (
         <polygon
