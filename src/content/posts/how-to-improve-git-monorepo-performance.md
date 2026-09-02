@@ -1,17 +1,23 @@
 ---
 title: "How to improve Git monorepo performance"
-description: "Sparse checkout, fsmonitor, and the settings that matter past a few thousand files."
+description: "Speed up Git in large monorepos with fsmonitor, commit graphs, and fetch optimizations."
 pubDate: 2023-12-15
-updatedDate: 2024-05-04
+updatedDate: 2026-09-02
 tags: ["technical"]
 ---
 
-[Git v2.37.0](https://github.blog/2022-06-27-highlights-from-git-2-37/) introduced new features that significantly improve performance for repositories with large numbers of files. This blog post will cover custom Git monorepo configurations to improve local performance and provide step-by-step guidance to rollback if anything goes wrong.
+[Git v2.37.0](https://github.blog/2022-06-27-highlights-from-git-2-37/)
+introduced new features that significantly improve performance for repositories
+with large numbers of files. This blog post will cover custom Git monorepo
+configurations to improve local performance and provide step-by-step guidance
+to rollback if anything goes wrong.
 
 ## Quickstart
 
 <div class="my-7 border border-rule px-5 py-4 font-mono">
-  <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in this tutorial on your main branch. <code>index.skipHash</code> causes errors on older Git versions.
+  <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in
+  this tutorial on your main branch. <code>index.skipHash</code> causes errors
+  on older Git versions.
 </div>
 
 ### Create a custom Git config file at `~/.gitconfig.monorepo`
@@ -23,6 +29,9 @@ tags: ["technical"]
     writeCommitGraph = true
 [feature]
     manyFiles = true
+[remote "origin"]
+    tagopt = --no-tags
+    prune = true
 ```
 
 ### Include the custom configuration in your global or local Git config
@@ -51,23 +60,29 @@ tags: ["technical"]
 
 ### Update Git index to version 4 in repo
 
-Although `feature.manyFiles` sets the default index version, you need to manually update the [index format](https://git-scm.com/docs/index-format) on your local repository through your terminal.
+Although `feature.manyFiles` sets the default index version, you need to
+manually update the [index format](https://git-scm.com/docs/index-format) on
+your local repository through your terminal.
 
 ```console
-$ cd ~/example-monorepo
-$ git update-index --index-version 4
+cd ~/example-monorepo
+git update-index --index-version 4
 ```
 
 ### Start `fsmonitor--daemon`
 
 ```console
-$ cd ~/example-monorepo
-$ git fsmonitor--daemon start
+cd ~/example-monorepo
+git fsmonitor--daemon start
 ```
 
 ## Results
 
-Using the custom Git configuration and updated index format, my command execution time for `git status` was reduced from approximately 0.316 seconds to 0.118 seconds, and CPU utilization dropped from 425% to 89%. Additionally, I no longer encounter `fatal: Unable to create 'project_path/.git/index.lock': File exists.` errors while performing basic Git commands (MacOS Intel Core i9).
+Using the custom Git configuration and updated index format, my command
+execution time for `git status` was reduced from approximately 0.316 seconds to
+0.118 seconds, and CPU utilization dropped from 425% to 89%. Additionally, I no
+longer encounter `fatal: Unable to create 'project_path/.git/index.lock': File
+exists.` errors while performing basic Git commands (MacOS Intel Core i9).
 
 **Before**
 
@@ -95,21 +110,42 @@ git status  0.08s user 0.02s system 89% cpu 0.118 total
 
 **`feature.manyFiles`**
 
-Optimizes repositories with large numbers of files and commit histories. Enabling this configuration option enables the following by default:
+Optimizes repositories with large numbers of files and commit histories.
+Enabling this configuration option enables the following by default:
 
 * `index.skipHash=true`
 * `index.version=4`
 * `core.untrackedCache=true`
 
-Git writes an entirely new index in `index.lock` and then replaces `.git/index` when you use basic commands. In a monorepo with many files, this index can be large and take several seconds to write every time you perform a command. Upgrading from version 2 to version 4 reduces index size by 30% to 50% by compressing pathnames, resulting in faster load times. Caching untracked files adds more memory load but again reduces the load time.
+Git writes an entirely new index in `index.lock` and then replaces `.git/index`
+when you use basic commands. In a monorepo with many files, this index can be
+large and take several seconds to write every time you perform a command.
+Upgrading from version 2 to version 4 reduces index size by 30% to 50% by
+compressing pathnames, resulting in faster load times. Caching untracked files
+adds more memory load but again reduces the load time.
 
 **`core.commitgraph`**
 
-Git will use a commit history cache to significantly speed up history operations, such as `git log --graph`.
+Git will use a commit history cache to significantly speed up history
+operations, such as `git log --graph`.
 
 **`fetch.writeCommitGraph`**
 
-Improves performance of commands like `git push -f` and `git log --graph` by writing a commit-graph on every `git fetch`.
+Improves performance of commands like `git push -f` and `git log --graph` by
+writing a commit-graph on every `git fetch`.
+
+**`remote.origin.tagopt`**
+
+By default, `git fetch` pulls all tags from the remote. In an active monorepo,
+tags accumulate quickly and add significant overhead. Setting this to
+`--no-tags` stops automatic tag fetching; you can still fetch a specific tag on
+demand with `git fetch origin tag <tagname>`.
+
+**`remote.origin.prune`**
+
+Automatically removes local remote-tracking branches that no longer exist on
+the remote. Without this, stale branches accumulate over time and must be
+cleaned up manually with `git remote prune origin`.
 
 ## How to revert changes
 
