@@ -26,7 +26,11 @@ const { title, description, pubDate, updatedDate, heroImage, previous, next } =
   ogImage={heroImage?.src}
   rail
 >
-  <article class="prose" itemscope itemtype="https://schema.org/BlogPosting">
+  <article
+    class="prose prose-code:before:content-none prose-code:after:content-none"
+    itemscope
+    itemtype="https://schema.org/BlogPosting"
+  >
     <time
       class="font-mono text-xs tracking-[0.08em] text-faint dark:text-faint-dark uppercase"
       itemprop="datePublished"
