@@ -22,7 +22,9 @@ Artwork components accept the shared `ArtworkProps` contract:
   Random draws happen either way, so the composition holds still as it changes.
 - `maxRings` caps the nested shapes per cell, for showing a build a layer at a
   time.
-- `animated={false}` provides a stable rendering for examples and screenshots.
+- `gridSize` sets the cells per side.
+- `reduce` is the share of shapes struck out at random; `0` shows the full
+  stack.
 - Standard SVG properties such as `className`, `aria-label`, and `style` pass
   through to the root SVG.
 

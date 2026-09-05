@@ -3,88 +3,97 @@ import { createRandom } from "../random";
 import type { ArtworkProps } from "../types";
 
 const VIEWBOX_SIZE = 528;
-const GRID_SIZE = 8;
-/* Paper around the grid, ~4% of its width, as in Molnár's 1974 plot. */
 const PADDING = 10;
-/* Share of its cell each grid square spans. Uniform: in the plot every outer
-   box is the same size, and the variety comes from the reduction below. */
-const FILL = 0.84;
-/* The offset series runs from the square's edge to `half / 2.01` — near the
-   center without reaching it — in `OFFSETS` even steps. The step at offset 0
-   is dropped, since a square offset by nothing is the square itself. */
+const DEFAULT_GRID_SIZE = 8;
+const DEFAULT_MAX_RINGS = 9;
+const DEFAULT_REDUCE = 0.35;
+const CELL_FILL = 0.84;
 const CENTER_DIVISOR = 2.01;
-const OFFSETS = 9;
-/* Share of all squares deleted at random. This is the whole engine of the
-   piece: strike squares out of a uniform even stack and the cells come out
-   with different depths and uneven gaps, while every square that survives is
-   still exactly where the ladder put it. */
-const REDUCE = 0.35;
-/* Vertex displacement as a share of the cell, applied to X and Y of every
-   corner independently. */
 const JITTER_SHARE = 0.022;
 
-interface Corner {
-  x: number;
-  y: number;
+function placeOnGrid(cellIndex: number, gridSize: number, cellSize: number) {
+  const row = Math.floor(cellIndex / gridSize);
+  const column = cellIndex % gridSize;
+
+  return [cellSize * (column + 0.5), cellSize * (row + 0.5)] as const;
 }
 
-function createComposition(
-  seed: number,
-  disorder: number,
-  maxRings: number,
-  gridSize: number,
-): Corner[][] {
-  const random = createRandom(seed);
-  const cell = VIEWBOX_SIZE / gridSize;
-  const outerHalf = (FILL * cell) / 2;
-  // cell / 2.01 is the distance from a square's edge to just short of its
-  // center; the series divides that into even steps.
-  const interval = ((outerHalf * 2) / CENTER_DIVISOR / OFFSETS) * FILL;
-  const jitter = JITTER_SHARE * cell * disorder;
-  const rings = Math.min(OFFSETS, maxRings);
+function offsetInward(
+  outerHalfSize: number,
+  ringIndex: number,
+  ringSpacing: number,
+) {
+  return outerHalfSize - ringIndex * ringSpacing;
+}
 
-  return Array.from({ length: gridSize * gridSize }, (_, index) => {
-    const row = Math.floor(index / gridSize);
-    const column = index % gridSize;
-    const centerX = cell * (column + 0.5);
-    const centerY = cell * (row + 0.5);
+function survivesStrikeOut(random: () => number, reduce: number) {
+  return random() >= reduce;
+}
 
-    return Array.from({ length: rings }, (_, layer) => {
-      const half = outerHalf - layer * interval;
+function moveEveryCorner(
+  centerX: number,
+  centerY: number,
+  halfSize: number,
+  jitter: number,
+  random: () => number,
+) {
+  return Array.from({ length: 4 }, (_, cornerIndex) => {
+    const isLeftCorner = cornerIndex === 0 || cornerIndex === 3;
+    const isTopCorner = cornerIndex < 2;
+    const x = isLeftCorner ? centerX - halfSize : centerX + halfSize;
+    const y = isTopCorner ? centerY - halfSize : centerY + halfSize;
 
-      // Random Reduce, on every square rather than on whole cells. Draws are
-      // spent whether or not the square survives, so the surviving squares do
-      // not shift when the reduction changes.
-      const kept = random() >= REDUCE;
+    // Separate draws let every corner move independently on both axes.
+    const jitteredX = x + (random() * 2 - 1) * jitter;
+    const jitteredY = y + (random() * 2 - 1) * jitter;
 
-      const corners = [
-        { x: centerX - half, y: centerY - half },
-        { x: centerX + half, y: centerY - half },
-        { x: centerX + half, y: centerY + half },
-        { x: centerX - half, y: centerY + half },
-      ].map(({ x, y }) => ({
-        x: x + (random() * 2 - 1) * jitter,
-        y: y + (random() * 2 - 1) * jitter,
-      }));
-
-      return kept ? corners : null;
-    }).filter((corners): corners is Corner[] => corners !== null);
-  }).flat();
+    return `${jitteredX},${jitteredY}`;
+  }).join(" ");
 }
 
 /* 20180921 in hex: 21 September 2018. */
 export default function Desordres({
   seed = 0x133efb9,
   disorder = 1,
-  maxRings = OFFSETS,
-  gridSize = GRID_SIZE,
+  maxRings = DEFAULT_MAX_RINGS,
+  gridSize = DEFAULT_GRID_SIZE,
+  reduce = DEFAULT_REDUCE,
   className,
   style,
   ...props
 }: ArtworkProps) {
   const titleId = useId();
   const descriptionId = useId();
-  const squares = createComposition(seed, disorder, maxRings, gridSize);
+  const random = createRandom(seed);
+  const cellSize = VIEWBOX_SIZE / gridSize;
+  const outerHalfSize = (CELL_FILL * cellSize) / 2;
+
+  // Dividing by 2.01 stops the rings just short of the center.
+  const ringSpacing =
+    ((outerHalfSize * 2) / CENTER_DIVISOR / DEFAULT_MAX_RINGS) * CELL_FILL;
+
+  const jitter = JITTER_SHARE * cellSize * disorder;
+  const cellCount = Math.max(0, Math.floor(gridSize * gridSize));
+  const ringsPerCell = Math.max(
+    0,
+    Math.floor(Math.min(DEFAULT_MAX_RINGS, maxRings)),
+  );
+
+  const polygonPoints: string[] = [];
+
+  for (let slotIndex = 0; slotIndex < cellCount * ringsPerCell; slotIndex++) {
+    const cellIndex = Math.floor(slotIndex / ringsPerCell);
+    const ringIndex = slotIndex % ringsPerCell;
+    const [centerX, centerY] = placeOnGrid(cellIndex, gridSize, cellSize);
+    const halfSize = offsetInward(outerHalfSize, ringIndex, ringSpacing);
+    const survives = survivesStrikeOut(random, reduce);
+
+    // Move the corners even on removed rings so changing `reduce` does not
+    // shift the random values used by later rings.
+    const points = moveEveryCorner(centerX, centerY, halfSize, jitter, random);
+
+    if (survives) polygonPoints.push(points);
+  }
 
   return (
     <svg
@@ -103,10 +112,10 @@ export default function Desordres({
         A grid of cells, each holding concentric squares struck out at random,
         with every corner knocked slightly off true.
       </desc>
-      {squares.map((corners, index) => (
+      {polygonPoints.map((points, index) => (
         <polygon
           key={index}
-          points={corners.map(({ x, y }) => `${x},${y}`).join(" ")}
+          points={points}
           fill="none"
           stroke="currentColor"
           strokeWidth="1.1"
