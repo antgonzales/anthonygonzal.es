@@ -14,7 +14,7 @@ to rollback if anything goes wrong.
 
 ## Quickstart
 
-<div class="my-7 border border-rule px-5 py-4 font-mono">
+<div class="-mx-5 my-7 border border-rule px-5 py-4 font-mono">
   <strong>Warning:</strong> Upgrade Git to 2.42.0+ and perform the steps in
   this tutorial on your main branch. <code>index.skipHash</code> causes errors
   on older Git versions.

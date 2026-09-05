@@ -171,3 +171,9 @@
     --tw-prose-pre-bg: transparent;
   }
 }
+
+/* Let code panels overhang the measure by their horizontal padding so the
+   code itself, rather than the panel edge, aligns with the prose. */
+.prose pre {
+  margin-inline: -1rem;
+}
