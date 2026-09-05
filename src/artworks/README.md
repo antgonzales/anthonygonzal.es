@@ -17,7 +17,8 @@ artworks/
 
 Artwork components accept the shared `ArtworkProps` contract:
 
-- `seed` reproduces a composition and makes tutorial results testable.
+- `seed` (required) reproduces a composition and makes tutorial results
+  testable.
 - `disorder` scales the perturbation: `0` is exact, `1` is the shipped piece.
   Random draws happen either way, so the composition holds still as it changes.
 - `maxRings` caps the nested shapes per cell, for showing a build a layer at a
@@ -36,12 +37,7 @@ animation effects, and honor `prefers-reduced-motion`.
 ```mdx
 import { ArtworkFigure } from "../../artworks";
 
-<ArtworkFigure
-  client:visible
-  artwork="desordres"
-  seed={0x2a69e}
-  className="artwork"
-/>
+<ArtworkFigure artwork="desordres" seed={0x679a4d20} className="artwork" />
 ```
 
 `ArtworkFigure` resolves its component and metadata from the `artwork` property,
@@ -49,8 +45,8 @@ so attribution is consistent on the homepage and in tutorials. Import the
 lower-level `Desordres` component only when an example intentionally needs the
 unframed SVG.
 
-Use `client:visible` for animated examples below the fold. Static examples can
-omit the client directive and set `animated={false}`.
+Artworks render on the server. Omit the client directive so the page ships no
+JavaScript for them.
 
 ## Adding an artwork
 
