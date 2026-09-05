@@ -29,20 +29,25 @@ The entire project can be broken down into four steps.
 Start with a grid. Molnár's plot is 17×17. My study is an 8x8 because 17x17
 gets cramped on my hero.
 
-```tsx
-const cell = VIEWBOX_SIZE / gridSize;
-const outerHalf = (FILL * cell) / 2;
+The SVG uses a 528×528 internal coordinate system, divided evenly into cells.
 
-Array.from({ length: gridSize * gridSize }, (_, index) => {
-  const row = Math.floor(index / gridSize);
-  const column = index % gridSize;
-  const centerX = cell * (column + 0.5);
-  const centerY = cell * (row + 0.5);
+```tsx
+const VIEWBOX_SIZE = 528;
+
+const cellSize = VIEWBOX_SIZE / gridSize;
+const outerHalfSize = cellSize / 2;
+
+Array.from({ length: gridSize * gridSize }, (_, cellIndex) => {
+  const row = Math.floor(cellIndex / gridSize);
+  const column = cellIndex % gridSize;
+  const centerX = cellSize * (column + 0.5);
+  const centerY = cellSize * (row + 0.5);
 });
 ```
 
-Each square fills roughly 85% of its cell, and every square starts at exactly
-the same size. All the variation comes later.
+Each outer square reaches the edges of its cell, so neighboring cells share a
+boundary. Every square starts at exactly the same size. All the variation comes
+later.
 
 <figure>
   <Desordres seed={0x133efb9} disorder={0} maxRings={1} reduce={0} className="h-auto w-full" />
@@ -61,17 +66,17 @@ into equal steps.
 const CENTER_DIVISOR = 2.01;
 const OFFSETS = 9;
 
-const interval = ((outerHalf * 2) / CENTER_DIVISOR / OFFSETS) * FILL;
+const interval = (outerHalfSize * 2) / CENTER_DIVISOR / OFFSETS;
 
-Array.from({ length: OFFSETS }, (_, layer) => {
-  const half = outerHalf - layer * interval;
-  // four corners at ±half from the center
+Array.from({ length: OFFSETS }, (_, ringIndex) => {
+  const halfSize = outerHalfSize - ringIndex * interval;
+  // four corners at ±halfSize from the center
 });
 ```
 
-Why 2.01? Divide by exactly two and the final offset reaches the center, where
-the square collapses to nothing. Divide by a hair more and the innermost square
-is still a square.
+Why 2.01? Half the cell size points exactly at the center, where a square would
+collapse to nothing. Dividing by a hair more keeps the inward target just short
+of it.
 
 <figure>
   <Desordres seed={0x133efb9} disorder={0} reduce={0} className="h-auto w-full" />
@@ -213,6 +218,9 @@ The order never disappears. That's what makes the disorder visible.
 
 ## Resources
 
+- [The complete `Desordres` implementation](https://github.com/antgonzales/anthonygonzal.es/blob/main/src/artworks/desordres/Desordres.tsx)
+  and its [seeded random-number generator](https://github.com/antgonzales/anthonygonzal.es/blob/main/src/artworks/random.ts)
+  on GitHub
 - [Pattern based on Vera Molnár's (Dés)ordres series](https://generative-landscapes.com/pattern-based-on-vera-molnars-des-ordres-series-1974-algorithm-21-01/)
   on Generative Landscapes, the walkthrough this post follows
 - [Vera Molnár](https://en.wikipedia.org/wiki/Vera_Moln%C3%A1r) on Wikipedia
