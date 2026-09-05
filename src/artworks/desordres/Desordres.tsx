@@ -3,11 +3,10 @@ import { createRandom } from "../random";
 import type { ArtworkProps } from "../types";
 
 const VIEWBOX_SIZE = 528;
-const PADDING = 10;
+const PADDING = 22;
 const DEFAULT_GRID_SIZE = 8;
 const DEFAULT_MAX_RINGS = 9;
 const DEFAULT_REDUCE = 0.35;
-const CELL_FILL = 0.84;
 const CENTER_DIVISOR = 2.01;
 const JITTER_SHARE = 0.022;
 
@@ -51,9 +50,8 @@ function moveEveryCorner(
   }).join(" ");
 }
 
-/* 20180921 in hex: 21 September 2018. */
 export default function Desordres({
-  seed = 0x133efb9,
+  seed,
   disorder = 1,
   maxRings = DEFAULT_MAX_RINGS,
   gridSize = DEFAULT_GRID_SIZE,
@@ -66,18 +64,17 @@ export default function Desordres({
   const descriptionId = useId();
   const random = createRandom(seed);
   const cellSize = VIEWBOX_SIZE / gridSize;
-  const outerHalfSize = (CELL_FILL * cellSize) / 2;
-
-  // Dividing by 2.01 stops the rings just short of the center.
-  const ringSpacing =
-    ((outerHalfSize * 2) / CENTER_DIVISOR / DEFAULT_MAX_RINGS) * CELL_FILL;
-
+  const outerHalfSize = cellSize / 2;
   const jitter = JITTER_SHARE * cellSize * disorder;
   const cellCount = Math.max(0, Math.floor(gridSize * gridSize));
   const ringsPerCell = Math.max(
     0,
     Math.floor(Math.min(DEFAULT_MAX_RINGS, maxRings)),
   );
+
+  // Dividing by 2.01 stops the rings just short of the center.
+  const ringSpacing =
+    (outerHalfSize * 2) / CENTER_DIVISOR / Math.max(1, ringsPerCell);
 
   const polygonPoints: string[] = [];
 

@@ -45,7 +45,7 @@ Each square fills roughly 85% of its cell, and every square starts at exactly
 the same size. All the variation comes later.
 
 <figure>
-  <Desordres disorder={0} maxRings={1} reduce={0} className="h-auto w-full" />
+  <Desordres seed={0x133efb9} disorder={0} maxRings={1} reduce={0} className="h-auto w-full" />
   <figcaption>Step one. Sixty-four identical squares.</figcaption>
 </figure>
 
@@ -74,7 +74,7 @@ the square collapses to nothing. Divide by a hair more and the innermost square
 is still a square.
 
 <figure>
-  <Desordres disorder={0} reduce={0} className="h-auto w-full" />
+  <Desordres seed={0x133efb9} disorder={0} reduce={0} className="h-auto w-full" />
   <figcaption>Step two. Nine squares per cell, evenly stepped.</figcaption>
 </figure>
 
@@ -95,7 +95,7 @@ rings creates uneven gaps inside the stacks while leaving the underlying grid
 untouched.
 
 <figure>
-  <Desordres disorder={0} className="h-auto w-full" />
+  <Desordres seed={0x133efb9} disorder={0} className="h-auto w-full" />
   <figcaption>
     Step three. A third of the squares gone. Still perfectly square.
   </figcaption>
@@ -144,6 +144,7 @@ clean mechanical alignment of the earlier steps.
 <figure>
   <ArtworkFigure
     artwork="desordres"
+    seed={0x133efb9}
     className="h-auto w-full"
     captionClassName="mt-3 font-mono text-xs opacity-70"
   />
@@ -154,8 +155,9 @@ enough wobble to keep the grid from feeling manufactured.
 
 ## The same accident twice
 
-The values are randomly generated, but the randomness comes from a seeded
-generator rather than Math.random:
+The values are randomly generated, but the randomness comes from
+[Mulberry32](https://stackoverflow.com/a/47593316),
+a small seeded generator, rather than Math.random:
 
 ```tsx
 export function createRandom(seed: number) {
@@ -171,7 +173,7 @@ export function createRandom(seed: number) {
 }
 ```
 
-Some determinisn matters because I want to be able to look at the same drawing
+Some determinism matters because I want to be able to look at the same drawing
 twice.
 
 If we use Math.random, it would change on every page load. Randomness like that
@@ -194,7 +196,7 @@ the same thing. The seed gives the browser a similar kind of memory.
 The grid size is a prop, so getting back to 17×17 takes one number:
 
 <figure>
-  <Desordres gridSize={17} className="h-auto w-full" />
+  <Desordres seed={0x133efb9} gridSize={17} className="h-auto w-full" />
   <figcaption>The same algorithm at 17×17.</figcaption>
 </figure>
 

@@ -1,7 +1,7 @@
 import type { ComponentType, ReactNode, SVGProps } from "react";
 
 export interface ArtworkProps extends SVGProps<SVGSVGElement> {
-  seed?: number;
+  seed: number;
   /** 0 leaves the composition perfectly square; 1 is the shipped shake. */
   disorder?: number;
   /** Caps the nested squares per cell, for showing the build a layer at a time. */
