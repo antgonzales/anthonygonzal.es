@@ -1,0 +1,272 @@
+---
+title: "Recreating Vera Molnár’s (Dés)ordres with JavaScript and SVG"
+description: "Building a seeded SVG interpretation of Vera Molnár’s (Dés)ordres, one grid, missing square, and independently jittered corner at a time."
+pubDate: 2018-09-21
+updatedDate: 2026-09-05
+tags: ["technical"]
+---
+
+import Desordres from "../../artworks/desordres/Desordres";
+
+In 1974, Vera Molnár created a grid of nested squares with small random
+disruptions. She called the series
+[(Dés)ordres](https://dam.org/museum/artists_ui/artists/molnar-vera/des-ordres/):
+order and disorder at once.
+
+I love this work because, despite being made by a machine, it doesn't really
+look machine-made. The squares are too crooked, too uneven. It looks a little
+like someone picked up a pen and started drawing squares out of boredom. It
+feels human.
+
+The study in my homepage hero is an attempt to reproduce that effect. It's a
+React component of about a hundred lines that returns an SVG, and the algorithm
+is small. I followed the [Generative Landscapes
+walkthrough](https://generative-landscapes.com/pattern-based-on-vera-molnars-des-ordres-series-1974-algorithm-21-01/),
+and adapted it for the browser.
+
+The entire project can be broken down into four steps.
+
+## 1. A grid
+
+Start with a grid. Molnár's plot is 17×17. My study is 8×8.
+
+The SVG draws on a 528-unit square, with a little padding around it, divided
+evenly into cells.
+
+```tsx
+const VIEWBOX_SIZE = 528;
+const gridSize = 8;
+
+const cellSize = VIEWBOX_SIZE / gridSize;
+
+function placeOnGrid(cellIndex: number) {
+  const row = Math.floor(cellIndex / gridSize);
+  const column = cellIndex % gridSize;
+
+  return [cellSize * (column + 0.5), cellSize * (row + 0.5)] as const;
+}
+
+const cells = Array.from({ length: gridSize * gridSize }, (_, cellIndex) =>
+  placeOnGrid(cellIndex),
+);
+```
+
+Each outer square reaches the edges of its cell, so neighboring cells share a
+boundary. Every square starts at exactly the same size. All the variation comes
+later.
+
+<figure>
+  <Desordres
+    seed={0x679a4d20}
+    disorder={0}
+    maxRings={1}
+    reduce={0}
+    className="h-auto w-full"
+  />
+  <figcaption>Step one. Sixty-four identical squares.</figcaption>
+</figure>
+
+## 2. Offset inward
+
+Each square is copied inward at regular intervals.
+
+The walkthrough uses a slightly strange number here: divide the cell size by
+2.01 to define an inward range that stops just short of the center, then use
+that range to space the squares. The walkthrough uses nine steps. The hero uses
+seven, which reads better at column width.
+
+```tsx
+const CENTER_DIVISOR = 2.01;
+const ringsPerCell = 7;
+const outerHalfSize = cellSize / 2;
+
+const ringSpacing = (outerHalfSize * 2) / CENTER_DIVISOR / ringsPerCell;
+
+function offsetInward(ringIndex: number) {
+  return outerHalfSize - ringIndex * ringSpacing;
+}
+```
+
+Why 2.01? Half the cell size points exactly at the center, where a square would
+collapse to nothing. Dividing by a hair more keeps the inward target just short
+of it.
+
+<figure>
+  <Desordres
+    seed={0x679a4d20}
+    disorder={0}
+    maxRings={7}
+    reduce={0}
+    className="h-auto w-full"
+  />
+  <figcaption>Step two. Seven squares per cell, evenly stepped.</figcaption>
+</figure>
+
+Now there are squares within squares. Perfectly regular, and a little
+antiseptic.
+
+## 3. Strike out a third
+
+Next, remove about a third of the squares at random.
+
+```tsx
+const REDUCE = 0.35;
+
+function survivesStrikeOut(random: () => number) {
+  return random() >= REDUCE;
+}
+```
+
+This is where the picture starts to become interesting. The function is called
+once for every square. Removing individual squares creates uneven gaps inside
+the stacks while leaving the underlying grid untouched.
+
+<figure>
+  <Desordres
+    seed={0x679a4d20}
+    disorder={0}
+    maxRings={7}
+    className="h-auto w-full"
+  />
+  <figcaption>
+    Step three. A third of the squares gone. Still perfectly square.
+  </figcaption>
+</figure>
+
+Compare this with the plate above it. Nothing has been distorted yet. Every
+remaining line is straight and every corner is still a right angle.
+
+There is variation now, but it still looks unmistakably generated.
+
+## 4. Move every corner
+
+This is the part that makes the study stop looking like a grid of squares.
+
+Each corner gets its own small nudge. Not enough to turn the squares into
+obvious polygons, just enough that they stop lining up perfectly with one
+another.
+
+That rules out `<rect>`. I need four points I can move separately, which means
+`<polygon>`.
+
+```tsx
+const JITTER_SHARE = 0.022;
+// `disorder` is a prop. It defaults to 1; the figures above pass 0.
+const jitter = JITTER_SHARE * cellSize * disorder;
+
+function moveEveryCorner(
+  centerX: number,
+  centerY: number,
+  halfSize: number,
+  jitter: number,
+  random: () => number,
+) {
+  return Array.from({ length: 4 }, (_, cornerIndex) => {
+    const isLeftCorner = cornerIndex === 0 || cornerIndex === 3;
+    const isTopCorner = cornerIndex < 2;
+    const x = isLeftCorner ? centerX - halfSize : centerX + halfSize;
+    const y = isTopCorner ? centerY - halfSize : centerY + halfSize;
+
+    const jitteredX = x + (random() * 2 - 1) * jitter;
+    const jitteredY = y + (random() * 2 - 1) * jitter;
+
+    return `${jitteredX},${jitteredY}`;
+  }).join(" ");
+}
+```
+
+The maximum movement is 2.2% of the cell size. That sounds like almost nothing,
+but it counts. If I increase it too much, the squares start looking
+deliberately distorted. At this size, the effect only becomes obvious when
+several squares sit inside one another.
+
+The outer square might lean one way, while the next one leans another. None of
+them looks especially strange on its own. Together, the squares lose the clean
+mechanical alignment of the earlier steps.
+
+<figure>
+  <Desordres
+    seed={0x679a4d20}
+    maxRings={7}
+    className="h-auto w-full"
+  />
+  <figcaption>Step four. The same squares, with every corner moved.</figcaption>
+</figure>
+
+That's the finished study: sixty-four cells, nested squares, a third of them
+missing, and just enough wobble to keep the grid from feeling manufactured.
+
+## The same accident twice
+
+The values are randomly generated, but the randomness comes from
+[Mulberry32](https://stackoverflow.com/a/47593316), a small seeded generator,
+rather than `Math.random`:
+
+```tsx
+// Mulberry32 by bryc, modified by the Stack Overflow community.
+// https://stackoverflow.com/a/47593316 — CC BY-SA 4.0
+export function createRandom(seed: number) {
+  let state = seed >>> 0;
+
+  return () => {
+    let value = (state += 0x6d2b79f5);
+    value = Math.imul(value ^ (value >>> 15), value | 1);
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
+}
+```
+
+Determinism matters because I want to be able to look at the same drawing
+twice.
+
+If I used `Math.random`, the drawing would change on every page load.
+Randomness like that makes it hard to tell whether a code change improved the
+composition or whether the browser just happened to choose a nicer arrangement.
+With a seed, I can keep one version, compare it at different widths, and know
+that I'm looking at the same accident each time.
+
+The third plate and the final drawing use the same sequence of random values.
+Every square draws its corner offsets whether or not it survived step three,
+and when `disorder={0}` those offsets resolve to zero. That means the same
+squares are removed in both plates; the only difference is whether their
+corners wobble.
+
+A plotter would do this naturally: give it the same instructions and it draws
+the same thing. The seed gives the browser a similar kind of memory.
+
+## At Molnár's density
+
+The grid size is a prop, so getting back to 17×17 takes one number:
+
+<figure>
+  <Desordres
+    seed={0x679a4d20}
+    gridSize={17}
+    maxRings={7}
+    className="h-auto w-full"
+  />
+  <figcaption>The same algorithm at 17×17.</figcaption>
+</figure>
+
+I think this is the better picture. It's also not the one in the hero.
+
+My hero is 8×8 because that's what the space can hold, not because it's the
+version I would print.
+
+What I like about rebuilding (Dés)ordres is how little is actually required.
+Start with something rigid. Remove part of it. Make each remaining piece wrong
+by an amount small enough to almost escape notice.
+
+The order never disappears. That's what makes the disorder visible.
+
+## Resources
+
+- [The complete `Desordres` implementation](https://github.com/antgonzales/anthonygonzal.es/blob/main/src/artworks/desordres/Desordres.tsx)
+  and its [seeded random-number generator](https://github.com/antgonzales/anthonygonzal.es/blob/main/src/artworks/random.ts)
+  on GitHub
+- [Pattern based on Vera Molnár's (Dés)ordres series](https://generative-landscapes.com/pattern-based-on-vera-molnars-des-ordres-series-1974-algorithm-21-01/)
+  on Generative Landscapes, the walkthrough this post follows
+- [Vera Molnár](https://en.wikipedia.org/wiki/Vera_Moln%C3%A1r) on Wikipedia
+- [Generative Artistry](https://generativeartistry.com/tutorials/) tutorials,
+  which break generative artworks down into small, understandable programs
