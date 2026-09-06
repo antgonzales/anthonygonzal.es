@@ -27,16 +27,16 @@ and adapted it for the browser.
 The entire project can be broken down into four steps.
 
 ```text
-for each cell:
-    1. find its center on the grid
+for each cell in the grid:
+    1. calculate the center point of the current cell
 
-    for each square, from outside inward:
-        2. calculate the square's inward offset
-        3. decide randomly whether to remove it
+    for each nested square, from outside inward:
+        2. calculate the current square's inward offset
+        3. randomly decide whether the current square will be drawn
 
-        if the square survives:
-            4. move each corner by a small random amount
-               and draw it
+        if the current square will be drawn:
+            4. move each of the current square's four corners by a small random amount
+               draw a polygon through the four moved corners
 ```
 
 ## 1. A grid
