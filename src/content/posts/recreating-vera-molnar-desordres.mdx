@@ -26,6 +26,19 @@ and adapted it for the browser.
 
 The entire project can be broken down into four steps.
 
+```text
+for each cell:
+    1. find its center on the grid
+
+    for each square, from outside inward:
+        2. calculate the square's inward offset
+        3. decide randomly whether to remove it
+
+        if the square survives:
+            4. move each corner by a small random amount
+               and draw it
+```
+
 ## 1. A grid
 
 Start with a grid. Molnár's plot is 17×17. My study is 8×8.
