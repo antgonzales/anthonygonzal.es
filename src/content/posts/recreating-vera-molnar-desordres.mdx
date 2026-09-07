@@ -1,5 +1,5 @@
 ---
-title: "Recreating Vera Molnár’s (Dés)ordres with JavaScript and SVG"
+title: "Interpreting Vera Molnár’s (Dés)ordres with JavaScript and SVG"
 description: "Building a seeded SVG interpretation of Vera Molnár’s (Dés)ordres, one grid, missing square, and independently jittered corner at a time."
 pubDate: 2018-09-21
 updatedDate: 2026-09-05
@@ -100,9 +100,11 @@ function offsetInward(ringIndex: number) {
 }
 ```
 
-Why 2.01? Half the cell size points exactly at the center, where a square would
-collapse to nothing. Dividing by a hair more keeps the inward target just short
-of it.
+I kept 2.01 from the walkthrough. It makes the spacing slightly smaller than
+dividing by 2 would, so the inner squares stay a little larger. It isn't needed
+to prevent a square from collapsing to the center here: the ring indices run
+from 0 to `ringsPerCell - 1`, so even dividing by 2 leaves the innermost square
+with a half-size of `outerHalfSize / ringsPerCell`.
 
 <figure>
   <Desordres
