@@ -25,6 +25,8 @@ export default defineConfig({
   trailingSlash: "always",
   redirects: {
     "/about": "/",
+    "/blog/recreating-vera-molnar-desordres":
+      "/blog/vera-molnar-desordres-study",
   },
   image: {
     service: passthroughImageService(),
