@@ -1,0 +1,203 @@
+{
+  "name": "Replica",
+  "version": "0.7.0",
+  "description": "Earth pigments for the terminal and the editor. Two surfaces: Carbon, a terminal after midnight, and Bone, paper at noon.",
+  "modes": {
+    "carbon": {
+      "displayName": "Replica Carbon",
+      "type": "dark",
+      "reproduction": "Reproduction of a terminal after midnight."
+    },
+    "bone": {
+      "displayName": "Replica Bone",
+      "type": "light",
+      "reproduction": "Reproduction of paper at noon."
+    }
+  },
+  "neutrals": [
+    {
+      "name": "base",
+      "role": "Background",
+      "carbon": "#1e1b18",
+      "bone": "#e6e0d5"
+    },
+    {
+      "name": "surface",
+      "role": "Panels, status line, gutters",
+      "carbon": "#262220",
+      "bone": "#eee9e0"
+    },
+    {
+      "name": "overlay",
+      "role": "Floating windows, menus",
+      "carbon": "#2c2823",
+      "bone": "#f4f0e9"
+    },
+    {
+      "name": "highlightLow",
+      "role": "Cursor line",
+      "carbon": "#24211d",
+      "bone": "#ded8cc"
+    },
+    {
+      "name": "highlightMed",
+      "role": "Selection",
+      "carbon": "#312c27",
+      "bone": "#d8d1c5"
+    },
+    {
+      "name": "highlightHigh",
+      "role": "Borders, matching brackets",
+      "carbon": "#3d3730",
+      "bone": "#c8c0b1"
+    },
+    {
+      "name": "muted",
+      "role": "Line numbers, whitespace",
+      "carbon": "#7d766c",
+      "bone": "#857c70"
+    },
+    {
+      "name": "subtle",
+      "role": "Punctuation, operators",
+      "carbon": "#9c948a",
+      "bone": "#6e665b"
+    },
+    {
+      "name": "text",
+      "role": "Text, variables",
+      "carbon": "#d6cfc4",
+      "bone": "#3d3833"
+    }
+  ],
+  "accents": [
+    {
+      "name": "clay",
+      "role": "Keywords, headings",
+      "ansi": null,
+      "carbon": "#c8805f",
+      "bone": "#a2431d"
+    },
+    {
+      "name": "flax",
+      "role": "Strings, attributes",
+      "ansi": null,
+      "carbon": "#b39a75",
+      "bone": "#715840"
+    },
+    {
+      "name": "sulfur",
+      "role": "Constants, numbers, warnings",
+      "ansi": "yellow",
+      "carbon": "#bdac58",
+      "bone": "#715d06"
+    },
+    {
+      "name": "resin",
+      "role": "Types, tags, insertions",
+      "ansi": "green",
+      "carbon": "#7c8d61",
+      "bone": "#49601c"
+    },
+    {
+      "name": "sage",
+      "role": "Terminal cyan",
+      "ansi": "cyan",
+      "carbon": "#788c7e",
+      "bone": "#436046"
+    },
+    {
+      "name": "slate",
+      "role": "Functions, cursor, info",
+      "ansi": "blue",
+      "carbon": "#748b9b",
+      "bone": "#3d6070"
+    },
+    {
+      "name": "ash",
+      "role": "Comments, hints",
+      "ansi": "magenta",
+      "carbon": "#a6879b",
+      "bone": "#755c6b"
+    },
+    {
+      "name": "oxide",
+      "role": "Errors, deletions",
+      "ansi": "red",
+      "carbon": "#d55f5f",
+      "bone": "#7c1f1f"
+    }
+  ],
+  "ansi16": {
+    "carbon": [
+      "#2c2823",
+      "#d55f5f",
+      "#7c8d61",
+      "#bdac58",
+      "#748b9b",
+      "#a6879b",
+      "#788c7e",
+      "#d6cfc4",
+      "#9c948a",
+      "#db7575",
+      "#8e9d77",
+      "#c6b86f",
+      "#879ba9",
+      "#b298a9",
+      "#8b9c90",
+      "#dbd5cb"
+    ],
+    "bone": [
+      "#3d3833",
+      "#7c1f1f",
+      "#49601c",
+      "#715d06",
+      "#3d6070",
+      "#755c6b",
+      "#436046",
+      "#eee9e0",
+      "#6e665b",
+      "#6d1b1b",
+      "#405419",
+      "#635205",
+      "#365463",
+      "#67515e",
+      "#3b543e",
+      "#e6e0d5"
+    ]
+  },
+  "ports": [
+    {
+      "label": "Neovim",
+      "href": "https://github.com/antgonzales/dotfiles/tree/main/nvim/.config/nvim/colors",
+      "note": "colors/replica-carbon.lua and replica-bone.lua"
+    },
+    {
+      "label": "Ghostty",
+      "href": "https://github.com/antgonzales/dotfiles/tree/main/ghostty/.config/ghostty/themes",
+      "note": "themes/replica-carbon and replica-bone"
+    },
+    {
+      "label": "Shiki",
+      "href": "https://github.com/antgonzales/anthonygonzal.es/blob/main/src/lib/replica.ts",
+      "note": "Built from replica.json at build time; what this site uses"
+    }
+  ],
+  "changelog": [
+    {
+      "version": "0.7.0",
+      "date": "2026-09-07",
+      "notes": "Name the terminal cyan sage. Move the palette's source of truth to replica.json on this site."
+    },
+    {
+      "version": "0.6.0",
+      "date": "2026-09-02",
+      "notes": "Generate Neovim and Ghostty ports from the palette after hand-derived Ghostty values drifted in 12 of 16 ANSI slots."
+    },
+    {
+      "version": "0.5.0",
+      "date": "2026-08-29",
+      "notes": "Adopt Replica Bone and Carbon for this site's code blocks, replacing Ink."
+    }
+  ]
+}

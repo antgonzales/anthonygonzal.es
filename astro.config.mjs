@@ -6,18 +6,8 @@ import react from "@astrojs/react";
 import rehypeExternalLinks from "rehype-external-links";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import replicaBone from "./src/themes/replica-bone.json" with { type: "json" };
-import replicaCarbon from "./src/themes/replica-carbon.json" with { type: "json" };
-
-// JSON imports widen literal strings; restore Shiki's discriminated theme type.
-const replicaBoneTheme = {
-  ...replicaBone,
-  type: /** @type {"light"} */ ("light"),
-};
-const replicaCarbonTheme = {
-  ...replicaCarbon,
-  type: /** @type {"dark"} */ ("dark"),
-};
+// Both Shiki themes are derived from src/data/replica.json; see /replica/.
+import { replicaBone, replicaCarbon } from "./src/lib/replica.ts";
 
 export default defineConfig({
   site: "https://anthonygonzal.es",
@@ -33,7 +23,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      themes: { light: replicaBoneTheme, dark: replicaCarbonTheme },
+      themes: { light: replicaBone, dark: replicaCarbon },
     },
     processor: unified({
       rehypePlugins: [

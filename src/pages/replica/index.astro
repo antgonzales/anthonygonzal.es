@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionLabel from "../../components/SectionLabel.astro";
+import Plate from "../../components/replica/Plate.astro";
+import { replica } from "../../lib/replica";
+import { externalAttrs } from "../../lib/links";
+
+const sample = `// Seeded jitter for a Molnár grid
+export type Ring = { x: number; y: number; size: number };
+
+export function jitter(ring: Ring, seed = 0x679a4d20): Ring {
+  const noise = (Math.sin(seed * ring.size) + 1) / 2;
+  if (noise > 0.92) throw new Error(\`Ring \${ring.size} fell off the grid\`);
+  return { ...ring, x: ring.x + noise * 3, y: ring.y - noise * 3 };
+}`;
+
+const th = "font-mono text-[11px] tracking-[0.14em] uppercase font-normal";
+const cell = "font-mono text-[13px]";
+---
+
+<BaseLayout title="Replica" description={replica.description}>
+  <div class="pt-2">
+    <div>
+      <h1
+        class="font-display text-[clamp(44px,6vw,72px)] leading-[0.98] font-bold tracking-[-0.01em] uppercase"
+      >
+        Replica
+      </h1>
+      <p class="mt-6 text-[19px] leading-[1.55]">
+        Earth pigments for the terminal and the editor. Eight colors that sit on
+        the screen like paint on a wall, not light behind glass. Two surfaces to
+        put them on: Carbon, a terminal after midnight, and Bone, paper at noon.
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-12 grid gap-6">
+    <Plate mode="carbon" code={sample} />
+    <Plate mode="bone" code={sample} />
+  </div>
+  <p class="mt-3 font-mono text-xs text-faint dark:text-faint-dark">
+    Click a swatch to copy its hex.
+  </p>
+
+  <div class="prose max-w-none">
+    <SectionLabel display>Materials</SectionLabel>
+
+    <p>
+      Most themes glow. Replica sits still. Every color is named for something
+      you could hold, and mixed to look like it. Fired clay for keywords. Raw
+      flax for strings. A streak of sulfur for constants. Resin for types. Sage
+      for the terminal&rsquo;s green-blue. Slate for functions. Ash for
+      comments. Oxide for whatever went wrong. Nothing on the screen is brighter
+      than the material it is named after.
+    </p>
+
+    <p>
+      One cool color. Slate is the only blue in the palette, so functions are
+      what the eye finds first and everything else settles into warm, low ground
+      behind them. The code is the loudest thing on the screen, and it is not
+      loud.
+    </p>
+
+    <p>
+      The neutrals carry the rest. Nine steps from the surface to the ink, set
+      close enough that a panel, a menu, a selection, and the cursor line are
+      each their own thing and none of them announce it.
+    </p>
+
+    <SectionLabel display>Values</SectionLabel>
+    <div class="not-prose overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="text-faint dark:text-faint-dark">
+          <tr>
+            <th class={th}>Token</th>
+            <th class={th}>Role</th>
+            <th class={th}>Carbon</th>
+            <th class={th}>Bone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            [...replica.neutrals, ...replica.accents].map((t) => (
+              <tr class="border-t border-rule dark:border-rule-dark">
+                <td class:list={[cell, "py-2.5 pr-4"]}>{t.name}</td>
+                <td class="py-2.5 pr-4 text-[13.5px]">{t.role}</td>
+                <td class:list={[cell, "py-2.5 pr-4 whitespace-nowrap"]}>
+                  <span
+                    class="mr-2 inline-block size-3 rounded-xs align-[-1px]"
+                    style={`background:${t.carbon}`}
+                  />
+                  {t.carbon}
+                </td>
+                <td class:list={[cell, "py-2.5 whitespace-nowrap"]}>
+                  <span
+                    class="mr-2 inline-block size-3 rounded-xs align-[-1px]"
+                    style={`background:${t.bone}`}
+                  />
+                  {t.bone}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The terminal ports also carry a bright row for ANSI slots 8 through 15,
+      derived from these values. The full set, bright row included, is in{" "}
+      <a href="/replica.json">replica.json</a>.
+    </p>
+
+    <SectionLabel display>Ports</SectionLabel>
+    <div class="not-prose">
+      {
+        replica.ports.map((port) => (
+          <div class="border-t border-rule dark:border-rule-dark py-3 first:border-t-0">
+            <a
+              class="font-semibold text-[15px]"
+              href={port.href}
+              {...externalAttrs(port.href)}
+            >
+              {port.label}
+            </a>
+            <div class="mt-0.5 font-mono text-[13px] text-faint dark:text-faint-dark">
+              {port.note}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <p>
+      Replica is MIT licensed. If you port it somewhere, generate from the JSON
+      rather than transcribing the hexes.
+    </p>
+
+    <SectionLabel display>Changelog</SectionLabel>
+    <div class="not-prose">
+      {
+        replica.changelog.map((entry) => (
+          <div class="border-t border-rule dark:border-rule-dark py-3 first:border-t-0">
+            <div class="font-mono text-xs tracking-[0.08em] text-faint dark:text-faint-dark uppercase">
+              {entry.version} · {entry.date}
+            </div>
+            <p class="mt-1 text-[13.5px] leading-[1.6]">{entry.notes}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

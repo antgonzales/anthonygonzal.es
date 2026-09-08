@@ -1,6 +1,12 @@
 [
   {
     "year": "2026",
+    "title": "Replica",
+    "href": "/replica/",
+    "who": "Syntax palette for the terminal and the editor"
+  },
+  {
+    "year": "2026",
     "title": "Home Platform",
     "href": "/blog/home-platform-launch/",
     "who": "Rollout across four Compass brands"
@@ -9,7 +15,7 @@
     "year": "2025",
     "title": "Compass One",
     "href": "/blog/introducing-compass-one/",
-    "who": "Client dashboard, launched · Inman Innovator Award"
+    "who": "Client dashboard, launched \u00b7 Inman Innovator Award"
   },
   {
     "year": "2019",
