@@ -2,7 +2,7 @@ import { externalAttrs } from "../../lib/links";
 import type { ArtworkMetadata } from "../types";
 
 const molnar = "https://en.wikipedia.org/wiki/Vera_Moln%C3%A1r";
-const writeup = "/blog/recreating-vera-molnar-desordres/";
+const writeup = "/blog/vera-molnar-desordres-study/";
 
 export const desordresMetadata: ArtworkMetadata = {
   slug: "desordres",
