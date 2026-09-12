@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionLabel from "../../components/SectionLabel.astro";
 import Plate from "../../components/replica/Plate.astro";
-import { replica } from "../../lib/replica";
+import { color, replica } from "../../lib/replica";
 import { externalAttrs } from "../../lib/links";
 
 const sample = `// Seeded jitter for a Molnár grid
@@ -13,6 +13,127 @@ export function jitter(ring: Ring, seed = 0x679a4d20): Ring {
   if (noise > 0.92) throw new Error(\`Ring \${ring.size} fell off the grid\`);
   return { ...ring, x: ring.x + noise * 3, y: ring.y - noise * 3 };
 }`;
+
+/**
+ * The collage prints eight photographs in two inks each: Carbon for the
+ * shadows and one material for the lights. It hangs on Carbon whatever the
+ * visitor's scheme, so the inks are read against their own ground.
+ */
+const carbonInks = Object.fromEntries(
+  ["base", "muted", ...replica.accents.map((t) => t.name)].map((n) => [
+    n,
+    color("carbon", n),
+  ]),
+);
+const inkVars = Object.entries(carbonInks)
+  .map(([n, hex]) => `--carbon-${n}:${hex}`)
+  .join(";");
+
+const collage = [
+  {
+    file: "tower.jpg",
+    ink: "clay",
+    area: "a",
+    alt: "Close-up of a concrete tower against the sky",
+    position: "50% 50%",
+    width: 1600,
+    height: 2263,
+  },
+  {
+    file: "tuletornen.jpg",
+    ink: "slate",
+    area: "b",
+    alt: "Gray apartment tower seen from below in daylight",
+    position: "50% 50%",
+    width: 1600,
+    height: 1067,
+  },
+  {
+    file: "canyon-mauve.jpg",
+    ink: "ash",
+    area: "c",
+    alt: "Layered walls of a mountain canyon",
+    position: "50% 50%",
+    width: 1600,
+    height: 1067,
+  },
+  {
+    file: "peak.jpg",
+    ink: "sage",
+    area: "d",
+    alt: "Mountain peak rising above mist at dawn",
+    position: "50% 50%",
+    width: 1600,
+    height: 2400,
+  },
+  {
+    file: "antelope.jpg",
+    ink: "oxide",
+    area: "e",
+    alt: "Curved sandstone walls of Antelope Canyon",
+    position: "50% 50%",
+    width: 1600,
+    height: 900,
+  },
+  {
+    file: "paektu.jpg",
+    ink: "slate",
+    area: "f",
+    alt: "Misty mountain slopes with remnants of snow",
+    position: "50% 60%",
+    width: 1600,
+    height: 1067,
+  },
+  {
+    file: "david.jpg",
+    ink: "sulfur",
+    area: "g",
+    alt: "Marble statue of a man looking away",
+    position: "50% 12%",
+    width: 1600,
+    height: 2844,
+  },
+  {
+    file: "brutalism.jpg",
+    ink: "flax",
+    area: "h",
+    alt: "Facade of a gray concrete building",
+    position: "50% 50%",
+    width: 1600,
+    height: 983,
+  },
+];
+
+const credits = [
+  [
+    "Simone Hutsch",
+    "https://unsplash.com/photos/a-close-up-of-a-tower-CzyFl-oAty0",
+  ],
+  [
+    "Anders Jildén",
+    "https://unsplash.com/photos/low-angle-photography-of-gray-building-at-daytime-Sc5RKXLBjGg",
+  ],
+  [
+    "Ashim D’Silva",
+    "https://unsplash.com/photos/scenery-of-mountain-canyon-WeYamle9fDM",
+  ],
+  [
+    "Daniel Castellón",
+    "https://unsplash.com/photos/a-majestic-mountain-peak-rises-above-misty-clouds-at-dawn-r9zxPmNKy_0",
+  ],
+  [
+    "Tom Gainor",
+    "https://unsplash.com/photos/antelope-canyon-arizona-8jwjnBmD4Y4",
+  ],
+  [
+    "Yufeng Zhao",
+    "https://unsplash.com/photos/misty-mountain-landscape-with-remnants-of-snow-B6DG0sj6yh0",
+  ],
+  [
+    "Jack Hunter",
+    "https://unsplash.com/photos/marble-statue-of-man-looking-away-1L4E_lsIb9Q",
+  ],
+];
 
 const th = "font-mono text-[11px] tracking-[0.14em] uppercase font-normal";
 const cell = "font-mono text-[13px]";
@@ -33,6 +154,52 @@ const cell = "font-mono text-[13px]";
       </p>
     </div>
   </div>
+
+  <SectionLabel display class="mt-12">Pigments</SectionLabel>
+  <p class="mt-4 text-[15px] leading-[1.6]">
+    Every scene one pigment. Every material one ink, seen at two depths. The
+    only glow is the error.
+  </p>
+  <section
+    class="collage mt-5 rounded-sm"
+    aria-label="Replica in eight pigments"
+    style={inkVars}
+  >
+    <div class="collage-grid">
+      {
+        collage.map((t) => (
+          <figure
+            class="tile"
+            style={`grid-area:${t.area};--ink:var(--carbon-${t.ink})`}
+          >
+            <img
+              src={`/replica/collage/${t.file}`}
+              alt={t.alt}
+              width={t.width}
+              height={t.height}
+              loading="lazy"
+              decoding="async"
+              style={`object-position:${t.position}`}
+            />
+            <figcaption>{t.ink}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <p class="collage-credits">
+      Photos via Unsplash:{" "}
+      {
+        credits.map(([name, href], i) => (
+          <>
+            <a href={href} {...externalAttrs(href)}>
+              {name}
+            </a>
+            {i < credits.length - 1 ? ", " : "."}
+          </>
+        ))
+      }
+    </p>
+  </section>
 
   <div class="mt-12 grid gap-6">
     <Plate mode="carbon" code={sample} />
@@ -149,3 +316,100 @@ const cell = "font-mono text-[13px]";
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  /* Duotone in three declarations: the tile is the light ink, the photo
+     multiplies onto it in grayscale, and a Carbon overlay lightens the
+     shadows up to the ground. The ink variables are inline from replica.json
+     and are Carbon's regardless of the site scheme. */
+  .collage {
+    background: var(--carbon-base);
+    padding: 4px;
+  }
+  .collage-grid {
+    display: grid;
+    gap: 4px;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: minmax(0, 1fr);
+    aspect-ratio: 2 / 1;
+    grid-template-areas:
+      "a a b b b c c d"
+      "a a b b b c c d"
+      "e e e f f g g g"
+      "e e e h h g g g";
+  }
+  @media (max-width: 760px) {
+    .collage-grid {
+      aspect-ratio: auto;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 44vw;
+      grid-template-areas:
+        "a a b b"
+        "a a b b"
+        "c c d d"
+        "e e e e"
+        "f f h h"
+        "g g g g";
+    }
+  }
+  .tile {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--ink);
+  }
+  .tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1) contrast(1.15) brightness(1.02);
+    mix-blend-mode: multiply;
+  }
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--carbon-base);
+    mix-blend-mode: lighten;
+  }
+  .tile::before {
+    /* film grain */
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.14;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .tile figcaption {
+    position: absolute;
+    left: 10px;
+    bottom: 8px;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    mix-blend-mode: difference;
+    opacity: 0.9;
+  }
+  .collage-credits {
+    margin: 0;
+    padding: 10px 8px 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--carbon-muted);
+  }
+  .collage-credits a {
+    color: inherit;
+    text-decoration-color: var(--carbon-muted);
+  }
+</style>

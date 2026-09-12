@@ -17,7 +17,8 @@
     "test:watch": "vitest",
     "typecheck": "astro check",
     "lint": "eslint . && prettier --check . && astro check",
-    "lint:fix": "eslint . --fix && prettier --write ."
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "replica:ports": "node scripts/replica-ports.mjs"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "Replica",
-  "version": "0.7.0",
+  "version": "0.8.1",
   "description": "Earth pigments for the terminal and the editor. Two surfaces: Carbon, a terminal after midnight, and Bone, paper at noon.",
   "modes": {
     "carbon": {
@@ -12,6 +12,54 @@
       "displayName": "Replica Bone",
       "type": "light",
       "reproduction": "Reproduction of paper at noon."
+    }
+  },
+  "recipe": {
+    "model": "WCAG 2 contrast ratio against base",
+    "targets": {
+      "syntax": 5,
+      "oxide": 6,
+      "text": 9,
+      "subtle": 4.6,
+      "muted": 3.8
+    },
+    "materials": {
+      "clay": {
+        "hue": 42,
+        "chroma": 0.115
+      },
+      "flax": {
+        "hue": 64,
+        "chroma": 0.055
+      },
+      "sulfur": {
+        "hue": 95,
+        "chroma": 0.1
+      },
+      "resin": {
+        "hue": 125,
+        "chroma": 0.085
+      },
+      "sage": {
+        "hue": 168,
+        "chroma": 0.045
+      },
+      "slate": {
+        "hue": 232,
+        "chroma": 0.05
+      },
+      "ash": {
+        "hue": 340,
+        "chroma": 0.058
+      },
+      "oxide": {
+        "hue": 28,
+        "chroma": 0.15
+      }
+    },
+    "derived": {
+      "ansi16": "Slots 1 to 6 are oxide, resin, sulfur, slate, ash, sage. Slot 0 is overlay in Carbon and text in Bone; 7 is text in Carbon and surface in Bone; 8 is subtle; 15 is text lifted 12% toward white in Carbon and base in Bone. Bright 9 to 14 mix each material 14% toward white in Carbon and 12% toward black in Bone.",
+      "diff": "Backgrounds mix base toward resin (add), oxide (delete) and slate (change, text): 16%, 16%, 12%, 24% in Carbon; 18%, 18%, 14%, 26% in Bone."
     }
   },
   "neutrals": [
@@ -55,13 +103,13 @@
       "name": "muted",
       "role": "Line numbers, whitespace",
       "carbon": "#7d766c",
-      "bone": "#857c70"
+      "bone": "#776e63"
     },
     {
       "name": "subtle",
       "role": "Punctuation, operators",
       "carbon": "#9c948a",
-      "bone": "#6e665b"
+      "bone": "#6a6157"
     },
     {
       "name": "text",
@@ -75,107 +123,121 @@
       "name": "clay",
       "role": "Keywords, headings",
       "ansi": null,
-      "carbon": "#c8805f",
-      "bone": "#a2431d"
+      "carbon": "#c67752",
+      "bone": "#944726"
     },
     {
       "name": "flax",
       "role": "Strings, attributes",
       "ansi": null,
-      "carbon": "#b39a75",
-      "bone": "#715840"
+      "carbon": "#9f8766",
+      "bone": "#72583b"
     },
     {
       "name": "sulfur",
       "role": "Constants, numbers, warnings",
       "ansi": "yellow",
-      "carbon": "#bdac58",
-      "bone": "#715d06"
+      "carbon": "#9c8b3c",
+      "bone": "#6f5b00"
     },
     {
       "name": "resin",
       "role": "Types, tags, insertions",
       "ansi": "green",
-      "carbon": "#7c8d61",
-      "bone": "#49601c"
+      "carbon": "#7a9356",
+      "bone": "#4f642a"
     },
     {
       "name": "sage",
       "role": "Terminal cyan",
       "ansi": "cyan",
-      "carbon": "#788c7e",
-      "bone": "#436046"
+      "carbon": "#649580",
+      "bone": "#3a6554"
     },
     {
       "name": "slate",
       "role": "Functions, cursor, info",
       "ansi": "blue",
-      "carbon": "#748b9b",
-      "bone": "#3d6070"
+      "carbon": "#59949e",
+      "bone": "#2e6470"
     },
     {
       "name": "ash",
       "role": "Comments, hints",
       "ansi": "magenta",
-      "carbon": "#a6879b",
-      "bone": "#755c6b"
+      "carbon": "#9c8493",
+      "bone": "#6e5666"
     },
     {
       "name": "oxide",
       "role": "Errors, deletions",
       "ansi": "red",
-      "carbon": "#d55f5f",
-      "bone": "#7c1f1f"
+      "carbon": "#ea7866",
+      "bone": "#982820"
     }
   ],
   "ansi16": {
     "carbon": [
       "#2c2823",
-      "#d55f5f",
-      "#7c8d61",
-      "#bdac58",
-      "#748b9b",
-      "#a6879b",
-      "#788c7e",
+      "#ea7866",
+      "#7a9356",
+      "#9c8b3c",
+      "#59949e",
+      "#9c8493",
+      "#649580",
       "#d6cfc4",
       "#9c948a",
-      "#db7575",
-      "#8e9d77",
-      "#c6b86f",
-      "#879ba9",
-      "#b298a9",
-      "#8b9c90",
+      "#ed8b7b",
+      "#8da26e",
+      "#aa9b57",
+      "#70a3ac",
+      "#aa95a2",
+      "#7aa492",
       "#dbd5cb"
     ],
     "bone": [
       "#3d3833",
-      "#7c1f1f",
-      "#49601c",
-      "#715d06",
-      "#3d6070",
-      "#755c6b",
-      "#436046",
+      "#982820",
+      "#4f642a",
+      "#6f5b00",
+      "#2e6470",
+      "#6e5666",
+      "#3a6554",
       "#eee9e0",
-      "#6e665b",
-      "#6d1b1b",
-      "#405419",
-      "#635205",
-      "#365463",
-      "#67515e",
-      "#3b543e",
+      "#6a6157",
+      "#86231c",
+      "#465825",
+      "#625000",
+      "#285863",
+      "#614c5a",
+      "#33594a",
       "#e6e0d5"
     ]
+  },
+  "diff": {
+    "carbon": {
+      "add": "#2d2e22",
+      "delete": "#3f2a24",
+      "change": "#252a28",
+      "text": "#2c3838"
+    },
+    "bone": {
+      "add": "#cbcab6",
+      "delete": "#d8bfb4",
+      "change": "#cccfc7",
+      "text": "#b6c0bb"
+    }
   },
   "ports": [
     {
       "label": "Neovim",
       "href": "https://github.com/antgonzales/dotfiles/tree/main/nvim/.config/nvim/colors",
-      "note": "colors/replica-carbon.lua and replica-bone.lua"
+      "note": "colors/replica-carbon.lua and replica-bone.lua, generated by pnpm replica:ports"
     },
     {
       "label": "Ghostty",
       "href": "https://github.com/antgonzales/dotfiles/tree/main/ghostty/.config/ghostty/themes",
-      "note": "themes/replica-carbon and replica-bone"
+      "note": "themes/replica-carbon and replica-bone, generated by pnpm replica:ports"
     },
     {
       "label": "Shiki",
@@ -184,6 +246,11 @@
     }
   ],
   "changelog": [
+    {
+      "version": "0.8.1",
+      "date": "2026-09-12",
+      "notes": "Rebuild the materials as one hue and chroma each, with Bone and Carbon lightness solved for equal contrast. Sulfur and flax stop glowing in Carbon. Sage moves toward teal. Slate moves to steel, oxide to rust. Bone gutters come up to 3.8:1."
+    },
     {
       "version": "0.7.0",
       "date": "2026-09-07",
