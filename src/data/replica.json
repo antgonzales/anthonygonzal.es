@@ -1,6 +1,6 @@
 {
   "name": "Replica",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Earth pigments for the terminal and the editor. Two surfaces: Carbon, a terminal after midnight, and Bone, paper at noon.",
   "modes": {
     "carbon": {
@@ -22,6 +22,18 @@
       "text": 9,
       "subtle": 4.6,
       "muted": 3.8
+    },
+    "grounds": {
+      "bone": {
+        "hue": 45,
+        "chroma": 0.024,
+        "lightness": 0.901
+      },
+      "carbon": {
+        "hue": 33,
+        "chroma": 0.009,
+        "lightness": 0.223
+      }
     },
     "materials": {
       "clay": {
@@ -67,55 +79,55 @@
       "name": "base",
       "role": "Background",
       "carbon": "#1e1b18",
-      "bone": "#e6e0d5"
+      "bone": "#e4e1cf"
     },
     {
       "name": "surface",
       "role": "Panels, status line, gutters",
       "carbon": "#262220",
-      "bone": "#eee9e0"
+      "bone": "#eeebd9"
     },
     {
       "name": "overlay",
       "role": "Floating windows, menus",
       "carbon": "#2c2823",
-      "bone": "#f4f0e9"
+      "bone": "#f6f4e1"
     },
     {
       "name": "highlightLow",
       "role": "Cursor line",
       "carbon": "#24211d",
-      "bone": "#ded8cc"
+      "bone": "#dedbc9"
     },
     {
       "name": "highlightMed",
       "role": "Selection",
       "carbon": "#312c27",
-      "bone": "#d8d1c5"
+      "bone": "#d1cdbc"
     },
     {
       "name": "highlightHigh",
       "role": "Borders, matching brackets",
       "carbon": "#3d3730",
-      "bone": "#c8c0b1"
+      "bone": "#beb9aa"
     },
     {
       "name": "muted",
       "role": "Line numbers, whitespace",
       "carbon": "#7d766c",
-      "bone": "#776e63"
+      "bone": "#716f66"
     },
     {
       "name": "subtle",
       "role": "Punctuation, operators",
       "carbon": "#9c948a",
-      "bone": "#6a6157"
+      "bone": "#64625a"
     },
     {
       "name": "text",
       "role": "Text, variables",
       "carbon": "#d6cfc4",
-      "bone": "#3d3833"
+      "bone": "#3b3630"
     }
   ],
   "accents": [
@@ -196,22 +208,22 @@
       "#dbd5cb"
     ],
     "bone": [
-      "#3d3833",
+      "#3b3630",
       "#982820",
       "#4f642a",
       "#6f5b00",
       "#2e6470",
       "#6e5666",
       "#3a6554",
-      "#eee9e0",
-      "#6a6157",
+      "#eeebd9",
+      "#64625a",
       "#86231c",
       "#465825",
       "#625000",
       "#285863",
       "#614c5a",
       "#33594a",
-      "#e6e0d5"
+      "#e4e1cf"
     ]
   },
   "diff": {
@@ -222,10 +234,10 @@
       "text": "#2c3838"
     },
     "bone": {
-      "add": "#cbcab6",
-      "delete": "#d8bfb4",
-      "change": "#cccfc7",
-      "text": "#b6c0bb"
+      "add": "#c9cbb1",
+      "delete": "#d6c0b0",
+      "change": "#cbd0c2",
+      "text": "#b5c1b6"
     }
   },
   "ports": [
@@ -247,9 +259,9 @@
   ],
   "changelog": [
     {
-      "version": "0.8.1",
-      "date": "2026-09-12",
-      "notes": "Rebuild the materials as one hue and chroma each, with Bone and Carbon lightness solved for equal contrast. Sulfur and flax stop glowing in Carbon. Sage moves toward teal. Slate moves to steel, oxide to rust. Bone gutters come up to 3.8:1."
+      "version": "0.8.2",
+      "date": "2026-09-13",
+      "notes": "Rebuild the materials as one hue and chroma each, with Bone and Carbon lightness solved for equal contrast. Sulfur and flax stop glowing in Carbon. Sage moves toward teal. Slate moves to steel, oxide to rust. Bone moves from peach to cream. Bone gutters come up to 3.8:1."
     },
     {
       "version": "0.7.0",
