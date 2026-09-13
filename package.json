@@ -18,7 +18,8 @@
     "typecheck": "astro check",
     "lint": "eslint . && prettier --check . && astro check",
     "lint:fix": "eslint . --fix && prettier --write .",
-    "replica:ports": "node scripts/replica-ports.mjs"
+    "replica:ports": "node scripts/replica-ports.mjs",
+    "replica:roles": "node scripts/replica-roles.mjs"
   },
   "repository": {
     "type": "git",

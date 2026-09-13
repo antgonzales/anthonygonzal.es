@@ -17,28 +17,28 @@
   "recipe": {
     "materials": {
       "clay": {
-        "hue": 42,
-        "chroma": 0.115
+        "hue": 45,
+        "chroma": 0.112
       },
       "sulfur": {
-        "hue": 95,
-        "chroma": 0.1
+        "hue": 97,
+        "chroma": 0.101
       },
       "resin": {
-        "hue": 125,
-        "chroma": 0.085
+        "hue": 127,
+        "chroma": 0.09
       },
       "slate": {
-        "hue": 232,
-        "chroma": 0.05
+        "hue": 209,
+        "chroma": 0.063
       },
       "ash": {
-        "hue": 340,
-        "chroma": 0.058
+        "hue": 15,
+        "chroma": 0.036
       },
       "oxide": {
-        "hue": 28,
-        "chroma": 0.15
+        "hue": 30,
+        "chroma": 0.144
       }
     },
     "grounds": {
@@ -151,8 +151,8 @@
       "name": "ash",
       "role": "Parameters, attributes, hints",
       "ansi": "magenta",
-      "carbon": "#9c8493",
-      "bone": "#6e5666"
+      "carbon": "#a18385",
+      "bone": "#725758"
     },
     {
       "name": "oxide",
@@ -187,7 +187,7 @@
       "#59949e",
       "#9c8b3c",
       "#7a9356",
-      "#9c8493",
+      "#a18385",
       "#c67752",
       "#d6cfc4",
       "#2c2823",
@@ -195,7 +195,7 @@
       "#59949e",
       "#9c8b3c",
       "#7a9356",
-      "#9c8493",
+      "#a18385",
       "#c67752",
       "#d6cfc4"
     ],
@@ -205,7 +205,7 @@
       "#2e6470",
       "#6f5b00",
       "#4f642a",
-      "#6e5666",
+      "#725758",
       "#944726",
       "#3b3630",
       "#f6f4e1",
@@ -213,7 +213,7 @@
       "#2e6470",
       "#6f5b00",
       "#4f642a",
-      "#6e5666",
+      "#725758",
       "#944726",
       "#3b3630"
     ]
@@ -267,7 +267,10 @@
         "BlinkCmpKindInterface",
         "BlinkCmpKindConstant",
         "DiffviewFilePanelSelected",
-        "@markup.raw"
+        "@markup.raw",
+        "DevIconJs",
+        "DevIconMjs",
+        "DevIconCjs"
       ]
     },
     {
@@ -287,7 +290,6 @@
         "SpecialKey",
         "DiagnosticInfo",
         "Label",
-        "Special",
         "StorageClass",
         "Structure",
         "Tag",
@@ -325,7 +327,6 @@
         "NavicIconsTypeParameter",
         "MiniDepsChangeAdded",
         "MiniDiffSignAdd",
-        "MiniIconsAzure",
         "MiniIconsCyan",
         "MiniPickMatchRanges",
         "AlphaButtons",
@@ -356,7 +357,9 @@
         "SnacksIndentScope",
         "DiffviewSecondary",
         "DiffviewFilePanelInsertions",
-        "DiffviewStatusAdded"
+        "DiffviewStatusAdded",
+        "DevIconJson",
+        "DevIconPackageJson"
       ]
     },
     {
@@ -388,7 +391,6 @@
         "@keyword.debug",
         "NvimTreeFileDirty",
         "NvimTreeGitDirty",
-        "NeoTreeGitModified",
         "WhichKeyIconOrange",
         "WhichKeyValue",
         "DefinitionCount",
@@ -414,7 +416,9 @@
         "DiffviewReflogSelector",
         "DiffviewStatusModified",
         "DiffviewStatusTypeChange",
-        "DiffviewStatusUnmerged"
+        "DiffviewStatusUnmerged",
+        "SnacksDashboardHeader",
+        "SnacksDashboardKey"
       ]
     },
     {
@@ -447,6 +451,7 @@
         "Delimiter",
         "LspCodeLens",
         "Operator",
+        "Special",
         "htmlEndTag",
         "htmlTag",
         "markdownDelimiter",
@@ -479,7 +484,6 @@
         "NavicSeparator",
         "NavicText",
         "TroubleText",
-        "MiniIconsGrey",
         "MiniJump2dDim",
         "MiniStarterFooter",
         "RenderMarkdownQuote",
@@ -514,6 +518,7 @@
       },
       "groups": [
         "@text",
+        "Title",
         "Identifier",
         "htmlTagN",
         "mkdListItemLine",
@@ -522,13 +527,16 @@
         "@markup.list.unchecked",
         "NvimTreeImageFile",
         "NeotestFile",
+        "NeoTreeTitleBar",
         "FzfLuaFilePart",
         "DapUIFrameName",
         "DapUIValue",
         "DapUIVariable",
         "NavicIconsVariable",
         "MiniFilesFile",
-        "DiffviewFilePanelFileName"
+        "DiffviewFilePanelFileName",
+        "SnacksDashboardTitle",
+        "SnacksPickerFile"
       ]
     },
     {
@@ -547,7 +555,9 @@
         "NvimTreeGitDeleted",
         "NeotestFailed",
         "NeotestTarget",
+        "NeoTreeGitConflict",
         "NeoTreeGitDeleted",
+        "NeoTreeGitModified",
         "WhichKeyIconRed",
         "VimwikiNoExistsLink",
         "LspSagaRenamePromptPrefix",
@@ -567,7 +577,8 @@
         "DiffviewFilePanelDeletions",
         "DiffviewStatusUnknown",
         "DiffviewStatusDeleted",
-        "DiffviewStatusBroken"
+        "DiffviewStatusBroken",
+        "SnacksPickerGitStatusModified"
       ]
     },
     {
@@ -797,7 +808,6 @@
         "NvimTreeGitStaged",
         "NeotestAdapterName",
         "NeotestWatching",
-        "NeoTreeGitConflict",
         "WhichKey",
         "WhichKeyIconPurple",
         "VimwikiList",
@@ -816,7 +826,14 @@
         "BlinkCmpKindKeyword",
         "BlinkCmpKindTypeParameter",
         "DiffviewFilePanelConflicts",
-        "@markup.link"
+        "@markup.link",
+        "DevIconYaml",
+        "DevIconYml",
+        "DevIconToml",
+        "DevIconLock",
+        "DevIconPackageLockJson",
+        "DevIconPNPMLock",
+        "DevIconBunLockfile"
       ]
     },
     {
@@ -901,10 +918,14 @@
       },
       "groups": [
         "CursorLineNr",
+        "Directory",
         "@module.builtin",
         "CmpItemAbbrMatch",
         "CmpItemAbbrMatchFuzzy",
-        "BlinkCmpLabelMatch"
+        "BlinkCmpLabelMatch",
+        "NeoTreeDirectoryName",
+        "NeoTreeRootName",
+        "SnacksPickerDirectory"
       ]
     },
     {
@@ -956,30 +977,6 @@
       ]
     },
     {
-      "fg": "foam",
-      "bold": true,
-      "ink": {
-        "fg": "resin"
-      },
-      "groups": [
-        "Directory",
-        "Title",
-        "markdownH2",
-        "@type.builtin",
-        "@markup.heading",
-        "NvimTreeRootFolder",
-        "NeorgMarkerTitle",
-        "LspSagaDiagnosticHeader",
-        "TelescopeTitle",
-        "DapUIModifiedValue",
-        "MiniTestPass",
-        "DiffviewFilePanelTitle",
-        "DiffviewFilePanelRootPath",
-        "DiffviewFolderName",
-        "DiffviewReference"
-      ]
-    },
-    {
       "fg": "love",
       "bold": true,
       "ink": {
@@ -1013,14 +1010,22 @@
       ]
     },
     {
-      "fg": "foam",
+      "fg": "text",
       "bg": "surface",
-      "bold": true,
       "ink": {
-        "fg": "resin",
+        "fg": "text",
         "bg": "surface"
       },
-      "groups": ["FloatTitle"]
+      "groups": [
+        "FloatTitle",
+        "Folded",
+        "WinBar",
+        "TroubleNormal",
+        "MiniTablineVisible",
+        "AvantePromptInput",
+        "DiffviewNormal",
+        "DiffviewWinSeparator"
+      ]
     },
     {
       "fg": "muted",
@@ -1046,28 +1051,40 @@
         "NavicIconsFile",
         "NavicIconsNamespace",
         "NavicIconsPackage",
+        "MiniIconsGrey",
         "MiniIndentscopeSymbol",
         "RenderMarkdownDash",
         "AvantePromptInputBorder",
         "BlinkCmpGhostText",
         "BlinkCmpLabel",
-        "DiffviewStatusIgnored"
-      ]
-    },
-    {
-      "fg": "text",
-      "bg": "surface",
-      "ink": {
-        "fg": "text",
-        "bg": "surface"
-      },
-      "groups": [
-        "Folded",
-        "TroubleNormal",
-        "MiniTablineVisible",
-        "AvantePromptInput",
-        "DiffviewNormal",
-        "DiffviewWinSeparator"
+        "DiffviewStatusIgnored",
+        "SnacksPickerDir",
+        "SnacksPickerPathHidden",
+        "SnacksPickerPathIgnored",
+        "NeoTreeDirectoryIcon",
+        "SnacksDashboardIcon",
+        "SnacksDashboardDesc",
+        "SnacksDashboardFooter",
+        "DevIconMd",
+        "DevIconMdx",
+        "DevIconTxt",
+        "DevIconEnv",
+        "DevIconConf",
+        "DevIconSh",
+        "DevIconBash",
+        "DevIconZsh",
+        "DevIconZshrc",
+        "DevIconBashrc",
+        "DevIconZshprofile",
+        "DevIconBashProfile",
+        "DevIconGitIgnore",
+        "DevIconGitConfig",
+        "DevIconGitAttributes",
+        "DevIconGitModules",
+        "DevIconEditorConfig",
+        "DevIconPrettierConfig",
+        "DevIconNPMrc",
+        "DevIconEslintrc"
       ]
     },
     {
@@ -1104,13 +1121,7 @@
         "fg": "subtle",
         "bg": "surface"
       },
-      "groups": [
-        "Pmenu",
-        "StatusLine",
-        "TabLine",
-        "WinBar",
-        "MiniTablineHidden"
-      ]
+      "groups": ["Pmenu", "StatusLine", "TabLine", "MiniTablineHidden"]
     },
     {
       "fg": "subtle",
@@ -1459,6 +1470,7 @@
         "DashboardHeader",
         "NavicIconsFunction",
         "NavicIconsKeyword",
+        "MiniIconsAzure",
         "MiniIconsBlue",
         "AlphaHeader",
         "RainbowDelimiterBlue",
@@ -1469,7 +1481,10 @@
         "BlinkCmpKindField",
         "BlinkCmpKindUnit",
         "DiffviewPrimary",
-        "DiffviewStatusRenamed"
+        "DiffviewStatusRenamed",
+        "DevIconTypeScript",
+        "DevIconTsx",
+        "DevIconTSConfig"
       ]
     },
     {
@@ -1538,6 +1553,28 @@
         "fg": "ash"
       },
       "groups": ["markdownH1", "@attribute.builtin"]
+    },
+    {
+      "fg": "foam",
+      "bold": true,
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": [
+        "markdownH2",
+        "@type.builtin",
+        "@markup.heading",
+        "NvimTreeRootFolder",
+        "NeorgMarkerTitle",
+        "LspSagaDiagnosticHeader",
+        "TelescopeTitle",
+        "DapUIModifiedValue",
+        "MiniTestPass",
+        "DiffviewFilePanelTitle",
+        "DiffviewFilePanelRootPath",
+        "DiffviewFolderName",
+        "DiffviewReference"
+      ]
     },
     {
       "fg": "rose",
@@ -1851,12 +1888,7 @@
     },
     {
       "link": "StatusLineTerm",
-      "groups": [
-        "NvimTreeWindowPicker",
-        "NeoTreeTitleBar",
-        "LeapLabelSecondary",
-        "SneakCurrent"
-      ]
+      "groups": ["NvimTreeWindowPicker", "LeapLabelSecondary", "SneakCurrent"]
     },
     {
       "fg": "highlightMed",
@@ -2500,7 +2532,7 @@
     {
       "version": "0.9.0",
       "date": "2026-09-13",
-      "notes": "Six materials, not eight. Flax and sage are retired. The role map is Rosé Pine's, applied whole: keywords to slate, functions to clay, literals to sulfur, types and properties to resin, parameters and attributes to ash, errors to oxide. Comments print in muted and stop looking like code. No hex value changed."
+      "notes": "Six materials, not eight. Flax and sage are retired. The role map is Rosé Pine's, applied whole: keywords to slate, functions to clay, literals to sulfur, types and properties to resin, parameters and attributes to ash, errors to oxide. Ash moves from mauve to a dusty rose so the editor reads warm. Comments print in muted and stop looking like code. No other hex value changed."
     },
     {
       "version": "0.8.2",

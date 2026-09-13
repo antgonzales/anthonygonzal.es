@@ -15,7 +15,9 @@ export default tseslint.config(
   {
     // Build-time scripts run under Node.
     files: ["scripts/**/*.mjs"],
-    languageOptions: { globals: { process: "readonly", console: "readonly" } },
+    languageOptions: {
+      globals: { process: "readonly", console: "readonly", fetch: "readonly" },
+    },
   },
   {
     // is:inline scripts are browser IIFEs — relax rules that don't apply

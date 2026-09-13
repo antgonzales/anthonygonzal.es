@@ -71,8 +71,6 @@ describe("replica.json", () => {
       "@constructor": "resin",
       "@tag": "resin",
       "@markup.heading": "resin",
-      Title: "resin",
-      Directory: "resin",
       DiagnosticInfo: "resin",
       Added: "resin",
       "@variable.parameter": "ash",
@@ -109,6 +107,44 @@ describe("replica.json", () => {
     };
     for (const [group, want_] of Object.entries(want)) {
       expect(fg(group), group).toBe(want_);
+    }
+    // Chrome carries no pigment; clay marks what can be acted on.
+    const chrome: Record<string, string> = {
+      Title: "text",
+      FloatTitle: "text",
+      WinBar: "text",
+      NeoTreeTitleBar: "text",
+      SnacksDashboardTitle: "text",
+      Directory: "text",
+      NeoTreeDirectoryName: "text",
+      NeoTreeRootName: "text",
+      SnacksPickerDirectory: "text",
+      NeoTreeDirectoryIcon: "muted",
+      SnacksDashboardIcon: "muted",
+      SnacksDashboardDesc: "muted",
+      SnacksDashboardFooter: "muted",
+      Special: "subtle",
+      SnacksDashboardHeader: "clay",
+      SnacksDashboardKey: "clay",
+      DevIconTypeScript: "slate",
+      DevIconTsx: "slate",
+      DevIconJs: "sulfur",
+      DevIconJson: "resin",
+      DevIconMd: "muted",
+      DevIconYaml: "ash",
+      DevIconToml: "ash",
+      NeoTreeGitModified: "oxide",
+      MiniIconsAzure: "slate",
+      MiniIconsGrey: "muted",
+    };
+    for (const [group, want_] of Object.entries(chrome)) {
+      expect(fg(group), group).toBe(want_);
+    }
+    for (const group of ["Title", "Directory", "Special"]) {
+      const role = byGroup.get(group)!;
+      expect("bold" in role && role.bold, `${group} bold`).toBe(
+        group === "Directory",
+      );
     }
     expect(ink(byGroup.get("CurSearch")!.bg!)).toBe("clay");
     expect(ink(byGroup.get("SpellBad")!.sp!)).toBe("oxide");
