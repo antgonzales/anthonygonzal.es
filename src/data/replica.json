@@ -1,6 +1,6 @@
 {
   "name": "Replica",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "description": "Earth pigments for the terminal and the editor. Two surfaces: Carbon, a terminal after midnight, and Bone, paper at noon.",
   "modes": {
     "carbon": {
@@ -15,34 +15,10 @@
     }
   },
   "recipe": {
-    "model": "WCAG 2 contrast ratio against base",
-    "targets": {
-      "syntax": 5,
-      "oxide": 6,
-      "text": 9,
-      "subtle": 4.6,
-      "muted": 3.8
-    },
-    "grounds": {
-      "bone": {
-        "hue": 45,
-        "chroma": 0.024,
-        "lightness": 0.901
-      },
-      "carbon": {
-        "hue": 33,
-        "chroma": 0.009,
-        "lightness": 0.223
-      }
-    },
     "materials": {
       "clay": {
         "hue": 42,
         "chroma": 0.115
-      },
-      "flax": {
-        "hue": 64,
-        "chroma": 0.055
       },
       "sulfur": {
         "hue": 95,
@@ -51,10 +27,6 @@
       "resin": {
         "hue": 125,
         "chroma": 0.085
-      },
-      "sage": {
-        "hue": 168,
-        "chroma": 0.045
       },
       "slate": {
         "hue": 232,
@@ -69,9 +41,25 @@
         "chroma": 0.15
       }
     },
-    "derived": {
-      "ansi16": "Slots 1 to 6 are oxide, resin, sulfur, slate, ash, sage. Slot 0 is overlay in Carbon and text in Bone; 7 is text in Carbon and surface in Bone; 8 is subtle; 15 is text lifted 12% toward white in Carbon and base in Bone. Bright 9 to 14 mix each material 14% toward white in Carbon and 12% toward black in Bone.",
-      "diff": "Backgrounds mix base toward resin (add), oxide (delete) and slate (change, text): 16%, 16%, 12%, 24% in Carbon; 18%, 18%, 14%, 26% in Bone."
+    "grounds": {
+      "bone": {
+        "hue": 45,
+        "chroma": 0.024,
+        "lightness": 0.901
+      },
+      "carbon": {
+        "hue": 33,
+        "chroma": 0.009,
+        "lightness": 0.223
+      }
+    },
+    "rules": {
+      "model": "WCAG 2 ratio against base",
+      "syntax": 5,
+      "oxide": 6,
+      "text": 9,
+      "subtle": 4.6,
+      "muted": 3.8
     }
   },
   "neutrals": [
@@ -113,7 +101,7 @@
     },
     {
       "name": "muted",
-      "role": "Line numbers, whitespace",
+      "role": "Comments, line numbers, whitespace",
       "carbon": "#7d766c",
       "bone": "#716f66"
     },
@@ -133,113 +121,2334 @@
   "accents": [
     {
       "name": "clay",
-      "role": "Keywords, headings",
+      "role": "Functions, methods, booleans",
       "ansi": null,
       "carbon": "#c67752",
       "bone": "#944726"
     },
     {
-      "name": "flax",
-      "role": "Strings, attributes",
-      "ansi": null,
-      "carbon": "#9f8766",
-      "bone": "#72583b"
-    },
-    {
       "name": "sulfur",
-      "role": "Constants, numbers, warnings",
+      "role": "Strings, numbers, constants, warnings",
       "ansi": "yellow",
       "carbon": "#9c8b3c",
       "bone": "#6f5b00"
     },
     {
       "name": "resin",
-      "role": "Types, tags, insertions",
+      "role": "Types, properties, tags, info, insertions",
       "ansi": "green",
       "carbon": "#7a9356",
       "bone": "#4f642a"
     },
     {
-      "name": "sage",
-      "role": "Terminal cyan",
-      "ansi": "cyan",
-      "carbon": "#649580",
-      "bone": "#3a6554"
-    },
-    {
       "name": "slate",
-      "role": "Functions, cursor, info",
+      "role": "Keywords, imports",
       "ansi": "blue",
       "carbon": "#59949e",
       "bone": "#2e6470"
     },
     {
       "name": "ash",
-      "role": "Comments, hints",
+      "role": "Parameters, attributes, hints",
       "ansi": "magenta",
       "carbon": "#9c8493",
       "bone": "#6e5666"
     },
     {
       "name": "oxide",
-      "role": "Errors, deletions",
+      "role": "Errors, builtins, deletions",
       "ansi": "red",
       "carbon": "#ea7866",
       "bone": "#982820"
     }
   ],
+  "rosePine": {
+    "pine": "slate",
+    "foam": "resin",
+    "iris": "ash",
+    "rose": "clay",
+    "gold": "sulfur",
+    "love": "oxide",
+    "leaf": "resin",
+    "text": "text",
+    "subtle": "subtle",
+    "muted": "muted",
+    "base": "base",
+    "surface": "surface",
+    "overlay": "overlay",
+    "highlightLow": "highlightLow",
+    "highlightMed": "highlightMed",
+    "highlightHigh": "highlightHigh"
+  },
   "ansi16": {
     "carbon": [
       "#2c2823",
       "#ea7866",
-      "#7a9356",
-      "#9c8b3c",
       "#59949e",
+      "#9c8b3c",
+      "#7a9356",
       "#9c8493",
-      "#649580",
+      "#c67752",
       "#d6cfc4",
-      "#9c948a",
-      "#ed8b7b",
-      "#8da26e",
-      "#aa9b57",
-      "#70a3ac",
-      "#aa95a2",
-      "#7aa492",
-      "#dbd5cb"
+      "#2c2823",
+      "#ea7866",
+      "#59949e",
+      "#9c8b3c",
+      "#7a9356",
+      "#9c8493",
+      "#c67752",
+      "#d6cfc4"
     ],
     "bone": [
-      "#3b3630",
+      "#f6f4e1",
       "#982820",
-      "#4f642a",
-      "#6f5b00",
       "#2e6470",
+      "#6f5b00",
+      "#4f642a",
       "#6e5666",
-      "#3a6554",
-      "#eeebd9",
-      "#64625a",
-      "#86231c",
-      "#465825",
-      "#625000",
-      "#285863",
-      "#614c5a",
-      "#33594a",
-      "#e4e1cf"
+      "#944726",
+      "#3b3630",
+      "#f6f4e1",
+      "#982820",
+      "#2e6470",
+      "#6f5b00",
+      "#4f642a",
+      "#6e5666",
+      "#944726",
+      "#3b3630"
     ]
   },
-  "diff": {
-    "carbon": {
-      "add": "#2d2e22",
-      "delete": "#3f2a24",
-      "change": "#252a28",
-      "text": "#2c3838"
+  "roles": [
+    {
+      "fg": "gold",
+      "ink": {
+        "fg": "sulfur"
+      },
+      "groups": [
+        "@attribute.diff",
+        "@text.warning",
+        "Question",
+        "DiagnosticWarn",
+        "Character",
+        "Constant",
+        "Float",
+        "Number",
+        "String",
+        "healthWarning",
+        "@constant",
+        "@constant.macro",
+        "@comment.warning",
+        "BufferInactiveTarget",
+        "BufferVisibleTarget",
+        "NeotestNamespace",
+        "NeotestRunning",
+        "NeotestTest",
+        "WhichKeyDesc",
+        "WhichKeyIconYellow",
+        "LspSagaFinderSelection",
+        "NotifyWARNTitle",
+        "DapUIThread",
+        "DashboardCenter",
+        "NavicIconsArray",
+        "NavicIconsConstant",
+        "NavicIconsConstructor",
+        "NavicIconsEnum",
+        "NavicIconsEvent",
+        "NavicIconsNumber",
+        "NavicIconsObject",
+        "NavicIconsString",
+        "MiniIconsYellow",
+        "MiniIndentscopeSymbolOff",
+        "AlphaFooter",
+        "RainbowDelimiterYellow",
+        "GrugFarHelpHeaderKey",
+        "GrugFarHelpWinActionKey",
+        "BlinkCmpKindClass",
+        "BlinkCmpKindInterface",
+        "BlinkCmpKindConstant",
+        "DiffviewFilePanelSelected",
+        "@markup.raw"
+      ]
     },
-    "bone": {
-      "add": "#c9cbb1",
-      "delete": "#d6c0b0",
-      "change": "#cbd0c2",
-      "text": "#b5c1b6"
+    {
+      "link": "Boolean",
+      "groups": ["@boolean"]
+    },
+    {
+      "fg": "foam",
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": [
+        "@class",
+        "@field",
+        "@interface",
+        "QuickFixLine",
+        "SpecialKey",
+        "DiagnosticInfo",
+        "Label",
+        "Special",
+        "StorageClass",
+        "Structure",
+        "Tag",
+        "Type",
+        "Added",
+        "healthSuccess",
+        "htmlTagName",
+        "mkdCodeEnd",
+        "mkdCodeStart",
+        "mkdFootnotes",
+        "@variable.member",
+        "@type",
+        "@constructor",
+        "@keyword.storage",
+        "@markup.link.label.markdown_inline",
+        "BufferInactiveMod",
+        "BufferVisibleMod",
+        "NvimTreeFileNew",
+        "NvimTreeFolderName",
+        "NvimTreeGitNew",
+        "NeotestDir",
+        "NeoTreeGitAdded",
+        "WhichKeyGroup",
+        "WhichKeyIconCyan",
+        "IblScope",
+        "LspSagaCodeActionContent",
+        "NotifyINFOTitle",
+        "DapUIBreakpointsPath",
+        "NavicIconsClass",
+        "NavicIconsEnumMember",
+        "NavicIconsField",
+        "NavicIconsInterface",
+        "NavicIconsProperty",
+        "NavicIconsStruct",
+        "NavicIconsTypeParameter",
+        "MiniDepsChangeAdded",
+        "MiniDiffSignAdd",
+        "MiniIconsAzure",
+        "MiniIconsCyan",
+        "MiniPickMatchRanges",
+        "AlphaButtons",
+        "RainbowDelimiterCyan",
+        "RenderMarkdownChecked",
+        "GrugFarHelpWinActionPrefix",
+        "GrugFarInputLabel",
+        "GrugFarResultsActionMessage",
+        "GrugFarResultsAddIndicator",
+        "GrugFarResultsPath",
+        "AvanteReversedSubtitle",
+        "BlinkCmpKindMethod",
+        "BlinkCmpKindFunction",
+        "BlinkCmpKindConstructor",
+        "BlinkCmpKindModule",
+        "BlinkCmpKindProperty",
+        "BlinkCmpKindFile",
+        "BlinkCmpKindFolder",
+        "BlinkCmpKindEnum",
+        "BlinkCmpKindEnumMember",
+        "BlinkCmpKindStruct",
+        "BlinkCmpKindEvent",
+        "BlinkCmpKindOperator",
+        "BlinkCmpKindCodeium",
+        "BlinkCmpKindCopilot",
+        "BlinkCmpKindSupermaven",
+        "BlinkCmpKindTabNine",
+        "SnacksIndentScope",
+        "DiffviewSecondary",
+        "DiffviewFilePanelInsertions",
+        "DiffviewStatusAdded"
+      ]
+    },
+    {
+      "link": "Conditional",
+      "groups": ["@conditional"]
+    },
+    {
+      "link": "Include",
+      "groups": ["@include", "@namespace"]
+    },
+    {
+      "link": "Macro",
+      "groups": ["@macro", "@text.environment", "@markup.environment"]
+    },
+    {
+      "fg": "rose",
+      "ink": {
+        "fg": "clay"
+      },
+      "groups": [
+        "@method",
+        "Boolean",
+        "Debug",
+        "Function",
+        "Changed",
+        "mkdCodeDelimiter",
+        "@function",
+        "@function.method",
+        "@keyword.debug",
+        "NvimTreeFileDirty",
+        "NvimTreeGitDirty",
+        "NeoTreeGitModified",
+        "WhichKeyIconOrange",
+        "WhichKeyValue",
+        "DefinitionCount",
+        "DefinitionIcon",
+        "ReferencesCount",
+        "ReferencesIcon",
+        "TelescopeMatching",
+        "FzfLuaHeaderBind",
+        "NavicIconsBoolean",
+        "NavicIconsModule",
+        "MiniDiffSignChange",
+        "MiniIconsOrange",
+        "MiniStarterSection",
+        "AlphaShortcut",
+        "RainbowDelimiterOrange",
+        "RenderMarkdownBullet",
+        "GrugFarResultsChangeIndicator",
+        "AvanteReversedTitle",
+        "BlinkCmpKindVariable",
+        "BlinkCmpKindSnippet",
+        "DiffviewFilePanelCounter",
+        "DiffviewHash",
+        "DiffviewReflogSelector",
+        "DiffviewStatusModified",
+        "DiffviewStatusTypeChange",
+        "DiffviewStatusUnmerged"
+      ]
+    },
+    {
+      "link": "Number",
+      "groups": ["@number", "@number.float", "@float"]
+    },
+    {
+      "fg": "iris",
+      "italic": true,
+      "ink": {
+        "fg": "ash"
+      },
+      "groups": ["@parameter", "@variable.parameter"]
+    },
+    {
+      "link": "PreProc",
+      "groups": ["@preproc", "CmpItemKindMethod"]
+    },
+    {
+      "fg": "subtle",
+      "ink": {
+        "fg": "subtle"
+      },
+      "groups": [
+        "@punctuation",
+        "@punctuation.bracket",
+        "@punctuation.delimiter",
+        "@punctuation.special",
+        "ModeMsg",
+        "Delimiter",
+        "LspCodeLens",
+        "Operator",
+        "htmlEndTag",
+        "htmlTag",
+        "markdownDelimiter",
+        "mkdRule",
+        "@keyword.operator",
+        "@markup.link.markdown_inline",
+        "@markup.raw.delimiter.markdown",
+        "@tag.delimiter",
+        "@conceal.markdown",
+        "BufferInactive",
+        "BufferInactiveIndex",
+        "BufferVisible",
+        "BufferVisibleIndex",
+        "NvimTreeFolderIcon",
+        "NeotestSkipped",
+        "NeotestUnknown",
+        "NeoTreeGitUntracked",
+        "NeoTreeTabInactive",
+        "WhichKeyIconGrey",
+        "WhichKeySeparator",
+        "CmpItemAbbr",
+        "CmpItemKind",
+        "VimwikiHR",
+        "VimwikiHeaderChar",
+        "LspSagaAutoPreview",
+        "TelescopePromptPrefix",
+        "FzfLuaBufFlagAlt",
+        "FzfLuaBufFlagCur",
+        "NavicIconsOperator",
+        "NavicSeparator",
+        "NavicText",
+        "TroubleText",
+        "MiniIconsGrey",
+        "MiniJump2dDim",
+        "MiniStarterFooter",
+        "RenderMarkdownQuote",
+        "RenderMarkdownTableHead",
+        "RenderMarkdownTableRow",
+        "RenderMarkdownUnchecked",
+        "DiffviewFolderSign",
+        "DiffviewStatusUntracked",
+        "DiffviewStatusCopied"
+      ]
+    },
+    {
+      "link": "String",
+      "groups": ["@regexp", "@string", "@string.special", "CmpItemKindSnippet"]
+    },
+    {
+      "link": "Repeat",
+      "groups": ["@repeat"]
+    },
+    {
+      "link": "StorageClass",
+      "groups": ["@storageclass", "CmpItemKindClass"]
+    },
+    {
+      "link": "Identifier",
+      "groups": ["@symbol", "@string.special.symbol", "CmpItemKindVariable"]
+    },
+    {
+      "fg": "text",
+      "ink": {
+        "fg": "text"
+      },
+      "groups": [
+        "@text",
+        "Identifier",
+        "htmlTagN",
+        "mkdListItemLine",
+        "@module",
+        "@markup.quote",
+        "@markup.list.unchecked",
+        "NvimTreeImageFile",
+        "NeotestFile",
+        "FzfLuaFilePart",
+        "DapUIFrameName",
+        "DapUIValue",
+        "DapUIVariable",
+        "NavicIconsVariable",
+        "MiniFilesFile",
+        "DiffviewFilePanelFileName"
+      ]
+    },
+    {
+      "fg": "love",
+      "ink": {
+        "fg": "oxide"
+      },
+      "groups": [
+        "@text.danger",
+        "DiagnosticError",
+        "Error",
+        "Removed",
+        "healthError",
+        "@comment.error",
+        "NvimTreeFileDeleted",
+        "NvimTreeGitDeleted",
+        "NeotestFailed",
+        "NeotestTarget",
+        "NeoTreeGitDeleted",
+        "WhichKeyIconRed",
+        "VimwikiNoExistsLink",
+        "LspSagaRenamePromptPrefix",
+        "FzfLuaHeaderText",
+        "NotifyERRORTitle",
+        "DapUIWatchesEmpty",
+        "DashboardShortcut",
+        "NavicIconsNull",
+        "MiniDepsChangeRemoved",
+        "MiniDiffSignDelete",
+        "MiniIconsRed",
+        "RainbowDelimiterRed",
+        "GrugFarResultsRemoveIndicator",
+        "BlinkCmpKindValue",
+        "BlinkCmpKindColor",
+        "BlinkCmpKindReference",
+        "DiffviewFilePanelDeletions",
+        "DiffviewStatusUnknown",
+        "DiffviewStatusDeleted",
+        "DiffviewStatusBroken"
+      ]
+    },
+    {
+      "fg": "foam",
+      "bg": "foam",
+      "blend": 20,
+      "ink": {
+        "fg": "resin",
+        "bg": "resin"
+      },
+      "groups": [
+        "@text.diff.add",
+        "@diff.plus",
+        "HopNextKey1",
+        "MiniDiffOverAdd"
+      ]
+    },
+    {
+      "fg": "love",
+      "bg": "love",
+      "blend": 20,
+      "ink": {
+        "fg": "oxide",
+        "bg": "oxide"
+      },
+      "groups": [
+        "@text.diff.delete",
+        "@diff.minus",
+        "PounceAccept",
+        "HopNextKey",
+        "MiniDiffOverDelete"
+      ]
+    },
+    {
+      "italic": true,
+      "groups": ["@text.emphasis", "htmlItalic", "@markup.italic"]
+    },
+    {
+      "link": "Type",
+      "groups": ["@text.environment.name", "TypeDef", "CmpItemKindInterface"]
+    },
+    {
+      "link": "Special",
+      "groups": [
+        "@text.math",
+        "SpecialChar",
+        "@markup.math",
+        "MiniMapSymbolCount"
+      ]
+    },
+    {
+      "link": "SpecialComment",
+      "groups": ["@text.note"]
+    },
+    {
+      "strikethrough": true,
+      "groups": ["@text.strike", "@markup.strikethrough"]
+    },
+    {
+      "bold": true,
+      "groups": [
+        "@text.strong",
+        "htmlBold",
+        "@markup.strong",
+        "MiniTestEmphasis"
+      ]
+    },
+    {
+      "link": "Title",
+      "groups": [
+        "@text.title",
+        "MiniDepsTitle",
+        "MiniMapSymbolLine",
+        "MiniStarterHeader"
+      ]
+    },
+    {
+      "link": "markdownH1",
+      "groups": [
+        "@text.title.1.markdown",
+        "htmlH1",
+        "markdownH1Delimiter",
+        "@markup.heading.1.markdown",
+        "VimwikiHeader1",
+        "NeorgHeading1Title"
+      ]
+    },
+    {
+      "link": "markdownH1Delimiter",
+      "groups": [
+        "@text.title.1.marker.markdown",
+        "@markup.heading.1.marker.markdown",
+        "NeorgHeading1Prefix"
+      ]
+    },
+    {
+      "link": "markdownH2",
+      "groups": [
+        "@text.title.2.markdown",
+        "htmlH2",
+        "markdownH2Delimiter",
+        "@markup.heading.2.markdown",
+        "VimwikiHeader2",
+        "NeorgHeading2Title"
+      ]
+    },
+    {
+      "link": "markdownH2Delimiter",
+      "groups": [
+        "@text.title.2.marker.markdown",
+        "@markup.heading.2.marker.markdown",
+        "NeorgHeading2Prefix"
+      ]
+    },
+    {
+      "link": "markdownH3",
+      "groups": [
+        "@text.title.3.markdown",
+        "htmlH3",
+        "markdownH3Delimiter",
+        "@markup.heading.3.markdown",
+        "VimwikiHeader3",
+        "NeorgHeading3Title"
+      ]
+    },
+    {
+      "link": "markdownH3Delimiter",
+      "groups": [
+        "@text.title.3.marker.markdown",
+        "@markup.heading.3.marker.markdown",
+        "NeorgHeading3Prefix"
+      ]
+    },
+    {
+      "link": "markdownH4",
+      "groups": [
+        "@text.title.4.markdown",
+        "htmlH4",
+        "markdownH4Delimiter",
+        "@markup.heading.4.markdown",
+        "VimwikiHeader4",
+        "NeorgHeading4Title"
+      ]
+    },
+    {
+      "link": "markdownH4Delimiter",
+      "groups": [
+        "@text.title.4.marker.markdown",
+        "@markup.heading.4.marker.markdown",
+        "NeorgHeading4Prefix"
+      ]
+    },
+    {
+      "link": "markdownH5",
+      "groups": [
+        "@text.title.5.markdown",
+        "htmlH5",
+        "markdownH5Delimiter",
+        "@markup.heading.5.markdown",
+        "VimwikiHeader5",
+        "NeorgHeading5Title"
+      ]
+    },
+    {
+      "link": "markdownH5Delimiter",
+      "groups": [
+        "@text.title.5.marker.markdown",
+        "@markup.heading.5.marker.markdown",
+        "NeorgHeading5Prefix"
+      ]
+    },
+    {
+      "link": "markdownH6",
+      "groups": [
+        "@text.title.6.markdown",
+        "markdownH6Delimiter",
+        "@markup.heading.6.markdown",
+        "VimwikiHeader6",
+        "NeorgHeading6Title"
+      ]
+    },
+    {
+      "link": "markdownH6Delimiter",
+      "groups": [
+        "@text.title.6.marker.markdown",
+        "@markup.heading.6.marker.markdown",
+        "NeorgHeading6Prefix"
+      ]
+    },
+    {
+      "underline": true,
+      "groups": [
+        "@text.underline",
+        "@markup.underline",
+        "MiniCompletionActiveParameter",
+        "MiniCursorword",
+        "MiniCursorwordCurrent"
+      ]
+    },
+    {
+      "fg": "iris",
+      "ink": {
+        "fg": "ash"
+      },
+      "groups": [
+        "@text.uri",
+        "MoreMsg",
+        "DiagnosticHint",
+        "Define",
+        "Macro",
+        "PreCondit",
+        "SpecialComment",
+        "htmlArg",
+        "@label",
+        "@string.regexp",
+        "@string.special.url",
+        "@attribute",
+        "@function.macro",
+        "@function.method.call",
+        "@keyword.directive",
+        "@keyword.directive.define",
+        "@markup.link.url",
+        "@tag.attribute",
+        "NvimTreeFileMerge",
+        "NvimTreeFileStaged",
+        "NvimTreeGitMerge",
+        "NvimTreeGitStaged",
+        "NeotestAdapterName",
+        "NeotestWatching",
+        "NeoTreeGitConflict",
+        "WhichKey",
+        "WhichKeyIconPurple",
+        "VimwikiList",
+        "TargetWord",
+        "NotifyTRACETitle",
+        "DapUISource",
+        "DapUIType",
+        "DashboardFooter",
+        "NavicIconsKey",
+        "NavicIconsMethod",
+        "MiniIconsPurple",
+        "RainbowDelimiterViolet",
+        "GrugFarResultsLineNo",
+        "GrugFarResultsStats",
+        "AvanteReversedThirdTitle",
+        "BlinkCmpKindKeyword",
+        "BlinkCmpKindTypeParameter",
+        "DiffviewFilePanelConflicts",
+        "@markup.link"
+      ]
+    },
+    {
+      "link": "Todo",
+      "groups": ["@todo"]
+    },
+    {
+      "fg": "muted",
+      "nocombine": true,
+      "ink": {
+        "fg": "muted"
+      },
+      "groups": [
+        "IndentBlanklineChar",
+        "IndentBlanklineSpaceChar",
+        "IndentBlanklineSpaceCharBlankline"
+      ]
+    },
+    {
+      "bg": "surface",
+      "ink": {
+        "bg": "surface"
+      },
+      "groups": [
+        "ColorColumn",
+        "NormalFloat",
+        "PmenuSbar",
+        "TabLineFill",
+        "WhichKeyFloat",
+        "NeogitDiffContextHighlight",
+        "NeogitHunkHeader",
+        "NeogitHunkHeaderHighlight",
+        "LspFloatWinNormal",
+        "MiniDiffOverContext",
+        "MiniPickBorderText"
+      ]
+    },
+    {
+      "bg": "NONE",
+      "ink": {
+        "bg": "NONE"
+      },
+      "groups": ["Conceal"]
+    },
+    {
+      "fg": "base",
+      "bg": "rose",
+      "ink": {
+        "fg": "base",
+        "bg": "clay"
+      },
+      "groups": ["CurSearch"]
+    },
+    {
+      "fg": "text",
+      "bg": "highlightHigh",
+      "ink": {
+        "fg": "text",
+        "bg": "highlightHigh"
+      },
+      "groups": ["Cursor"]
+    },
+    {
+      "bg": "overlay",
+      "ink": {
+        "bg": "overlay"
+      },
+      "groups": [
+        "CursorColumn",
+        "CursorLine",
+        "SagaShadow",
+        "LspSignatureActiveParameter",
+        "TreesitterContext",
+        "RenderMarkdownCode"
+      ]
+    },
+    {
+      "fg": "text",
+      "bold": true,
+      "ink": {
+        "fg": "text"
+      },
+      "groups": [
+        "CursorLineNr",
+        "@module.builtin",
+        "CmpItemAbbrMatch",
+        "CmpItemAbbrMatchFuzzy",
+        "BlinkCmpLabelMatch"
+      ]
+    },
+    {
+      "bg": "foam",
+      "blend": 20,
+      "ink": {
+        "bg": "resin"
+      },
+      "groups": ["DiffAdd", "RenderMarkdownH2Bg"]
+    },
+    {
+      "bg": "rose",
+      "blend": 20,
+      "ink": {
+        "bg": "clay"
+      },
+      "groups": ["DiffChange", "@diff.delta", "RenderMarkdownH3Bg"]
+    },
+    {
+      "bg": "love",
+      "blend": 20,
+      "ink": {
+        "bg": "oxide"
+      },
+      "groups": ["DiffDelete"]
+    },
+    {
+      "bg": "rose",
+      "blend": 40,
+      "ink": {
+        "bg": "clay"
+      },
+      "groups": ["DiffText"]
+    },
+    {
+      "link": "DiffAdd",
+      "groups": ["diffAdded", "NeogitDiffAddHighlight", "MiniDepsTitleUpdate"]
+    },
+    {
+      "link": "DiffChange",
+      "groups": ["diffChanged"]
+    },
+    {
+      "link": "DiffDelete",
+      "groups": [
+        "diffRemoved",
+        "NeogitDiffDeleteHighlight",
+        "MiniDepsTitleError"
+      ]
+    },
+    {
+      "fg": "foam",
+      "bold": true,
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": [
+        "Directory",
+        "Title",
+        "markdownH2",
+        "@type.builtin",
+        "@markup.heading",
+        "NvimTreeRootFolder",
+        "NeorgMarkerTitle",
+        "LspSagaDiagnosticHeader",
+        "TelescopeTitle",
+        "DapUIModifiedValue",
+        "MiniTestPass",
+        "DiffviewFilePanelTitle",
+        "DiffviewFilePanelRootPath",
+        "DiffviewFolderName",
+        "DiffviewReference"
+      ]
+    },
+    {
+      "fg": "love",
+      "bold": true,
+      "ink": {
+        "fg": "oxide"
+      },
+      "groups": [
+        "ErrorMsg",
+        "@constant.builtin",
+        "@function.builtin",
+        "MiniTestFail"
+      ]
+    },
+    {
+      "fg": "muted",
+      "bg": "surface",
+      "ink": {
+        "fg": "muted",
+        "bg": "surface"
+      },
+      "groups": [
+        "FloatBorder",
+        "PmenuExtra",
+        "WhichKeyBorder",
+        "LspFloatWinBorder",
+        "LspSagaDefPreviewBorder",
+        "TelescopeBorder",
+        "FzfLuaBorder",
+        "NotifyDEBUGBorder",
+        "DapUIFloatBorder",
+        "MiniStatuslineFilename"
+      ]
+    },
+    {
+      "fg": "foam",
+      "bg": "surface",
+      "bold": true,
+      "ink": {
+        "fg": "resin",
+        "bg": "surface"
+      },
+      "groups": ["FloatTitle"]
+    },
+    {
+      "fg": "muted",
+      "ink": {
+        "fg": "muted"
+      },
+      "groups": [
+        "FoldColumn",
+        "LineNr",
+        "NonText",
+        "VertSplit",
+        "WinSeparator",
+        "LspCodeLensSeparator",
+        "BufferInactiveSign",
+        "BufferVisibleSign",
+        "NvimTreeEmptyFolderName",
+        "NvimTreeGitIgnored",
+        "NeotestWinSelect",
+        "NeoTreeGitIgnored",
+        "HopUnmatched",
+        "NotifyDEBUGTitle",
+        "DapUIBreakpointsDisabledLine",
+        "NavicIconsFile",
+        "NavicIconsNamespace",
+        "NavicIconsPackage",
+        "MiniIndentscopeSymbol",
+        "RenderMarkdownDash",
+        "AvantePromptInputBorder",
+        "BlinkCmpGhostText",
+        "BlinkCmpLabel",
+        "DiffviewStatusIgnored"
+      ]
+    },
+    {
+      "fg": "text",
+      "bg": "surface",
+      "ink": {
+        "fg": "text",
+        "bg": "surface"
+      },
+      "groups": [
+        "Folded",
+        "TroubleNormal",
+        "MiniTablineVisible",
+        "AvantePromptInput",
+        "DiffviewNormal",
+        "DiffviewWinSeparator"
+      ]
+    },
+    {
+      "link": "CurSearch",
+      "groups": ["IncSearch", "GrugFarResultsMatch"]
+    },
+    {
+      "fg": "pine",
+      "bg": "pine",
+      "blend": 25,
+      "ink": {
+        "fg": "slate",
+        "bg": "slate"
+      },
+      "groups": ["MatchParen"]
+    },
+    {
+      "fg": "text",
+      "bg": "base",
+      "ink": {
+        "fg": "text",
+        "bg": "base"
+      },
+      "groups": ["Normal", "NormalNC"]
+    },
+    {
+      "link": "ErrorMsg",
+      "groups": ["NvimInternalError"]
+    },
+    {
+      "fg": "subtle",
+      "bg": "surface",
+      "ink": {
+        "fg": "subtle",
+        "bg": "surface"
+      },
+      "groups": [
+        "Pmenu",
+        "StatusLine",
+        "TabLine",
+        "WinBar",
+        "MiniTablineHidden"
+      ]
+    },
+    {
+      "fg": "subtle",
+      "bg": "overlay",
+      "ink": {
+        "fg": "subtle",
+        "bg": "overlay"
+      },
+      "groups": [
+        "PmenuExtraSel",
+        "PmenuKindSel",
+        "BufferCurrentSign",
+        "MiniStatuslineDevinfo"
+      ]
+    },
+    {
+      "fg": "foam",
+      "bg": "surface",
+      "ink": {
+        "fg": "resin",
+        "bg": "surface"
+      },
+      "groups": ["PmenuKind", "LspSagaSignatureHelpBorder", "NotifyINFOBorder"]
+    },
+    {
+      "fg": "text",
+      "bg": "overlay",
+      "ink": {
+        "fg": "text",
+        "bg": "overlay"
+      },
+      "groups": [
+        "PmenuSel",
+        "BufferCurrent",
+        "BufferCurrentIndex",
+        "NvimTreeOpenedFile",
+        "NeoTreeTabActive",
+        "TelescopeSelection",
+        "FzfLuaCursorLine",
+        "RenderMarkdownCodeInline"
+      ]
+    },
+    {
+      "bg": "muted",
+      "ink": {
+        "bg": "muted"
+      },
+      "groups": ["PmenuThumb"]
+    },
+    {
+      "fg": "base",
+      "bg": "gold",
+      "ink": {
+        "fg": "base",
+        "bg": "sulfur"
+      },
+      "groups": ["RedrawDebugClear"]
+    },
+    {
+      "fg": "base",
+      "bg": "pine",
+      "ink": {
+        "fg": "base",
+        "bg": "slate"
+      },
+      "groups": ["RedrawDebugComposed", "StatusLineTerm"]
+    },
+    {
+      "fg": "base",
+      "bg": "love",
+      "ink": {
+        "fg": "base",
+        "bg": "oxide"
+      },
+      "groups": ["RedrawDebugRecompose", "FlashLabel", "Sneak"]
+    },
+    {
+      "fg": "text",
+      "bg": "gold",
+      "blend": 20,
+      "ink": {
+        "fg": "text",
+        "bg": "sulfur"
+      },
+      "groups": ["Search"]
+    },
+    {
+      "fg": "text",
+      "bg": "NONE",
+      "ink": {
+        "fg": "text",
+        "bg": "NONE"
+      },
+      "groups": ["SignColumn"]
+    },
+    {
+      "sp": "love",
+      "undercurl": true,
+      "ink": {
+        "sp": "oxide"
+      },
+      "groups": ["SpellBad", "DiagnosticUnderlineError"]
+    },
+    {
+      "sp": "subtle",
+      "undercurl": true,
+      "ink": {
+        "sp": "subtle"
+      },
+      "groups": ["SpellCap", "SpellLocal", "SpellRare"]
+    },
+    {
+      "fg": "muted",
+      "bg": "surface",
+      "blend": 60,
+      "ink": {
+        "fg": "muted",
+        "bg": "surface"
+      },
+      "groups": ["StatusLineNC", "WinBarNC"]
+    },
+    {
+      "fg": "base",
+      "bg": "pine",
+      "blend": 60,
+      "ink": {
+        "fg": "base",
+        "bg": "slate"
+      },
+      "groups": ["StatusLineTermNC"]
+    },
+    {
+      "link": "IncSearch",
+      "groups": [
+        "Substitute",
+        "WildMenu",
+        "LeapLabelPrimary",
+        "MiniOperatorsExchangeFrom",
+        "MiniPickPreviewRegion",
+        "MiniSurround",
+        "SneakScope"
+      ]
+    },
+    {
+      "fg": "text",
+      "bg": "overlay",
+      "bold": true,
+      "ink": {
+        "fg": "text",
+        "bg": "overlay"
+      },
+      "groups": ["TabLineSel", "MiniTablineCurrent"]
+    },
+    {
+      "bg": "iris",
+      "blend": 15,
+      "ink": {
+        "bg": "ash"
+      },
+      "groups": ["Visual"]
+    },
+    {
+      "fg": "gold",
+      "bold": true,
+      "ink": {
+        "fg": "sulfur"
+      },
+      "groups": [
+        "WarningMsg",
+        "markdownH4",
+        "LspSagaCodeActionTitle",
+        "DapUIBreakpointsCurrentLine"
+      ]
+    },
+    {
+      "fg": "leaf",
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": [
+        "DiagnosticOk",
+        "WhichKeyIconGreen",
+        "MiniIconsGreen",
+        "RainbowDelimiterGreen"
+      ]
+    },
+    {
+      "link": "DiagnosticError",
+      "groups": [
+        "DiagnosticDefaultError",
+        "DiagnosticFloatingError",
+        "DiagnosticSignError"
+      ]
+    },
+    {
+      "link": "DiagnosticHint",
+      "groups": [
+        "DiagnosticDefaultHint",
+        "DiagnosticFloatingHint",
+        "DiagnosticSignHint",
+        "MiniDepsHint"
+      ]
+    },
+    {
+      "link": "DiagnosticInfo",
+      "groups": [
+        "DiagnosticDefaultInfo",
+        "DiagnosticFloatingInfo",
+        "DiagnosticSignInfo",
+        "MiniDepsInfo"
+      ]
+    },
+    {
+      "link": "DiagnosticOk",
+      "groups": [
+        "DiagnosticDefaultOk",
+        "DiagnosticFloatingOk",
+        "DiagnosticSignOk"
+      ]
+    },
+    {
+      "link": "DiagnosticWarn",
+      "groups": [
+        "DiagnosticDefaultWarn",
+        "DiagnosticFloatingWarn",
+        "DiagnosticSignWarn",
+        "MiniDepsMsgBreaking"
+      ]
+    },
+    {
+      "sp": "iris",
+      "undercurl": true,
+      "ink": {
+        "sp": "ash"
+      },
+      "groups": ["DiagnosticUnderlineHint"]
+    },
+    {
+      "sp": "foam",
+      "undercurl": true,
+      "ink": {
+        "sp": "resin"
+      },
+      "groups": ["DiagnosticUnderlineInfo"]
+    },
+    {
+      "sp": "leaf",
+      "undercurl": true,
+      "ink": {
+        "sp": "resin"
+      },
+      "groups": ["DiagnosticUnderlineOk"]
+    },
+    {
+      "sp": "gold",
+      "undercurl": true,
+      "ink": {
+        "sp": "sulfur"
+      },
+      "groups": ["DiagnosticUnderlineWarn", "MiniJump"]
+    },
+    {
+      "fg": "love",
+      "bg": "love",
+      "blend": 10,
+      "ink": {
+        "fg": "oxide",
+        "bg": "oxide"
+      },
+      "groups": ["DiagnosticVirtualTextError"]
+    },
+    {
+      "fg": "iris",
+      "bg": "iris",
+      "blend": 10,
+      "ink": {
+        "fg": "ash",
+        "bg": "ash"
+      },
+      "groups": ["DiagnosticVirtualTextHint"]
+    },
+    {
+      "fg": "foam",
+      "bg": "foam",
+      "blend": 10,
+      "ink": {
+        "fg": "resin",
+        "bg": "resin"
+      },
+      "groups": ["DiagnosticVirtualTextInfo", "@markup.list.checked"]
+    },
+    {
+      "fg": "leaf",
+      "bg": "leaf",
+      "blend": 10,
+      "ink": {
+        "fg": "resin",
+        "bg": "resin"
+      },
+      "groups": ["DiagnosticVirtualTextOk"]
+    },
+    {
+      "fg": "gold",
+      "bg": "gold",
+      "blend": 10,
+      "ink": {
+        "fg": "sulfur",
+        "bg": "sulfur"
+      },
+      "groups": ["DiagnosticVirtualTextWarn"]
+    },
+    {
+      "fg": "muted",
+      "italic": true,
+      "ink": {
+        "fg": "muted"
+      },
+      "groups": ["Comment", "CopilotSuggestion"]
+    },
+    {
+      "fg": "pine",
+      "ink": {
+        "fg": "slate"
+      },
+      "groups": [
+        "Conditional",
+        "Exception",
+        "Include",
+        "Keyword",
+        "Repeat",
+        "@string.escape",
+        "@keyword.import",
+        "@keyword.repeat",
+        "@keyword.return",
+        "@keyword.exception",
+        "@keyword.conditional",
+        "@keyword.conditional.ternary",
+        "@markup.list",
+        "NvimTreeFileRenamed",
+        "NvimTreeGitRenamed",
+        "NeotestPassed",
+        "NeoTreeGitRenamed",
+        "WhichKeyIcon",
+        "WhichKeyIconAzure",
+        "WhichKeyIconBlue",
+        "DashboardHeader",
+        "NavicIconsFunction",
+        "NavicIconsKeyword",
+        "MiniIconsBlue",
+        "AlphaHeader",
+        "RainbowDelimiterBlue",
+        "GrugFarHelpHeader",
+        "GrugFarHelpWinActionText",
+        "GrugFarResultsHeader",
+        "BlinkCmpKindText",
+        "BlinkCmpKindField",
+        "BlinkCmpKindUnit",
+        "DiffviewPrimary",
+        "DiffviewStatusRenamed"
+      ]
+    },
+    {
+      "fg": "muted",
+      "bg": "muted",
+      "blend": 10,
+      "ink": {
+        "fg": "muted",
+        "bg": "muted"
+      },
+      "groups": ["LspInlayHint"]
+    },
+    {
+      "bg": "highlightMed",
+      "ink": {
+        "bg": "highlightMed"
+      },
+      "groups": ["LspReferenceRead", "LspReferenceText", "LspReferenceWrite"]
+    },
+    {
+      "link": "PreCondit",
+      "groups": ["PreProc"]
+    },
+    {
+      "fg": "pine",
+      "bold": true,
+      "ink": {
+        "fg": "slate"
+      },
+      "groups": ["Statement", "markdownH5"]
+    },
+    {
+      "fg": "rose",
+      "bg": "rose",
+      "blend": 20,
+      "ink": {
+        "fg": "clay",
+        "bg": "clay"
+      },
+      "groups": ["Todo", "MiniDiffOverChange"]
+    },
+    {
+      "fg": "iris",
+      "underline": true,
+      "ink": {
+        "fg": "ash"
+      },
+      "groups": ["Underlined"]
+    },
+    {
+      "link": "markdownUrl",
+      "groups": [
+        "htmlLink",
+        "markdownLinkText",
+        "mkdInlineURL",
+        "mkdLink",
+        "mkdLinkDef",
+        "mkdURL",
+        "VimwikiLink"
+      ]
+    },
+    {
+      "fg": "iris",
+      "bold": true,
+      "ink": {
+        "fg": "ash"
+      },
+      "groups": ["markdownH1", "@attribute.builtin"]
+    },
+    {
+      "fg": "rose",
+      "bold": true,
+      "ink": {
+        "fg": "clay"
+      },
+      "groups": [
+        "markdownH3",
+        "NeotestMarked",
+        "DefinitionPreviewTitle",
+        "SnacksPickerMatch"
+      ]
+    },
+    {
+      "fg": "leaf",
+      "bold": true,
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": ["markdownH6"]
+    },
+    {
+      "fg": "iris",
+      "sp": "iris",
+      "underline": true,
+      "ink": {
+        "fg": "ash",
+        "sp": "ash"
+      },
+      "groups": ["markdownUrl"]
+    },
+    {
+      "fg": "foam",
+      "italic": true,
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": ["mkdCode", "@property", "NeogitFilePath"]
+    },
+    {
+      "fg": "foam",
+      "underline": true,
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": ["mkdID"]
+    },
+    {
+      "fg": "text",
+      "italic": true,
+      "ink": {
+        "fg": "text"
+      },
+      "groups": ["@variable"]
+    },
+    {
+      "fg": "love",
+      "bold": true,
+      "italic": true,
+      "ink": {
+        "fg": "oxide"
+      },
+      "groups": ["@variable.builtin", "NeogitChangeDeleted"]
+    },
+    {
+      "fg": "iris",
+      "bold": true,
+      "italic": true,
+      "ink": {
+        "fg": "ash"
+      },
+      "groups": ["@variable.parameter.builtin", "NeogitChangeNewFile"]
+    },
+    {
+      "link": "Character",
+      "groups": ["@character", "@character.special"]
+    },
+    {
+      "link": "Operator",
+      "groups": ["@operator"]
+    },
+    {
+      "link": "Keyword",
+      "groups": ["@keyword"]
+    },
+    {
+      "link": "Comment",
+      "groups": [
+        "@comment",
+        "MiniDepsPlaceholder",
+        "MiniStarterInactive",
+        "GrugFarInputPlaceholder",
+        "DiffviewFilePanelPath"
+      ]
+    },
+    {
+      "fg": "rose",
+      "bg": "rose",
+      "blend": 15,
+      "ink": {
+        "fg": "clay",
+        "bg": "clay"
+      },
+      "groups": ["@comment.todo"]
+    },
+    {
+      "fg": "iris",
+      "bg": "iris",
+      "blend": 15,
+      "ink": {
+        "fg": "ash",
+        "bg": "ash"
+      },
+      "groups": ["@comment.hint"]
+    },
+    {
+      "fg": "foam",
+      "bg": "foam",
+      "blend": 15,
+      "ink": {
+        "fg": "resin",
+        "bg": "resin"
+      },
+      "groups": ["@comment.info"]
+    },
+    {
+      "fg": "pine",
+      "bg": "pine",
+      "blend": 15,
+      "ink": {
+        "fg": "slate",
+        "bg": "slate"
+      },
+      "groups": ["@comment.note"]
+    },
+    {
+      "link": "@type",
+      "groups": ["@markup.environment.name", "@lsp.type.enum"]
+    },
+    {
+      "link": "Tag",
+      "groups": ["@tag"]
+    },
+    {
+      "link": "Conceal",
+      "groups": ["@conceal", "RenderMarkdownTableFill"]
+    },
+    {
+      "groups": ["@lsp.type.comment", "@lsp.type.variable"]
+    },
+    {
+      "link": "@comment",
+      "groups": ["@lsp.type.comment.c", "@lsp.type.comment.cpp"]
+    },
+    {
+      "link": "@interface",
+      "groups": ["@lsp.type.interface"]
+    },
+    {
+      "link": "@keyword",
+      "groups": ["@lsp.type.keyword"]
+    },
+    {
+      "link": "@namespace",
+      "groups": ["@lsp.type.namespace"]
+    },
+    {
+      "link": "@variable",
+      "groups": [
+        "@lsp.type.namespace.python",
+        "@lsp.type.variable.svelte",
+        "@lsp.typemod.variable.injected"
+      ]
+    },
+    {
+      "link": "@parameter",
+      "groups": ["@lsp.type.parameter"]
+    },
+    {
+      "link": "@property",
+      "groups": ["@lsp.type.property"]
+    },
+    {
+      "link": "@function.builtin",
+      "groups": ["@lsp.typemod.function.defaultLibrary"]
+    },
+    {
+      "link": "@operator",
+      "groups": ["@lsp.typemod.operator.injected"]
+    },
+    {
+      "link": "@string",
+      "groups": ["@lsp.typemod.string.injected"]
+    },
+    {
+      "link": "@constant",
+      "groups": ["@lsp.typemod.variable.constant"]
+    },
+    {
+      "link": "@variable.builtin",
+      "groups": ["@lsp.typemod.variable.defaultLibrary"]
+    },
+    {
+      "fg": "foam",
+      "bg": "overlay",
+      "ink": {
+        "fg": "resin",
+        "bg": "overlay"
+      },
+      "groups": ["BufferCurrentMod"]
+    },
+    {
+      "fg": "gold",
+      "bg": "overlay",
+      "ink": {
+        "fg": "sulfur",
+        "bg": "overlay"
+      },
+      "groups": ["BufferCurrentTarget"]
+    },
+    {
+      "fg": "NONE",
+      "bg": "NONE",
+      "ink": {
+        "fg": "NONE",
+        "bg": "NONE"
+      },
+      "groups": ["BufferTabpageFill"]
+    },
+    {
+      "fg": "foam",
+      "bg": "NONE",
+      "ink": {
+        "fg": "resin",
+        "bg": "NONE"
+      },
+      "groups": ["GitSignsAdd", "SignAdd"]
+    },
+    {
+      "fg": "rose",
+      "bg": "NONE",
+      "ink": {
+        "fg": "clay",
+        "bg": "NONE"
+      },
+      "groups": ["GitSignsChange", "SignChange"]
+    },
+    {
+      "fg": "love",
+      "bg": "NONE",
+      "ink": {
+        "fg": "oxide",
+        "bg": "NONE"
+      },
+      "groups": ["GitSignsDelete", "SignDelete"]
+    },
+    {
+      "bg": "gold",
+      "ink": {
+        "bg": "sulfur"
+      },
+      "groups": ["ModesCopy"]
+    },
+    {
+      "bg": "love",
+      "ink": {
+        "bg": "oxide"
+      },
+      "groups": ["ModesDelete", "MiniTrailspace"]
+    },
+    {
+      "bg": "rose",
+      "ink": {
+        "bg": "clay"
+      },
+      "groups": ["ModesFormat"]
+    },
+    {
+      "bg": "foam",
+      "ink": {
+        "bg": "resin"
+      },
+      "groups": ["ModesInsert"]
+    },
+    {
+      "bg": "pine",
+      "ink": {
+        "bg": "slate"
+      },
+      "groups": ["ModesReplace"]
+    },
+    {
+      "bg": "iris",
+      "ink": {
+        "bg": "ash"
+      },
+      "groups": ["ModesVisual"]
+    },
+    {
+      "link": "Normal",
+      "groups": ["NvimTreeNormal", "MiniStarterItem"]
+    },
+    {
+      "link": "NvimTreeFolderName",
+      "groups": ["NvimTreeOpenedFolderName"]
+    },
+    {
+      "link": "NvimTreeNormal",
+      "groups": ["NvimTreeSpecialFile"]
+    },
+    {
+      "link": "StatusLineTerm",
+      "groups": [
+        "NvimTreeWindowPicker",
+        "NeoTreeTitleBar",
+        "LeapLabelSecondary",
+        "SneakCurrent"
+      ]
+    },
+    {
+      "fg": "highlightMed",
+      "ink": {
+        "fg": "highlightMed"
+      },
+      "groups": [
+        "NeotestBorder",
+        "NeotestExpandMarker",
+        "NeotestIndent",
+        "BlinkCmpDefault"
+      ]
+    },
+    {
+      "fg": "gold",
+      "bg": "highlightMed",
+      "ink": {
+        "fg": "sulfur",
+        "bg": "highlightMed"
+      },
+      "groups": ["NeotestFocused"]
+    },
+    {
+      "link": "WinSeparator",
+      "groups": ["NeoTreeTabSeparatorActive", "NeoTreeTabSeparatorInactive"]
+    },
+    {
+      "link": "NormalFloat",
+      "groups": [
+        "WhichKeyNormal",
+        "TelescopeNormal",
+        "FzfLuaNormal",
+        "NotifyBackground",
+        "NotifyDEBUGBody",
+        "NotifyERRORBody",
+        "NotifyINFOBody",
+        "NotifyTRACEBody",
+        "NotifyWARNBody",
+        "MiniAnimateNormalFloat",
+        "MiniClueDescSingle",
+        "MiniFilesNormal",
+        "MiniMapNormal",
+        "MiniNotifyNormal",
+        "MiniPickNormal"
+      ]
+    },
+    {
+      "link": "FloatTitle",
+      "groups": [
+        "WhichKeyTitle",
+        "FzfLuaTitle",
+        "MiniFilesTitle",
+        "MiniNotifyTitle",
+        "GrugFarHelpWinHeader"
+      ]
+    },
+    {
+      "fg": "overlay",
+      "ink": {
+        "fg": "overlay"
+      },
+      "groups": [
+        "IblIndent",
+        "IblWhitespace",
+        "SnacksIndent",
+        "SnacksIndentChunk",
+        "SnacksIndentBlank"
+      ]
+    },
+    {
+      "fg": "subtle",
+      "strikethrough": true,
+      "ink": {
+        "fg": "subtle"
+      },
+      "groups": ["CmpItemAbbrDeprecated"]
+    },
+    {
+      "link": "Function",
+      "groups": ["CmpItemKindFunction"]
+    },
+    {
+      "fg": "foam",
+      "bold": true,
+      "italic": true,
+      "ink": {
+        "fg": "resin"
+      },
+      "groups": ["NeogitChangeAdded"]
+    },
+    {
+      "fg": "rose",
+      "bold": true,
+      "italic": true,
+      "ink": {
+        "fg": "clay"
+      },
+      "groups": [
+        "NeogitChangeBothModified",
+        "NeogitChangeModified",
+        "NeogitChangeUpdated"
+      ]
+    },
+    {
+      "fg": "subtle",
+      "bold": true,
+      "italic": true,
+      "ink": {
+        "fg": "subtle"
+      },
+      "groups": ["NeogitChangeCopied"]
+    },
+    {
+      "fg": "pine",
+      "bold": true,
+      "italic": true,
+      "ink": {
+        "fg": "slate"
+      },
+      "groups": ["NeogitChangeRenamed"]
+    },
+    {
+      "fg": "rose",
+      "bg": "surface",
+      "ink": {
+        "fg": "clay",
+        "bg": "surface"
+      },
+      "groups": ["LspSagaCodeActionBorder"]
+    },
+    {
+      "link": "LspSagaCodeActionBorder",
+      "groups": ["LspSagaCodeActionTruncateLine"]
+    },
+    {
+      "fg": "gold",
+      "bg": "surface",
+      "ink": {
+        "fg": "sulfur",
+        "bg": "surface"
+      },
+      "groups": ["LspSagaDiagnosticBorder", "NotifyWARNBorder"]
+    },
+    {
+      "link": "LspSagaDiagnosticBorder",
+      "groups": ["LspSagaDiagnosticTruncateLine"]
+    },
+    {
+      "link": "LspSagaHoverBorder",
+      "groups": ["LspSagaDocTruncateLine"]
+    },
+    {
+      "link": "LspFloatWinBorder",
+      "groups": ["LspSagaHoverBorder", "LspSagaLspFinderBorder"]
+    },
+    {
+      "fg": "pine",
+      "bg": "surface",
+      "ink": {
+        "fg": "slate",
+        "bg": "surface"
+      },
+      "groups": ["LspSagaRenameBorder"]
+    },
+    {
+      "link": "LspSagaSignatureHelpBorder",
+      "groups": ["LspSagaShTruncateLine"]
+    },
+    {
+      "fg": "gold",
+      "bg": "gold",
+      "blend": 20,
+      "ink": {
+        "fg": "sulfur",
+        "bg": "sulfur"
+      },
+      "groups": ["PounceAcceptBest"]
+    },
+    {
+      "link": "Search",
+      "groups": ["PounceGap", "PounceMatch", "MiniTablineTabpagesection"]
+    },
+    {
+      "link": "MatchParen",
+      "groups": ["LeapMatch"]
+    },
+    {
+      "fg": "pine",
+      "bg": "pine",
+      "blend": 20,
+      "ink": {
+        "fg": "slate",
+        "bg": "slate"
+      },
+      "groups": ["HopNextKey2"]
+    },
+    {
+      "link": "TelescopeNormal",
+      "groups": ["TelescopePromptNormal"]
+    },
+    {
+      "fg": "rose",
+      "bg": "overlay",
+      "ink": {
+        "fg": "clay",
+        "bg": "overlay"
+      },
+      "groups": ["TelescopeSelectionCaret", "TreesitterContextLineNumber"]
+    },
+    {
+      "link": "NotifyDEBUGTitle",
+      "groups": ["NotifyDEBUGIcon"]
+    },
+    {
+      "fg": "love",
+      "bg": "surface",
+      "ink": {
+        "fg": "oxide",
+        "bg": "surface"
+      },
+      "groups": ["NotifyERRORBorder"]
+    },
+    {
+      "link": "NotifyERRORTitle",
+      "groups": ["NotifyERRORIcon"]
+    },
+    {
+      "link": "NotifyINFOTitle",
+      "groups": ["NotifyINFOIcon"]
+    },
+    {
+      "fg": "iris",
+      "bg": "surface",
+      "ink": {
+        "fg": "ash",
+        "bg": "surface"
+      },
+      "groups": ["NotifyTRACEBorder", "TroubleCount"]
+    },
+    {
+      "link": "NotifyTRACETitle",
+      "groups": ["NotifyTRACEIcon"]
+    },
+    {
+      "link": "NotifyWARNTitle",
+      "groups": ["NotifyWARNIcon"]
+    },
+    {
+      "link": "DapUIThread",
+      "groups": ["DapUIBreakpointsInfo", "DapUIWatchesValue"]
+    },
+    {
+      "link": "DapUIBreakpointsPath",
+      "groups": [
+        "DapUIBreakpointsLine",
+        "DapUIDecoration",
+        "DapUILineNumber",
+        "DapUIScope",
+        "DapUIStoppedThread"
+      ]
+    },
+    {
+      "link": "DapUIWatchesEmpty",
+      "groups": ["DapUIWatchesError"]
+    },
+    {
+      "fg": "highlightHigh",
+      "bg": "text",
+      "ink": {
+        "fg": "highlightHigh",
+        "bg": "text"
+      },
+      "groups": ["NoiceCursor"]
+    },
+    {
+      "nocombine": true,
+      "reverse": true,
+      "groups": ["MiniAnimateCursor"]
+    },
+    {
+      "link": "FloatBorder",
+      "groups": [
+        "MiniClueBorder",
+        "MiniFilesBorder",
+        "MiniNotifyBorder",
+        "MiniPickBorder"
+      ]
+    },
+    {
+      "link": "DiagnosticFloatingWarn",
+      "groups": [
+        "MiniClueDescGroup",
+        "MiniFilesBorderModified",
+        "MiniPickBorderBusy"
+      ]
+    },
+    {
+      "link": "DiagnosticFloatingHint",
+      "groups": ["MiniClueNextKey", "MiniPickHeader"]
+    },
+    {
+      "link": "DiagnosticFloatingError",
+      "groups": ["MiniClueNextKeyWithPostkeys"]
+    },
+    {
+      "link": "DiagnosticFloatingInfo",
+      "groups": ["MiniClueSeparator"]
+    },
+    {
+      "bg": "surface",
+      "bold": true,
+      "ink": {
+        "bg": "surface"
+      },
+      "groups": ["MiniClueTitle", "MiniPickPrompt"]
+    },
+    {
+      "link": "DiffText",
+      "groups": ["MiniDepsTitleSame"]
+    },
+    {
+      "link": "CursorLine",
+      "groups": [
+        "MiniFilesCursorLine",
+        "MiniPickMatchCurrent",
+        "MiniPickPreviewLine"
+      ]
+    },
+    {
+      "link": "Directory",
+      "groups": ["MiniFilesDirectory", "MiniPickIconDirectory"]
+    },
+    {
+      "fg": "rose",
+      "bg": "surface",
+      "bold": true,
+      "ink": {
+        "fg": "clay",
+        "bg": "surface"
+      },
+      "groups": ["MiniFilesTitleFocused"]
+    },
+    {
+      "fg": "base",
+      "bg": "love",
+      "bold": true,
+      "ink": {
+        "fg": "base",
+        "bg": "oxide"
+      },
+      "groups": ["MiniHipatternsFixme", "MiniStatuslineModeCommand"]
+    },
+    {
+      "fg": "base",
+      "bg": "gold",
+      "bold": true,
+      "ink": {
+        "fg": "base",
+        "bg": "sulfur"
+      },
+      "groups": ["MiniHipatternsHack"]
+    },
+    {
+      "fg": "base",
+      "bg": "foam",
+      "bold": true,
+      "ink": {
+        "fg": "base",
+        "bg": "resin"
+      },
+      "groups": ["MiniHipatternsNote", "MiniStatuslineModeInsert"]
+    },
+    {
+      "fg": "base",
+      "bg": "iris",
+      "bold": true,
+      "ink": {
+        "fg": "base",
+        "bg": "ash"
+      },
+      "groups": ["MiniHipatternsTodo", "MiniStatuslineModeVisual"]
+    },
+    {
+      "fg": "gold",
+      "bold": true,
+      "nocombine": true,
+      "ink": {
+        "fg": "sulfur"
+      },
+      "groups": ["MiniJump2dSpot"]
+    },
+    {
+      "fg": "foam",
+      "bg": "surface",
+      "nocombine": true,
+      "ink": {
+        "fg": "resin",
+        "bg": "surface"
+      },
+      "groups": ["MiniJump2dSpotAhead"]
+    },
+    {
+      "fg": "rose",
+      "bold": true,
+      "nocombine": true,
+      "ink": {
+        "fg": "clay"
+      },
+      "groups": ["MiniJump2dSpotUnique"]
+    },
+    {
+      "link": "Delimiter",
+      "groups": ["MiniMapSymbolView", "MiniStarterItemBullet"]
+    },
+    {
+      "link": "MiniPickNormal",
+      "groups": ["MiniPickIconFile"]
+    },
+    {
+      "link": "Visual",
+      "groups": ["MiniPickMatchMarked"]
+    },
+    {
+      "nocombine": true,
+      "groups": ["MiniStarterCurrent"]
+    },
+    {
+      "link": "WarningMsg",
+      "groups": ["MiniStarterItemPrefix"]
+    },
+    {
+      "link": "MoreMsg",
+      "groups": ["MiniStarterQuery"]
+    },
+    {
+      "link": "MiniStatuslineDevinfo",
+      "groups": ["MiniStatuslineFileinfo"]
+    },
+    {
+      "link": "MiniStatuslineFilename",
+      "groups": ["MiniStatuslineInactive"]
+    },
+    {
+      "fg": "base",
+      "bg": "rose",
+      "bold": true,
+      "ink": {
+        "fg": "base",
+        "bg": "clay"
+      },
+      "groups": ["MiniStatuslineModeNormal", "MiniStatuslineModeOther"]
+    },
+    {
+      "fg": "base",
+      "bg": "pine",
+      "bold": true,
+      "ink": {
+        "fg": "base",
+        "bg": "slate"
+      },
+      "groups": ["MiniStatuslineModeReplace"]
+    },
+    {
+      "link": "TabLineFill",
+      "groups": ["MiniTablineFill"]
+    },
+    {
+      "fg": "overlay",
+      "bg": "text",
+      "bold": true,
+      "ink": {
+        "fg": "overlay",
+        "bg": "text"
+      },
+      "groups": ["MiniTablineModifiedCurrent"]
+    },
+    {
+      "fg": "surface",
+      "bg": "subtle",
+      "ink": {
+        "fg": "surface",
+        "bg": "subtle"
+      },
+      "groups": ["MiniTablineModifiedHidden"]
+    },
+    {
+      "fg": "surface",
+      "bg": "text",
+      "ink": {
+        "fg": "surface",
+        "bg": "text"
+      },
+      "groups": ["MiniTablineModifiedVisible"]
+    },
+    {
+      "link": "LspReferenceRead",
+      "groups": ["IlluminatedWordRead"]
+    },
+    {
+      "link": "LspReferenceText",
+      "groups": ["IlluminatedWordText"]
+    },
+    {
+      "link": "LspReferenceWrite",
+      "groups": ["IlluminatedWordWrite"]
+    },
+    {
+      "bg": "iris",
+      "blend": 20,
+      "ink": {
+        "bg": "ash"
+      },
+      "groups": ["RenderMarkdownH1Bg"]
+    },
+    {
+      "bg": "gold",
+      "blend": 20,
+      "ink": {
+        "bg": "sulfur"
+      },
+      "groups": ["RenderMarkdownH4Bg"]
+    },
+    {
+      "bg": "pine",
+      "blend": 20,
+      "ink": {
+        "bg": "slate"
+      },
+      "groups": ["RenderMarkdownH5Bg"]
+    },
+    {
+      "bg": "leaf",
+      "blend": 20,
+      "ink": {
+        "bg": "resin"
+      },
+      "groups": ["RenderMarkdownH6Bg"]
+    },
+    {
+      "link": "GrugFarResultsLineNo",
+      "groups": ["GrugFarResultsLineColumn"]
+    },
+    {
+      "fg": "highlightHigh",
+      "bg": "rose",
+      "ink": {
+        "fg": "highlightHigh",
+        "bg": "clay"
+      },
+      "groups": ["AvanteTitle"]
+    },
+    {
+      "fg": "highlightMed",
+      "bg": "foam",
+      "ink": {
+        "fg": "highlightMed",
+        "bg": "resin"
+      },
+      "groups": ["AvanteSubtitle"]
+    },
+    {
+      "fg": "highlightMed",
+      "bg": "iris",
+      "ink": {
+        "fg": "highlightMed",
+        "bg": "ash"
+      },
+      "groups": ["AvanteThirdTitle"]
+    },
+    {
+      "bg": "highlightLow",
+      "ink": {
+        "bg": "highlightLow"
+      },
+      "groups": ["BlinkCmpDoc", "BlinkCmpDocSeparator"]
+    },
+    {
+      "fg": "highlightHigh",
+      "ink": {
+        "fg": "highlightHigh"
+      },
+      "groups": ["BlinkCmpDocBorder"]
+    },
+    {
+      "fg": "muted",
+      "strikethrough": true,
+      "ink": {
+        "fg": "muted"
+      },
+      "groups": ["BlinkCmpLabelDeprecated"]
     }
-  },
+  ],
   "ports": [
     {
       "label": "Neovim",
@@ -258,6 +2467,11 @@
     }
   ],
   "changelog": [
+    {
+      "version": "0.9.0",
+      "date": "2026-09-13",
+      "notes": "Six materials, not eight. Flax and sage are retired. The role map is Rosé Pine's, applied whole: keywords to slate, functions to clay, literals to sulfur, types and properties to resin, parameters and attributes to ash, errors to oxide. Comments print in muted and stop looking like code. No hex value changed."
+    },
     {
       "version": "0.8.2",
       "date": "2026-09-13",

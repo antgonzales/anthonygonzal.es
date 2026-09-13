@@ -3,8 +3,10 @@
  * source of truth; this module derives the Shiki themes from it so the code
  * blocks and the /replica/ page can never disagree about a value.
  *
- * The Neovim and Ghostty ports in the dotfiles repo are generated from the
- * same data. Keep them in step when a value changes here.
+ * Roles are not assigned here. The scopes below are Rosé Pine's VS Code
+ * theme written in Rosé Pine's token names; `rosePine` in the JSON says which
+ * Replica ink stands in for each token. The Neovim and Ghostty ports in the
+ * dotfiles repo are built from the same map by scripts/replica-ports.mjs.
  */
 import palette from "../data/replica.json";
 
@@ -23,141 +25,81 @@ export function color(mode: Mode, name: string): string {
   return token[mode];
 }
 
-/** The TextMate scopes each accent paints, shared by both modes. */
-const scopes = (p: (name: string) => string) => [
-  {
-    scope: ["comment", "punctuation.definition.comment"],
-    settings: { foreground: p("ash"), fontStyle: "italic" },
-  },
-  {
-    scope: [
-      "keyword",
-      "keyword.control",
-      "storage",
-      "storage.type",
-      "storage.modifier",
-    ],
-    settings: { foreground: p("clay") },
-  },
-  {
-    scope: ["string", "string.quoted", "string.template", "string.regexp"],
-    settings: { foreground: p("flax") },
-  },
-  {
-    scope: [
-      "constant.numeric",
-      "constant.language",
-      "constant.character",
-      "support.constant",
-    ],
-    settings: { foreground: p("sulfur") },
-  },
+/** A Rosé Pine token name to the Replica ink that stands in for it. */
+export function ink(token: string): string {
+  const name = (palette.rosePine as Record<string, string>)[token];
+  if (!name) throw new Error(`rosePine has no entry for "${token}"`);
+  return name;
+}
+
+type Scope = { scope: string[]; token?: string; fontStyle?: string };
+
+/**
+ * Rosé Pine's VS Code scopes (rose-pine/vscode, themes/rose-pine-color-theme),
+ * in token names. Three departures carry Replica's role map into places the
+ * VS Code theme leaves to `variable` or `rose`: numbers and language constants
+ * print as literals (gold), and object properties as members (foam).
+ */
+const rosePineScopes: Scope[] = [
+  { scope: ["comment"], token: "muted", fontStyle: "italic" },
+  { scope: ["constant"], token: "gold" },
+  { scope: ["constant.numeric", "constant.language"], token: "gold" },
+  { scope: ["entity.name"], token: "rose" },
   {
     scope: [
-      "constant.character.escape",
-      "constant.other.character-class.regexp",
-      "keyword.control.anchor.regexp",
-    ],
-    settings: { foreground: p("sulfur") },
-  },
-  {
-    scope: [
-      "entity.name.type",
-      "entity.name.class",
-      "entity.name.interface",
-      "support.type",
-      "support.class",
-      "storage.type.class",
-    ],
-    settings: { foreground: p("resin") },
-  },
-  {
-    scope: [
-      "entity.name.function",
-      "entity.name.function.preprocessor",
-      "support.function",
-      "variable.function",
-      "meta.function-call",
-    ],
-    settings: { foreground: p("slate") },
-  },
-  {
-    scope: [
-      "variable",
-      "variable.other",
-      "variable.parameter",
-      "support.variable",
-      "meta.object-literal.key",
-    ],
-    settings: { foreground: p("text") },
-  },
-  {
-    scope: ["punctuation", "keyword.operator", "meta.brace", "meta.delimiter"],
-    settings: { foreground: p("subtle") },
-  },
-  {
-    scope: [
-      "punctuation.definition.template-expression.begin",
-      "punctuation.definition.template-expression.end",
-    ],
-    settings: { foreground: p("clay") },
-  },
-  {
-    scope: [
+      "entity.name.section",
       "entity.name.tag",
-      "support.class.component",
-      "meta.tag.sgml.doctype",
+      "entity.name.namespace",
+      "entity.name.type",
     ],
-    settings: { foreground: p("resin") },
+    token: "foam",
   },
+  {
+    scope: ["entity.other.attribute-name", "entity.other.inherited-class"],
+    token: "iris",
+    fontStyle: "italic",
+  },
+  { scope: ["invalid"], token: "love" },
+  { scope: ["invalid.deprecated"], token: "subtle" },
+  { scope: ["keyword", "variable.language.this"], token: "pine" },
+  { scope: ["markup.inserted.diff"], token: "foam" },
+  { scope: ["markup.deleted.diff"], token: "love" },
+  { scope: ["markup.heading"], fontStyle: "bold" },
+  { scope: ["markup.bold.markdown"], fontStyle: "bold" },
+  { scope: ["markup.italic.markdown"], fontStyle: "italic" },
+  { scope: ["meta.diff.range"], token: "iris" },
+  { scope: ["meta.tag", "meta.brace"], token: "text" },
+  { scope: ["meta.import", "meta.export"], token: "pine" },
+  { scope: ["meta.directive.vue"], token: "iris", fontStyle: "italic" },
+  { scope: ["meta.property-name.css"], token: "foam" },
+  { scope: ["meta.property-value.css"], token: "gold" },
+  { scope: ["meta.tag.other.html"], token: "subtle" },
+  { scope: ["punctuation"], token: "subtle" },
+  { scope: ["punctuation.accessor"], token: "pine" },
+  { scope: ["punctuation.definition.string"], token: "gold" },
+  { scope: ["punctuation.definition.tag"], token: "muted" },
+  { scope: ["storage.type", "storage.modifier"], token: "pine" },
+  { scope: ["string"], token: "gold" },
+  { scope: ["support"], token: "foam" },
+  { scope: ["support.constant"], token: "gold" },
+  { scope: ["support.function"], token: "love", fontStyle: "italic" },
+  { scope: ["variable"], token: "rose", fontStyle: "italic" },
   {
     scope: [
-      "entity.other.attribute-name",
-      "meta.attribute",
-      "string.quoted.double.html",
-      "string.quoted.single.html",
+      "variable.other",
+      "variable.language",
+      "variable.function",
+      "variable.argument",
     ],
-    settings: { foreground: p("flax") },
+    token: "text",
   },
-  {
-    scope: [
-      "support.type.property-name.json",
-      "meta.object-literal.key.json",
-      "string.quoted.double.json meta.structure.dictionary.json",
-    ],
-    settings: { foreground: p("slate") },
-  },
-  {
-    scope: ["markup.inserted", "markup.inserted.diff"],
-    settings: { foreground: p("resin") },
-  },
-  {
-    scope: [
-      "markup.deleted",
-      "markup.deleted.diff",
-      "invalid",
-      "invalid.illegal",
-    ],
-    settings: { foreground: p("oxide") },
-  },
-  {
-    scope: ["markup.heading", "markup.bold"],
-    settings: { foreground: p("clay") },
-  },
-  {
-    scope: [
-      "markup.italic",
-      "markup.quote",
-      "markup.inline.raw",
-      "markup.fenced_code.block",
-    ],
-    settings: { foreground: p("flax") },
-  },
+  { scope: ["variable.other.property"], token: "foam" },
+  { scope: ["variable.parameter"], token: "iris" },
 ];
 
 /** A Shiki/VS Code theme for one mode, built from the palette. */
 export function shikiTheme(mode: Mode) {
-  const p = (name: string) => color(mode, name);
+  const p = (token: string) => color(mode, ink(token));
   const { type } = palette.modes[mode];
   return {
     name: `replica-${mode}`,
@@ -168,11 +110,17 @@ export function shikiTheme(mode: Mode) {
       "editor.foreground": p("text"),
       "editor.selectionBackground": p("highlightMed"),
       "editor.selectionHighlightBackground": p("highlightMed"),
-      "editorCursor.foreground": p("slate"),
+      "editorCursor.foreground": p("text"),
       "editorLineNumber.foreground": p("muted"),
       "editorWhitespace.foreground": p("muted"),
     },
-    settings: scopes(p),
+    settings: rosePineScopes.map(({ scope, token, fontStyle }) => ({
+      scope,
+      settings: {
+        ...(token ? { foreground: p(token) } : {}),
+        ...(fontStyle ? { fontStyle } : {}),
+      },
+    })),
   };
 }
 

@@ -15,7 +15,7 @@ export function jitter(ring: Ring, seed = 0x679a4d20): Ring {
 }`;
 
 /**
- * The collage prints eight photographs in two inks each: Carbon for the
+ * The collage prints six photographs in two inks each: Carbon for the
  * shadows and one material for the lights. It hangs on Carbon whatever the
  * visitor's scheme, so the inks are read against their own ground.
  */
@@ -61,16 +61,6 @@ const collage = [
     height: 1600,
   },
   {
-    file: "peak.jpg",
-    ink: "sage",
-    area: "d",
-    alt: "Mountain peak rising above mist at dawn",
-    zoom: 1,
-    origin: "50% 50%",
-    width: 2400,
-    height: 3600,
-  },
-  {
     file: "antelope.jpg",
     ink: "clay",
     area: "e",
@@ -100,16 +90,6 @@ const collage = [
     width: 2400,
     height: 4266,
   },
-  {
-    file: "dunes.jpg",
-    ink: "flax",
-    area: "h",
-    alt: "Sand dunes in the desert",
-    zoom: 1,
-    origin: "50% 60%",
-    width: 2400,
-    height: 3000,
-  },
 ];
 
 const credits = [
@@ -126,20 +106,12 @@ const credits = [
     "https://unsplash.com/photos/white-textile-on-white-surface--WUhp-1aabo",
   ],
   [
-    "Daniel Castellón",
-    "https://unsplash.com/photos/a-majestic-mountain-peak-rises-above-misty-clouds-at-dawn-r9zxPmNKy_0",
-  ],
-  [
     "Tom Gainor",
     "https://unsplash.com/photos/antelope-canyon-arizona-8jwjnBmD4Y4",
   ],
   [
     "Yufeng Zhao",
     "https://unsplash.com/photos/misty-mountain-landscape-with-remnants-of-snow-B6DG0sj6yh0",
-  ],
-  [
-    "raouf bedrani",
-    "https://unsplash.com/photos/a-large-group-of-sand-dunes-in-the-desert-oVWm9rQpbq0",
   ],
   [
     "Jack Hunter",
@@ -160,7 +132,7 @@ const cell = "font-mono text-[13px]";
         Replica
       </h1>
       <p class="mt-6 text-[19px] leading-[1.55]">
-        Earth pigments for the terminal and the editor. Eight colors that sit on
+        Earth pigments for the terminal and the editor. Six colors that sit on
         the screen like paint on a wall, not light behind glass. Two surfaces to
         put them on: Carbon, a terminal after midnight, and Bone, paper at noon.
       </p>
@@ -174,7 +146,7 @@ const cell = "font-mono text-[13px]";
   </p>
   <section
     class="collage mt-5 rounded-sm"
-    aria-label="Replica in eight pigments"
+    aria-label="Replica in six pigments"
     style={inkVars}
   >
     <div class="collage-grid">
@@ -225,18 +197,17 @@ const cell = "font-mono text-[13px]";
 
     <p>
       Most themes glow. Replica sits still. Every color is named for something
-      you could hold, and mixed to look like it. Fired clay for keywords. Raw
-      flax for strings. A streak of sulfur for constants. Resin for types. Sage
-      for the terminal&rsquo;s green-blue. Slate for functions. Ash for
-      comments. Oxide for whatever went wrong. Nothing on the screen is brighter
-      than the material it is named after.
+      you could hold, and mixed to look like it. Fired clay for functions. A
+      streak of sulfur for strings and numbers. Resin for types and properties.
+      Slate for keywords. Ash for parameters and attributes. Oxide for whatever
+      went wrong. Comments print in the same grey as the line numbers, so they
+      read as notes and not as code. Nothing on the screen is brighter than the
+      material it is named after.
     </p>
 
     <p>
-      One cool color. Slate is the only blue in the palette, so functions are
-      what the eye finds first and everything else settles into warm, low ground
-      behind them. The code is the loudest thing on the screen, and it is not
-      loud.
+      Roles are not assigned by hand. Each material stands in for one Rosé Pine
+      accent and inherits every job that accent has.
     </p>
 
     <p>
@@ -283,9 +254,9 @@ const cell = "font-mono text-[13px]";
       </table>
     </div>
     <p>
-      The terminal ports also carry a bright row for ANSI slots 8 through 15,
-      derived from these values. The full set, bright row included, is in{" "}
-      <a href="/replica.json">replica.json</a>.
+      The terminal ports fill the 16 ANSI slots the way Ros&eacute; Pine does,
+      with the bright row repeating the normal one. The full set, role map
+      included, is in <a href="/replica.json">replica.json</a>.
     </p>
 
     <SectionLabel display>Ports</SectionLabel>
@@ -344,10 +315,10 @@ const cell = "font-mono text-[13px]";
     grid-auto-rows: minmax(0, 1fr);
     aspect-ratio: 2 / 1;
     grid-template-areas:
-      "a a b b b c c d"
-      "a a b b b c c d"
+      "a a b b b c c c"
+      "a a b b b c c c"
       "e e e f f g g g"
-      "e e e h h g g g";
+      "e e e f f g g g";
   }
   @media (max-width: 760px) {
     .collage-grid {
@@ -357,10 +328,10 @@ const cell = "font-mono text-[13px]";
       grid-template-areas:
         "a a b b"
         "a a b b"
-        "c c d d"
-        "e e e e"
-        "f f h h"
-        "g g g g";
+        "c c e e"
+        "c c e e"
+        "f f g g"
+        "f f g g";
     }
   }
   .tile {
