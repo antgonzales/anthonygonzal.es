@@ -274,13 +274,19 @@ const cell = "font-mono text-[13px]";
             <div class="mt-0.5 font-mono text-[13px] text-faint dark:text-faint-dark">
               {port.note}
             </div>
+            <div class="mt-1.5 flex flex-wrap gap-x-4 font-mono text-[13px]">
+              {port.files.map((f) => (
+                <a href={f.href}>{f.label}</a>
+              ))}
+            </div>
           </div>
         ))
       }
     </div>
     <p>
-      Replica is MIT licensed. If you port it somewhere, generate from the JSON
-      rather than transcribing the hexes.
+      Replica is MIT licensed. Each file above is generated from the JSON on
+      every build, so it is always the current version. If you port it somewhere
+      else, generate from the JSON rather than transcribing the hexes.
     </p>
 
     <SectionLabel display>Changelog</SectionLabel>
