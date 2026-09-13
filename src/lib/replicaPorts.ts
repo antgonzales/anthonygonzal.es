@@ -5,8 +5,8 @@
  * Pine's Neovim highlight table (main for Carbon, dawn for Bone; they share
  * one table) written in Rosé Pine's own token names, and `rosePine` says
  * which Replica ink stands in for each token. Every port is that table
- * pushed through that map. The ANSI slots follow Rosé Pine's terminal
- * order. Blended backgrounds are computed the way Rosé Pine computes them
+ * pushed through that map. The ANSI slots are the one part mapped by hue
+ * instead, see ANSI below. Blended backgrounds are computed the way Rosé Pine computes them
  * (the ink over base at the group's alpha) and never stored.
  *
  * Used twice: the site serves the files under /replica/, and
@@ -54,16 +54,22 @@ const FLAGS: Flag[] = [
   "reverse",
 ];
 
-/** Rosé Pine's terminal order. Slots 8 to 15 repeat 0 to 7. */
-const TERMINAL = [
+/**
+ * The 16 ANSI slots, by hue rather than by Rosé Pine's slot table (which
+ * would put resin on blue and turn every directory listing green). Cyan on
+ * clay is the one warm light, the same move as the dashboard keys. Bright
+ * slots repeat the normal ones so nothing glows; 8 is muted.
+ */
+const ANSI = [
   "overlay",
-  "love",
-  "pine",
-  "gold",
-  "foam",
-  "iris",
-  "rose",
+  "oxide",
+  "resin",
+  "sulfur",
+  "slate",
+  "ash",
+  "clay",
   "text",
+  "muted",
 ];
 
 const tokens = (palette: Palette, mode: Mode): Record<string, string> =>
@@ -96,8 +102,8 @@ export const blend = (fg: string, bg: string, alpha: number): string =>
 /** The sixteen ANSI slots for one mode. */
 export function ansi16(palette: Palette, mode: Mode): string[] {
   const p = tokens(palette, mode);
-  const row = TERMINAL.map((t) => p[ink(palette, t)]);
-  return [...row, ...row];
+  const row = ANSI.map((t) => p[t]);
+  return [...row, ...row.slice(1, 8)];
 }
 
 const header = (palette: Palette, mode: Mode, comment: string) => {
@@ -110,27 +116,21 @@ const header = (palette: Palette, mode: Mode, comment: string) => {
   ].join("\n");
 };
 
-/** A Ghostty theme file for one mode. */
+/** A Ghostty theme file for one mode. Ghostty's bold-is-bright default
+ *  (false) is what we want, so it is not emitted. */
 export function ghostty(palette: Palette, mode: Mode): string {
   const p = tokens(palette, mode);
   const ansi = ansi16(palette, mode);
-  const slot = (i: number) => `palette = ${i}=${ansi[i]}`;
   return `${header(palette, mode, "#")}
 
 background = ${p.base}
 foreground = ${p.text}
-
 cursor-color = ${p.text}
 cursor-text = ${p.base}
-
 selection-background = ${p.highlightMed}
 selection-foreground = ${p.text}
 
-# normal
-${[0, 1, 2, 3, 4, 5, 6, 7].map(slot).join("\n")}
-
-# bright
-${[8, 9, 10, 11, 12, 13, 14, 15].map(slot).join("\n")}
+${ansi.map((h, i) => `palette = ${i}=${h}`).join("\n")}
 `;
 }
 
@@ -202,7 +202,7 @@ if vim.g.replica_transparent then
   end
 end
 
--- Terminal colors, in Rosé Pine's order.
+-- Terminal colors, the same slots as the Ghostty port.
 ${ansi.map((h, i) => `vim.g.terminal_color_${i} = "${h}"`).join("\n")}
 `;
 }

@@ -184,17 +184,17 @@
     "carbon": [
       "#2c2823",
       "#ea7866",
-      "#59949e",
-      "#9c8b3c",
       "#7a9356",
+      "#9c8b3c",
+      "#59949e",
       "#a18385",
       "#c67752",
       "#d6cfc4",
-      "#2c2823",
+      "#7d766c",
       "#ea7866",
-      "#59949e",
-      "#9c8b3c",
       "#7a9356",
+      "#9c8b3c",
+      "#59949e",
       "#a18385",
       "#c67752",
       "#d6cfc4"
@@ -202,17 +202,17 @@
     "bone": [
       "#f6f4e1",
       "#982820",
-      "#2e6470",
-      "#6f5b00",
       "#4f642a",
+      "#6f5b00",
+      "#2e6470",
       "#725758",
       "#944726",
       "#3b3630",
-      "#f6f4e1",
+      "#716f66",
       "#982820",
-      "#2e6470",
-      "#6f5b00",
       "#4f642a",
+      "#6f5b00",
+      "#2e6470",
       "#725758",
       "#944726",
       "#3b3630"
@@ -536,6 +536,7 @@
         "MiniFilesFile",
         "DiffviewFilePanelFileName",
         "SnacksDashboardTitle",
+        "SnacksDashboardDesc",
         "SnacksPickerFile"
       ]
     },
@@ -1063,7 +1064,6 @@
         "SnacksPickerPathIgnored",
         "NeoTreeDirectoryIcon",
         "SnacksDashboardIcon",
-        "SnacksDashboardDesc",
         "SnacksDashboardFooter",
         "DevIconMd",
         "DevIconMdx",
@@ -2500,7 +2500,7 @@
     {
       "label": "Ghostty",
       "href": "https://github.com/antgonzales/dotfiles/tree/main/ghostty/.config/ghostty/themes",
-      "note": "Drop into themes/, then theme = replica-carbon. Generated from replica.json.",
+      "note": "Drop into themes/, then theme = light:replica-bone,dark:replica-carbon to follow the system. Generated from replica.json.",
       "files": [
         {
           "label": "replica-carbon",

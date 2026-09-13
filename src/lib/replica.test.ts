@@ -30,23 +30,24 @@ describe("replica.json", () => {
     }
   });
 
-  it("fills the sixteen ANSI slots in Rosé Pine's order", () => {
+  it("fills the sixteen ANSI slots by hue, bright repeating normal", () => {
     for (const mode of ["carbon", "bone"] as const) {
       const ansi = replica.ansi16[mode];
       expect(ansi).toHaveLength(16);
-      expect(ansi.slice(0, 8)).toEqual(
+      expect(ansi.slice(0, 9)).toEqual(
         [
           "overlay",
           "oxide",
-          "slate",
-          "sulfur",
           "resin",
+          "sulfur",
+          "slate",
           "ash",
           "clay",
           "text",
+          "muted",
         ].map((n) => color(mode, n)),
       );
-      expect(ansi.slice(8)).toEqual(ansi.slice(0, 8));
+      expect(ansi.slice(9)).toEqual(ansi.slice(1, 8));
     }
   });
 
@@ -121,7 +122,7 @@ describe("replica.json", () => {
       SnacksPickerDirectory: "text",
       NeoTreeDirectoryIcon: "muted",
       SnacksDashboardIcon: "muted",
-      SnacksDashboardDesc: "muted",
+      SnacksDashboardDesc: "text",
       SnacksDashboardFooter: "muted",
       Special: "subtle",
       SnacksDashboardHeader: "clay",

@@ -88,6 +88,7 @@ const CHROME = {
   WinBar: { fg: "text", bg: "surface" },
   NeoTreeTitleBar: text,
   SnacksDashboardTitle: text,
+  SnacksDashboardDesc: text, // menu labels are the content of that screen
   // Directories: text, bold.
   Directory: textBold,
   NeoTreeDirectoryName: textBold,
@@ -100,7 +101,6 @@ const CHROME = {
   // Chrome that carries no pigment.
   NeoTreeDirectoryIcon: muted,
   SnacksDashboardIcon: muted,
-  SnacksDashboardDesc: muted,
   SnacksDashboardFooter: muted,
   Special: { fg: "subtle" },
   // What can be acted on.
