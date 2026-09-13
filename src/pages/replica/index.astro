@@ -32,75 +32,83 @@ const inkVars = Object.entries(carbonInks)
 const collage = [
   {
     file: "tower.jpg",
-    ink: "clay",
+    ink: "oxide",
     area: "a",
     alt: "Close-up of a concrete tower against the sky",
-    position: "50% 50%",
-    width: 1600,
-    height: 2263,
+    zoom: 1,
+    origin: "50% 50%",
+    width: 2400,
+    height: 3394,
   },
   {
     file: "tuletornen.jpg",
     ink: "slate",
     area: "b",
     alt: "Gray apartment tower seen from below in daylight",
-    position: "50% 50%",
-    width: 1600,
-    height: 1067,
+    zoom: 1,
+    origin: "50% 50%",
+    width: 2400,
+    height: 1600,
   },
   {
-    file: "canyon-mauve.jpg",
+    file: "fabric.jpg",
     ink: "ash",
     area: "c",
-    alt: "Layered walls of a mountain canyon",
-    position: "50% 50%",
-    width: 1600,
-    height: 1067,
+    alt: "Swirl of white cloth on a white surface",
+    zoom: 1,
+    origin: "50% 50%",
+    width: 2400,
+    height: 1600,
   },
   {
     file: "peak.jpg",
     ink: "sage",
     area: "d",
     alt: "Mountain peak rising above mist at dawn",
-    position: "50% 50%",
-    width: 1600,
-    height: 2400,
+    zoom: 1,
+    origin: "50% 50%",
+    width: 2400,
+    height: 3600,
   },
   {
     file: "antelope.jpg",
-    ink: "oxide",
+    ink: "clay",
     area: "e",
-    alt: "Curved sandstone walls of Antelope Canyon",
-    position: "50% 50%",
-    width: 1600,
-    height: 900,
+    alt: "Antelope Canyon, Arizona",
+    zoom: 1,
+    origin: "50% 50%",
+    width: 2400,
+    height: 1350,
   },
   {
     file: "paektu.jpg",
     ink: "resin",
     area: "f",
     alt: "Misty mountain slopes with remnants of snow",
-    position: "50% 60%",
-    width: 1600,
-    height: 1067,
+    zoom: 1,
+    origin: "50% 60%",
+    width: 2400,
+    height: 1600,
   },
   {
     file: "david.jpg",
     ink: "sulfur",
     area: "g",
     alt: "Marble statue of a man looking away",
-    position: "50% 12%",
-    width: 1600,
-    height: 2844,
+    zoom: 1,
+    origin: "50% 12%",
+    width: 2400,
+    height: 4266,
   },
   {
-    file: "brutalism.jpg",
+    file: "dunes.jpg",
     ink: "flax",
     area: "h",
-    alt: "Facade of a gray concrete building",
-    position: "50% 50%",
-    width: 1600,
-    height: 983,
+    alt: "Sand dunes in the desert",
+    zoom: 1,
+    origin: "50% 60%",
+    width: 2400,
+    height: 3000,
   },
 ];
 
@@ -114,8 +122,8 @@ const credits = [
     "https://unsplash.com/photos/low-angle-photography-of-gray-building-at-daytime-Sc5RKXLBjGg",
   ],
   [
-    "Ashim D’Silva",
-    "https://unsplash.com/photos/scenery-of-mountain-canyon-WeYamle9fDM",
+    "Nadir sYzYgY",
+    "https://unsplash.com/photos/white-textile-on-white-surface--WUhp-1aabo",
   ],
   [
     "Daniel Castellón",
@@ -128,6 +136,10 @@ const credits = [
   [
     "Yufeng Zhao",
     "https://unsplash.com/photos/misty-mountain-landscape-with-remnants-of-snow-B6DG0sj6yh0",
+  ],
+  [
+    "raouf bedrani",
+    "https://unsplash.com/photos/a-large-group-of-sand-dunes-in-the-desert-oVWm9rQpbq0",
   ],
   [
     "Jack Hunter",
@@ -170,7 +182,7 @@ const cell = "font-mono text-[13px]";
         collage.map((t) => (
           <figure
             class="tile"
-            style={`grid-area:${t.area};--ink:var(--carbon-${t.ink})`}
+            style={`grid-area:${t.area};--ink:var(--carbon-${t.ink});--zoom:${t.zoom};--origin:${t.origin}`}
           >
             <img
               src={`/replica/collage/${t.file}`}
@@ -179,7 +191,6 @@ const cell = "font-mono text-[13px]";
               height={t.height}
               loading="lazy"
               decoding="async"
-              style={`object-position:${t.position}`}
             />
             <figcaption>{t.ink}</figcaption>
           </figure>
@@ -366,6 +377,9 @@ const cell = "font-mono text-[13px]";
     height: 100%;
     object-fit: cover;
     display: block;
+    object-position: var(--origin);
+    transform: scale(var(--zoom));
+    transform-origin: var(--origin);
     filter: grayscale(1) contrast(1.15) brightness(1.02);
     mix-blend-mode: multiply;
   }
